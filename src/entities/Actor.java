@@ -7,6 +7,7 @@ package entities;
 public abstract class Actor {
     private String name = "PLACEHOLDER";
     private int initiativeTotal = 0;
+    private boolean isDead = false;
 
     public Actor () {
 
@@ -24,6 +25,14 @@ public abstract class Actor {
 
     public int getInitiativeTotal() {
         return this.initiativeTotal;
+    }
+
+    public boolean getIsDead() {
+        return this.isDead;
+    }
+
+    public void setIsDead(boolean isDead) {
+        this.isDead = isDead;
     }
 
     public void setName(String name) {
