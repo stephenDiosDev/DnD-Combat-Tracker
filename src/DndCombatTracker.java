@@ -15,7 +15,7 @@ public class DndCombatTracker extends Application {
     public Scene encounterScene;
 
     private final String stageTitle = "D&D Combat Tracker (v0.1)";
-    private final String windowIconURL = "bronze_coin.png";
+    private final String windowIconURL = "program_icon.png";
 
 
     @Override
