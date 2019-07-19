@@ -24,7 +24,7 @@ public class setupPageController implements Initializable{
     private int initialEnemyAmount = 5;
 
     //holds the sorted initiative list of all allies/enemies
-    protected ArrayList<Actor> sortedActorList;
+    protected static ArrayList<Actor> sortedActorList;
 
     //holds the (unsorted) list of all ally textfields
     protected ArrayList<TextField> allyListTextFields;
