@@ -16,7 +16,7 @@ public class DndCombatTracker extends Application {
     public Scene setupScene;
     public Scene encounterScene;
 
-    private static final String stageTitle = "D&D Combat Tracker (v0.4)";
+    private static final String stageTitle = "D&D Combat Tracker (v0.8)";
     private static final String windowIconURL = "/application/program_icon.png";
 
 

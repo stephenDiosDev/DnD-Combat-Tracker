@@ -60,6 +60,15 @@ public class Enemy extends Actor {
         }
     }
 
+    public void changeCurrentHealth(int health) {
+        if(health > 0 && health <= getTotalHealth()) {
+            this.currentHealth = health;
+        } else if(health == 0) {
+            this.currentHealth = health;
+            setIsDead(true);
+        }
+    }
+
 
     public String toString() {
         return "Enemy: [Name = " + super.getName() + "] [Initiative Total = " + super.getInitiativeTotal() +

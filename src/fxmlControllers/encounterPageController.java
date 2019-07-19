@@ -16,6 +16,7 @@ import javafx.scene.*;
 import javafx.fxml.*;
 import javafx.stage.*;
 import javafx.scene.image.*;
+import javafx.scene.input.KeyCode;
 import application.*;
 import entities.*;
 
@@ -29,6 +30,7 @@ public class encounterPageController implements Initializable{
     private ArrayList<TextField> enemyHealthTextFields = new ArrayList<>();
 
     private int currentTurnIndex = 0;
+    private int currentEnemyHealthIndex = 0;
 
     private int iconYPosition = 5;
     private int iconXPosition = 300;
@@ -70,12 +72,20 @@ public class encounterPageController implements Initializable{
             currentTurnIndex = 0;
         }
 
+        if(encounterActorList.get(currentTurnIndex) instanceof Enemy) {
+            currentEnemyHealthIndex++;
+            if(currentEnemyHealthIndex >= enemyHealthTextFields.size()) {
+                currentEnemyHealthIndex = 0;
+            }
+        }
+
         iconYPosition = 5 + (currentTurnIndex * yIncrease);
         turnIcon.setLayoutY(iconYPosition);
 
         mainPane.getChildren().remove(turnIcon);
         mainPane.getChildren().add(turnIcon);
     }
+
 
 
     @FXML
@@ -131,6 +141,18 @@ public class encounterPageController implements Initializable{
             yHealthPosition += yIncrease;
         }
 
+/*  Commented out because buggy
+        for (TextField field : enemyHealthTextFields) {    
+        //listener to check for any changes
+            field.textProperty().addListener((obs, oldText, newText) -> {
+                field.setOnKeyPressed(event -> {        //if enter is pressed, health is changed
+                    if(event.getCode() == KeyCode.ENTER && event.getSource() == field) {
+                        field.setText(handleHealthChange(newText));
+                    }
+                });
+            });
+        }    
+*/
         
         turnIcon.setLayoutX(iconXPosition);
         turnIcon.setLayoutY(iconYPosition);
@@ -145,5 +167,34 @@ public class encounterPageController implements Initializable{
         mainPane.getChildren().addAll(enemyHealthTextFields);
         mainPane.getChildren().add(turnIcon);
 
+    }
+
+
+    /**
+     * Parses input for + or -, then changes current health accordingly
+     * @param input
+     */
+    private String handleHealthChange(String input) {
+        Enemy target;
+
+        if(encounterActorList.get(currentTurnIndex) instanceof Enemy) {
+            target = (Enemy)encounterActorList.get(currentTurnIndex);
+            //check if input is ONLY digits (new current health) or EXACTLY ONE plus followed by ONLY digits (heal)
+            //or EXACTLY ONE minus followed by ONLY digits (damage)
+            if(input.matches("[0-9]+") || input.matches("^\\+?\\d+$") || input.matches("^\\-?\\d+$")) { 
+                if(!input.contains("+") && !input.contains("-")) {  //ONLY DIGITS = update current health
+                    target.changeCurrentHealth(Integer.parseInt(input));
+                } else if(input.contains("+")) {    //heal
+                    target.heal(Integer.parseInt(input.substring(1)));
+                } else if(input.contains("-")) {    //take damage
+                    target.takeDamage(Integer.parseInt(input.substring(1)));
+                }
+
+                return Integer.toString(target.getCurrentHealth());
+            }
+        }
+
+        return input;
+       
     }
 }
