@@ -27,12 +27,12 @@
       </AnchorPane>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="129.0" prefWidth="600.0" VBox.vgrow="NEVER">
          <children>
-            <Button fx:id="nextTurnBtn" layoutX="225.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#nextTurn" prefHeight="88.0" prefWidth="150.0" text="Next Turn" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="21.0">
+            <Button fx:id="nextTurnBtn" defaultButton="true" layoutX="225.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#nextTurn" prefHeight="88.0" prefWidth="150.0" text="Next Turn" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="21.0">
                <font>
                   <Font name="Comic Sans MS" size="18.0" />
                </font>
             </Button>
-            <Button fx:id="endEncounterBtn" layoutX="14.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#endEncounter" prefHeight="88.0" prefWidth="150.0" text="End Encounter" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="21.0">
+            <Button fx:id="endEncounterBtn" cancelButton="true" layoutX="14.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#endEncounter" prefHeight="88.0" prefWidth="150.0" text="End Encounter" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="21.0">
                <font>
                   <Font name="Comic Sans MS" size="18.0" />
                </font>
