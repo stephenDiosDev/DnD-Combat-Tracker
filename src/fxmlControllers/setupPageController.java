@@ -1,7 +1,5 @@
 package fxmlControllers;
 
-import java.util.ResourceBundle;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -164,60 +162,56 @@ public class setupPageController implements Initializable{
     }
 
     @FXML
-    private void runEncounter(ActionEvent event) {
-        if(!allyListTextFields.isEmpty() && !enemyListTextFields.isEmpty()) {
-            for (TextField ally : allyListTextFields) {
-                if(!ally.getText().isEmpty()) {
-                    String allyInfo = ally.getText();
-                    sortedActorList.add(new Ally(parseName(allyInfo), parseInitiative(allyInfo)));
-                }
-            }
-    
-    
-            for(int i = 0; i < enemyListTextFields.size(); i++) {
-                if(!enemyListTextFields.get(i).getText().isEmpty() && !enemyListHealthTextFields.get(i).getText().isEmpty()) {
-                    String enemyInfo = enemyListTextFields.get(i).getText();
-                    String enemyHealthInfo = enemyListHealthTextFields.get(i).getText();
-    
-                    sortedActorList.add(new Enemy(parseName(enemyInfo), parseInitiative(enemyInfo), Integer.parseInt(enemyHealthInfo)));
-                }
-                
-            }
-        }
-
-        
-
-        //ready to be sorted
-        //Collections.sort(sortedActorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
-
+    private void runEncounter(ActionEvent event) {   
+        addGoodTextFieldsToActorList();
+        sortActorListDescending();
 
         //print for debug
         for (Actor actor : sortedActorList) {
             System.out.println(actor.toString());
         } 
+        
+    }
+
+    private void sortActorListDescending() {
+        Collections.sort(sortedActorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
+    }
+
+    /**
+     * This removes any empty or otherwise "bad" textfields from the ally and enemy lists
+     */
+    private void addGoodTextFieldsToActorList() {
+        for(int i = 0; i < allyListTextFields.size(); i++) {
+            if(allyListTextFields.get(i).getText().matches(".*[a-zA-Z].*") && allyListTextFields.get(i).getText().matches(".*[0-9].*") && allyListTextFields.get(i).getText().contains(",")) {
+                String allyInfo = allyListTextFields.get(i).getText();
+                sortedActorList.add(new Ally(parseName(allyInfo), parseInitiative(allyInfo)));
+            }
+        }
+
+        for(int i = 0; i < enemyListTextFields.size(); i++) {
+            if(enemyListTextFields.get(i).getText().matches(".*[a-zA-Z].*") && enemyListTextFields.get(i).getText().matches(".*[0-9].*") && enemyListTextFields.get(i).getText().contains(",") && enemyListHealthTextFields.get(i).getText().matches(".*[0-9].*")) {
+                String enemyInfo = enemyListTextFields.get(i).getText();
+                int enemyHealth = Integer.parseInt(enemyListHealthTextFields.get(i).getText());
+                sortedActorList.add(new Enemy(parseName(enemyInfo), parseInitiative(enemyInfo), enemyHealth));
+            }
+        }
     }
 
     /**
      * Receives textfield input and returns the name
      */
     private String parseName(String input) {
-        int firstIntegerIndex = input.length();
-        for(int i = 0; i < input.length(); i++) {
-            if(Character.isDigit(input.charAt(i))) {
-                firstIntegerIndex = i;
-            }
-        }
-        return input.substring(0, firstIntegerIndex);
+        return input.substring(0, input.indexOf(","));
+
     }
 
     /**
      * Receives textfield input and returns the initiative
      */
     private int parseInitiative(String input) {
-        return Integer.parseInt(input);
+        return Integer.parseInt(input.substring(input.indexOf(",") + 1));
+        
     }
-
-    //TODO Add error check to make sure the input string is in the correct form!
 
 
     /**

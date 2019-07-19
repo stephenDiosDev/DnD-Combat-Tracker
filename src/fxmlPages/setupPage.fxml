@@ -28,12 +28,12 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="14.0" layoutY="48.0" text="Name and Initiative total" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="48.0">
+            <Label layoutX="14.0" layoutY="48.0" text="Name,Initiative total" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="48.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="343.0" layoutY="48.0" text="Name and Initiative total" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="48.0">
+            <Label layoutX="343.0" layoutY="48.0" text="Name,Initiative total" AnchorPane.rightAnchor="100.0" AnchorPane.topAnchor="48.0">
                <font>
                   <Font size="14.0" />
                </font>
