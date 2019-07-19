@@ -1,3 +1,5 @@
+package application;
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -9,13 +11,13 @@ import javafx.scene.image.*;
  */
 public class DndCombatTracker extends Application {
 
-    public Stage mainStage;
+    public static Stage mainStage;
 
     public Scene setupScene;
     public Scene encounterScene;
 
-    private final String stageTitle = "D&D Combat Tracker (v0.1)";
-    private final String windowIconURL = "program_icon.png";
+    private static final String stageTitle = "D&D Combat Tracker (v0.4)";
+    private static final String windowIconURL = "/application/program_icon.png";
 
 
     @Override
@@ -36,7 +38,11 @@ public class DndCombatTracker extends Application {
     }
     
 
-    public String getStageTitle() {
-        return this.stageTitle;
+    public static String getStageTitle() {
+        return stageTitle;
+    }
+
+    public static String getWindowIconURL() {
+        return windowIconURL;
     }
 }

@@ -1,14 +1,22 @@
 package fxmlControllers;
 
+import application.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 import javafx.scene.control.*;
+
+import java.io.IOException;
 import java.net.URL;
 import entities.*;
 import java.util.*;
+import javafx.scene.*;
+import javafx.fxml.*;
+import javafx.scene.image.*;
 
 public class setupPageController implements Initializable{
 
@@ -16,16 +24,16 @@ public class setupPageController implements Initializable{
     private int initialEnemyAmount = 5;
 
     //holds the sorted initiative list of all allies/enemies
-    protected ArrayList<Actor> sortedActorList = new ArrayList<>();
+    protected ArrayList<Actor> sortedActorList;
 
     //holds the (unsorted) list of all ally textfields
-    protected ArrayList<TextField> allyListTextFields = new ArrayList<>(initialAllyAmount);
+    protected ArrayList<TextField> allyListTextFields;
 
     //holds the (unsorted) list of all enemy textfields (name and initiative only)
-    protected ArrayList<TextField> enemyListTextFields = new ArrayList<>(initialEnemyAmount);
+    protected ArrayList<TextField> enemyListTextFields;
 
     //holds the (unsorted) list of all enemy health textfields
-    protected ArrayList<TextField> enemyListHealthTextFields = new ArrayList<>(initialEnemyAmount);
+    protected ArrayList<TextField> enemyListHealthTextFields;
 
 
 
@@ -43,7 +51,11 @@ public class setupPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        System.out.println("Initialized!");
+        //these 4 lines "clear" out these arraylists to be brand new
+        sortedActorList = new ArrayList<>();
+        allyListTextFields = new ArrayList<>(initialAllyAmount);
+        enemyListTextFields = new ArrayList<>(initialEnemyAmount);
+        enemyListHealthTextFields = new ArrayList<>(initialEnemyAmount);
 
         for(int i = 0; i < initialAllyAmount; i++) {
             allyListTextFields.add(new TextField());
@@ -162,7 +174,7 @@ public class setupPageController implements Initializable{
     }
 
     @FXML
-    private void runEncounter(ActionEvent event) {   
+    private void runEncounter(ActionEvent event) throws IOException{   
         addGoodTextFieldsToActorList();
         sortActorListDescending();
 
@@ -170,7 +182,17 @@ public class setupPageController implements Initializable{
         for (Actor actor : sortedActorList) {
             System.out.println(actor.toString());
         } 
-        
+
+        //switch FXML page to encounter page
+        Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/encounterPage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = DndCombatTracker.mainStage;
+
+        stage.setTitle(DndCombatTracker.getStageTitle());
+        stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
+
+        stage.setScene(scene);
+        stage.show();
     }
 
     private void sortActorListDescending() {
