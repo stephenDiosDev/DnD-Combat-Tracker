@@ -28,6 +28,13 @@ public class encounterPageController implements Initializable{
 
     private ArrayList<TextField> enemyHealthTextFields = new ArrayList<>();
 
+    private int currentTurnIndex = 0;
+
+    private int iconYPosition = 5;
+    private int iconXPosition = 300;
+
+
+
     //the following int's are all for the layout of the various labels and textboxes
     private int yPosition = 5;
     private int yHealthPosition = yPosition - 5;
@@ -53,6 +60,7 @@ public class encounterPageController implements Initializable{
     @FXML
     private AnchorPane mainPane;
 
+
     @FXML
     void nextTurn(ActionEvent event) {
 
@@ -74,6 +82,7 @@ public class encounterPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         encounterActorList = setupPageController.sortedActorList;
         Enemy tempEnemy;
 
@@ -110,9 +119,19 @@ public class encounterPageController implements Initializable{
             yHealthPosition += yIncrease;
         }
 
+        ImageView turnIcon = new ImageView("/application/initiative_icon.png");
+        turnIcon.setLayoutX(iconXPosition);
+        turnIcon.setLayoutY(iconYPosition);
+
+
+        if(nameLabels.isEmpty()){
+            turnIcon.setOpacity(0.0);   //makes picture invisible
+        }
+
         mainPane.getChildren().addAll(initiativeLabels);
         mainPane.getChildren().addAll(nameLabels);
         mainPane.getChildren().addAll(enemyHealthTextFields);
+        mainPane.getChildren().add(turnIcon);
 
     }
 }
