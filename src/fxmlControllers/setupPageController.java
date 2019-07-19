@@ -124,16 +124,62 @@ public class setupPageController implements Initializable{
         allyListTextFields.get(allyListTextFields.size() - 1).setPrefSize(prefWidth, prefHeight);
 
         mainPane.getChildren().add(allyListTextFields.get(allyListTextFields.size() - 1));
+
+        reorderTabOrder();
     }
 
     @FXML
     private void addEnemy(ActionEvent event) {
+        TextField lastTextField = enemyListTextFields.get(enemyListTextFields.size() - 1);
+        TextField secondLastTextField = enemyListTextFields.get(enemyListTextFields.size() - 2);
+
+        TextField lastHealthTextField = enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1);
+
+        int yIncrease = (int)(lastTextField.getLayoutY() - secondLastTextField.getLayoutY());
+        int xPosition = (int)lastTextField.getLayoutX();
+        int yPosition = (int)(lastTextField.getLayoutY() + yIncrease);
+
+        int xHealthPosition = (int)lastHealthTextField.getLayoutX();
+
+        int prefWidth = (int)lastTextField.getPrefWidth();
+        int prefHeight = (int)lastTextField.getPrefHeight();
+
+        int healthPrefWidth = (int)lastHealthTextField.getPrefWidth();
+
+        enemyListTextFields.add(new TextField());
+        enemyListHealthTextFields.add(new TextField());
+
+        enemyListTextFields.get(enemyListTextFields.size() - 1).setLayoutX(xPosition);
+        enemyListTextFields.get(enemyListTextFields.size() - 1).setLayoutY(yPosition);
+        enemyListTextFields.get(enemyListTextFields.size() - 1).setPrefSize(prefWidth, prefHeight);
+
+        enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1).setLayoutX(xHealthPosition);
+        enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1).setLayoutY(yPosition);
+        enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1).setPrefSize(healthPrefWidth, prefHeight);
+
+        mainPane.getChildren().add(enemyListTextFields.get(enemyListTextFields.size() - 1));
+        mainPane.getChildren().add(enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1));
+
+        reorderTabOrder();
 
     }
 
     @FXML
     private void runEncounter(ActionEvent event) {
 
+    }
+
+    /**
+     * Simply reorders the tab order on the main pane (heavily inefficient!)
+     */
+    private void reorderTabOrder() {
+        mainPane.getChildren().clear();
+        mainPane.getChildren().addAll(allyListTextFields);
+
+        for(int i = 0; i < enemyListTextFields.size(); i++) {
+            mainPane.getChildren().add(enemyListTextFields.get(i));
+            mainPane.getChildren().add(enemyListHealthTextFields.get(i));
+        }
     }
 
 }
