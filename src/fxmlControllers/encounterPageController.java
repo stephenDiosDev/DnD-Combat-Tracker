@@ -60,11 +60,23 @@ public class encounterPageController implements Initializable{
     @FXML
     private AnchorPane mainPane;
 
+    private ImageView turnIcon = new ImageView("/application/initiative_icon.png");
+
 
     @FXML
     void nextTurn(ActionEvent event) {
+        currentTurnIndex++;
+        if(currentTurnIndex >= nameLabels.size()) {
+            currentTurnIndex = 0;
+        }
 
+        iconYPosition = 5 + (currentTurnIndex * yIncrease);
+        turnIcon.setLayoutY(iconYPosition);
+
+        mainPane.getChildren().remove(turnIcon);
+        mainPane.getChildren().add(turnIcon);
     }
+
 
     @FXML
     void endEncounter(ActionEvent event) throws IOException{    //switches fxml page back to setup page and ends current encounter
@@ -119,7 +131,7 @@ public class encounterPageController implements Initializable{
             yHealthPosition += yIncrease;
         }
 
-        ImageView turnIcon = new ImageView("/application/initiative_icon.png");
+        
         turnIcon.setLayoutX(iconXPosition);
         turnIcon.setLayoutY(iconYPosition);
 
