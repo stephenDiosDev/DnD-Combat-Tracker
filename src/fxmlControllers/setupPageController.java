@@ -2,6 +2,7 @@ package fxmlControllers;
 
 import java.util.ResourceBundle;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -100,6 +101,39 @@ public class setupPageController implements Initializable{
             mainPane.getChildren().add(enemyListHealthTextFields.get(i));
         }
         
+    }
+
+    @FXML
+    private void addAlly(ActionEvent event) {
+        //then format it and then display it
+        TextField lastTextField = allyListTextFields.get(allyListTextFields.size() - 1);
+        TextField secondLastTextField = allyListTextFields.get(allyListTextFields.size() - 2);
+
+        int yIncrease = (int)(lastTextField.getLayoutY() - secondLastTextField.getLayoutY());
+
+        int xPosition = (int)lastTextField.getLayoutX();
+        int yPosition = (int)(lastTextField.getLayoutY() + yIncrease);
+
+        int prefWidth = (int)lastTextField.getPrefWidth();
+        int prefHeight = (int)lastTextField.getPrefHeight();
+
+        allyListTextFields.add(new TextField());
+
+        allyListTextFields.get(allyListTextFields.size() - 1).setLayoutX(xPosition);
+        allyListTextFields.get(allyListTextFields.size() - 1).setLayoutY(yPosition);
+        allyListTextFields.get(allyListTextFields.size() - 1).setPrefSize(prefWidth, prefHeight);
+
+        mainPane.getChildren().add(allyListTextFields.get(allyListTextFields.size() - 1));
+    }
+
+    @FXML
+    private void addEnemy(ActionEvent event) {
+
+    }
+
+    @FXML
+    private void runEncounter(ActionEvent event) {
+
     }
 
 }

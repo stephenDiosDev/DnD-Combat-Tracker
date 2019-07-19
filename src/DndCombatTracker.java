@@ -34,6 +34,7 @@ public class DndCombatTracker extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+    
 
     public String getStageTitle() {
         return this.stageTitle;

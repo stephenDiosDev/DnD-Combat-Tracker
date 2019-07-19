@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DndCombatTracker",
+            "request": "launch",
+            "mainClass": "DndCombatTracker",
+            "projectName": "src_cff7a28d"
+        }
+    ]
+}
