@@ -105,7 +105,6 @@ public class setupPageController implements Initializable{
 
     @FXML
     private void addAlly(ActionEvent event) {
-        //then format it and then display it
         TextField lastTextField = allyListTextFields.get(allyListTextFields.size() - 1);
         TextField secondLastTextField = allyListTextFields.get(allyListTextFields.size() - 2);
 
@@ -166,8 +165,60 @@ public class setupPageController implements Initializable{
 
     @FXML
     private void runEncounter(ActionEvent event) {
+        if(!allyListTextFields.isEmpty() && !enemyListTextFields.isEmpty()) {
+            for (TextField ally : allyListTextFields) {
+                if(!ally.getText().isEmpty()) {
+                    String allyInfo = ally.getText();
+                    sortedActorList.add(new Ally(parseName(allyInfo), parseInitiative(allyInfo)));
+                }
+            }
+    
+    
+            for(int i = 0; i < enemyListTextFields.size(); i++) {
+                if(!enemyListTextFields.get(i).getText().isEmpty() && !enemyListHealthTextFields.get(i).getText().isEmpty()) {
+                    String enemyInfo = enemyListTextFields.get(i).getText();
+                    String enemyHealthInfo = enemyListHealthTextFields.get(i).getText();
+    
+                    sortedActorList.add(new Enemy(parseName(enemyInfo), parseInitiative(enemyInfo), Integer.parseInt(enemyHealthInfo)));
+                }
+                
+            }
+        }
 
+        
+
+        //ready to be sorted
+        //Collections.sort(sortedActorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
+
+
+        //print for debug
+        for (Actor actor : sortedActorList) {
+            System.out.println(actor.toString());
+        } 
     }
+
+    /**
+     * Receives textfield input and returns the name
+     */
+    private String parseName(String input) {
+        int firstIntegerIndex = input.length();
+        for(int i = 0; i < input.length(); i++) {
+            if(Character.isDigit(input.charAt(i))) {
+                firstIntegerIndex = i;
+            }
+        }
+        return input.substring(0, firstIntegerIndex);
+    }
+
+    /**
+     * Receives textfield input and returns the initiative
+     */
+    private int parseInitiative(String input) {
+        return Integer.parseInt(input);
+    }
+
+    //TODO Add error check to make sure the input string is in the correct form!
+
 
     /**
      * Simply reorders the tab order on the main pane (heavily inefficient!)
