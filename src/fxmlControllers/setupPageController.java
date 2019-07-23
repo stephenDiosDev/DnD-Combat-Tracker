@@ -27,13 +27,17 @@ public class setupPageController implements Initializable{
     protected static ArrayList<Actor> sortedActorList;
 
     //holds the (unsorted) list of all ally textfields
-    protected ArrayList<TextField> allyListTextFields;
+    protected ArrayList<TextField> allyNames;
+
+    protected ArrayList<TextField> allyInitiatives;
 
     //holds the (unsorted) list of all enemy textfields (name and initiative only)
-    protected ArrayList<TextField> enemyListTextFields;
+    protected ArrayList<TextField> enemyNames;
+
+    protected ArrayList<TextField> enemyInitiatives;
 
     //holds the (unsorted) list of all enemy health textfields
-    protected ArrayList<TextField> enemyListHealthTextFields;
+    protected ArrayList<TextField> enemyHealths;
 
 
 
@@ -53,17 +57,17 @@ public class setupPageController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         //these 4 lines "clear" out these arraylists to be brand new
         sortedActorList = new ArrayList<>();
-        allyListTextFields = new ArrayList<>(initialAllyAmount);
-        enemyListTextFields = new ArrayList<>(initialEnemyAmount);
-        enemyListHealthTextFields = new ArrayList<>(initialEnemyAmount);
+        allyNames = new ArrayList<>(initialAllyAmount);
+        enemyNames = new ArrayList<>(initialEnemyAmount);
+        enemyHealths = new ArrayList<>(initialEnemyAmount);
 
         for(int i = 0; i < initialAllyAmount; i++) {
-            allyListTextFields.add(new TextField());
+            allyNames.add(new TextField());
         }
 
         for(int i = 0; i < initialEnemyAmount; i++) {
-            enemyListTextFields.add(new TextField());
-            enemyListHealthTextFields.add(new TextField());
+            enemyNames.add(new TextField());
+            enemyHealths.add(new TextField());
         }
 
         int normalTextFieldPrefWidth = 149;
@@ -77,7 +81,7 @@ public class setupPageController implements Initializable{
         int yIncrease = 33;
 
         //Add ally textfields to the main pane
-        for (TextField allyText : allyListTextFields) {
+        for (TextField allyText : allyNames) {
             allyText.setLayoutX(xCord);
             allyText.setLayoutY(yCord);
             allyText.setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
@@ -96,27 +100,27 @@ public class setupPageController implements Initializable{
 
         //this loop adds all enemy textfields and health textfields with correct position and layout
         //and adds them to the main pane in the correct tab order (main textfield -> health textField)
-        for(int i = 0; i < enemyListTextFields.size(); i++) {
-            enemyListTextFields.get(i).setLayoutX(xCordMainTextField);
-            enemyListTextFields.get(i).setLayoutY(yCord);
-            enemyListTextFields.get(i).setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
+        for(int i = 0; i < enemyNames.size(); i++) {
+            enemyNames.get(i).setLayoutX(xCordMainTextField);
+            enemyNames.get(i).setLayoutY(yCord);
+            enemyNames.get(i).setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
 
-            enemyListHealthTextFields.get(i).setLayoutX(xCordHealthTextField);
-            enemyListHealthTextFields.get(i).setLayoutY(yCord);
-            enemyListHealthTextFields.get(i).setPrefSize(healthTextFieldPrefWidth, healthTextFieldPrefHeight);
+            enemyHealths.get(i).setLayoutX(xCordHealthTextField);
+            enemyHealths.get(i).setLayoutY(yCord);
+            enemyHealths.get(i).setPrefSize(healthTextFieldPrefWidth, healthTextFieldPrefHeight);
 
             yCord += yIncrease;
 
-            mainPane.getChildren().add(enemyListTextFields.get(i));
-            mainPane.getChildren().add(enemyListHealthTextFields.get(i));
+            mainPane.getChildren().add(enemyNames.get(i));
+            mainPane.getChildren().add(enemyHealths.get(i));
         }
         
     }
 
     @FXML
     private void addAlly(ActionEvent event) {
-        TextField lastTextField = allyListTextFields.get(allyListTextFields.size() - 1);
-        TextField secondLastTextField = allyListTextFields.get(allyListTextFields.size() - 2);
+        TextField lastTextField = allyNames.get(allyNames.size() - 1);
+        TextField secondLastTextField = allyNames.get(allyNames.size() - 2);
 
         int yIncrease = (int)(lastTextField.getLayoutY() - secondLastTextField.getLayoutY());
 
@@ -126,23 +130,23 @@ public class setupPageController implements Initializable{
         int prefWidth = (int)lastTextField.getPrefWidth();
         int prefHeight = (int)lastTextField.getPrefHeight();
 
-        allyListTextFields.add(new TextField());
+        allyNames.add(new TextField());
 
-        allyListTextFields.get(allyListTextFields.size() - 1).setLayoutX(xPosition);
-        allyListTextFields.get(allyListTextFields.size() - 1).setLayoutY(yPosition);
-        allyListTextFields.get(allyListTextFields.size() - 1).setPrefSize(prefWidth, prefHeight);
+        allyNames.get(allyNames.size() - 1).setLayoutX(xPosition);
+        allyNames.get(allyNames.size() - 1).setLayoutY(yPosition);
+        allyNames.get(allyNames.size() - 1).setPrefSize(prefWidth, prefHeight);
 
-        mainPane.getChildren().add(allyListTextFields.get(allyListTextFields.size() - 1));
+        mainPane.getChildren().add(allyNames.get(allyNames.size() - 1));
 
         reorderTabOrder();
     }
 
     @FXML
     private void addEnemy(ActionEvent event) {
-        TextField lastTextField = enemyListTextFields.get(enemyListTextFields.size() - 1);
-        TextField secondLastTextField = enemyListTextFields.get(enemyListTextFields.size() - 2);
+        TextField lastTextField = enemyNames.get(enemyNames.size() - 1);
+        TextField secondLastTextField = enemyNames.get(enemyNames.size() - 2);
 
-        TextField lastHealthTextField = enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1);
+        TextField lastHealthTextField = enemyHealths.get(enemyHealths.size() - 1);
 
         int yIncrease = (int)(lastTextField.getLayoutY() - secondLastTextField.getLayoutY());
         int xPosition = (int)lastTextField.getLayoutX();
@@ -155,19 +159,19 @@ public class setupPageController implements Initializable{
 
         int healthPrefWidth = (int)lastHealthTextField.getPrefWidth();
 
-        enemyListTextFields.add(new TextField());
-        enemyListHealthTextFields.add(new TextField());
+        enemyNames.add(new TextField());
+        enemyHealths.add(new TextField());
 
-        enemyListTextFields.get(enemyListTextFields.size() - 1).setLayoutX(xPosition);
-        enemyListTextFields.get(enemyListTextFields.size() - 1).setLayoutY(yPosition);
-        enemyListTextFields.get(enemyListTextFields.size() - 1).setPrefSize(prefWidth, prefHeight);
+        enemyNames.get(enemyNames.size() - 1).setLayoutX(xPosition);
+        enemyNames.get(enemyNames.size() - 1).setLayoutY(yPosition);
+        enemyNames.get(enemyNames.size() - 1).setPrefSize(prefWidth, prefHeight);
 
-        enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1).setLayoutX(xHealthPosition);
-        enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1).setLayoutY(yPosition);
-        enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1).setPrefSize(healthPrefWidth, prefHeight);
+        enemyHealths.get(enemyHealths.size() - 1).setLayoutX(xHealthPosition);
+        enemyHealths.get(enemyHealths.size() - 1).setLayoutY(yPosition);
+        enemyHealths.get(enemyHealths.size() - 1).setPrefSize(healthPrefWidth, prefHeight);
 
-        mainPane.getChildren().add(enemyListTextFields.get(enemyListTextFields.size() - 1));
-        mainPane.getChildren().add(enemyListHealthTextFields.get(enemyListHealthTextFields.size() - 1));
+        mainPane.getChildren().add(enemyNames.get(enemyNames.size() - 1));
+        mainPane.getChildren().add(enemyHealths.get(enemyHealths.size() - 1));
 
         reorderTabOrder();
 
@@ -203,17 +207,17 @@ public class setupPageController implements Initializable{
      * This removes any empty or otherwise "bad" textfields from the ally and enemy lists
      */
     private void addGoodTextFieldsToActorList() {
-        for(int i = 0; i < allyListTextFields.size(); i++) {
-            if(allyListTextFields.get(i).getText().matches(".*[a-zA-Z].*") && allyListTextFields.get(i).getText().matches(".*[0-9].*") && allyListTextFields.get(i).getText().contains(",")) {
-                String allyInfo = allyListTextFields.get(i).getText();
+        for(int i = 0; i < allyNames.size(); i++) {
+            if(allyNames.get(i).getText().matches(".*[a-zA-Z].*") && allyNames.get(i).getText().matches(".*[0-9].*") && allyNames.get(i).getText().contains(",")) {
+                String allyInfo = allyNames.get(i).getText();
                 sortedActorList.add(new Ally(parseName(allyInfo), parseInitiative(allyInfo)));
             }
         }
 
-        for(int i = 0; i < enemyListTextFields.size(); i++) {
-            if(enemyListTextFields.get(i).getText().matches(".*[a-zA-Z].*") && enemyListTextFields.get(i).getText().matches(".*[0-9].*") && enemyListTextFields.get(i).getText().contains(",") && enemyListHealthTextFields.get(i).getText().matches(".*[0-9].*")) {
-                String enemyInfo = enemyListTextFields.get(i).getText();
-                int enemyHealth = Integer.parseInt(enemyListHealthTextFields.get(i).getText());
+        for(int i = 0; i < enemyNames.size(); i++) {
+            if(enemyNames.get(i).getText().matches(".*[a-zA-Z].*") && enemyNames.get(i).getText().matches(".*[0-9].*") && enemyNames.get(i).getText().contains(",") && enemyHealths.get(i).getText().matches(".*[0-9].*")) {
+                String enemyInfo = enemyNames.get(i).getText();
+                int enemyHealth = Integer.parseInt(enemyHealths.get(i).getText());
                 sortedActorList.add(new Enemy(parseName(enemyInfo), parseInitiative(enemyInfo), enemyHealth));
             }
         }
@@ -241,11 +245,11 @@ public class setupPageController implements Initializable{
      */
     private void reorderTabOrder() {
         mainPane.getChildren().clear();
-        mainPane.getChildren().addAll(allyListTextFields);
+        mainPane.getChildren().addAll(allyNames);
 
-        for(int i = 0; i < enemyListTextFields.size(); i++) {
-            mainPane.getChildren().add(enemyListTextFields.get(i));
-            mainPane.getChildren().add(enemyListHealthTextFields.get(i));
+        for(int i = 0; i < enemyNames.size(); i++) {
+            mainPane.getChildren().add(enemyNames.get(i));
+            mainPane.getChildren().add(enemyHealths.get(i));
         }
     }
 
