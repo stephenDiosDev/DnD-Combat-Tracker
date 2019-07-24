@@ -171,6 +171,7 @@ public class setupPageController implements Initializable{
         reorderTabOrder();  //reorder tab order for newly added textfields
     }
 
+    //adds a new row of textfields for a new enemy
     @FXML
     private void addEnemy(ActionEvent event) {
         TextField lastName = enemyNames.get(enemyNames.size() - 1); //get last and second last names for layout
@@ -254,38 +255,24 @@ public class setupPageController implements Initializable{
      * This removes any empty or otherwise "bad" textfields from the ally and enemy lists
      */
     private void addGoodTextFieldsToActorList() {
+        //add all allies
         for(int i = 0; i < allyNames.size(); i++) {
-            if(allyNames.get(i).getText().matches(".*[a-zA-Z].*") && allyNames.get(i).getText().matches(".*[0-9].*") && allyNames.get(i).getText().contains(",")) {
-                String allyInfo = allyNames.get(i).getText();
-                sortedActorList.add(new Ally(parseName(allyInfo), parseInitiative(allyInfo)));
+            //if ally name is non-empty AND ally initiative is just an int
+            if(!allyNames.get(i).getText().isEmpty() && allyInitiatives.get(i).getText().matches(".*[0-9].*")) {
+                //add new ally to actor list
+                sortedActorList.add(new Ally(allyNames.get(i).getText(), Integer.parseInt(allyInitiatives.get(i).getText())));
             }
         }
 
+        //add all enemies
         for(int i = 0; i < enemyNames.size(); i++) {
-            if(enemyNames.get(i).getText().matches(".*[a-zA-Z].*") && enemyNames.get(i).getText().matches(".*[0-9].*") && enemyNames.get(i).getText().contains(",") && enemyHealths.get(i).getText().matches(".*[0-9].*")) {
-                String enemyInfo = enemyNames.get(i).getText();
-                int enemyHealth = Integer.parseInt(enemyHealths.get(i).getText());
-                sortedActorList.add(new Enemy(parseName(enemyInfo), parseInitiative(enemyInfo), enemyHealth));
+            //if enemy name is non-empty AND enemy initiative is just and int AND enemy health is just an int
+            if(!enemyNames.get(i).getText().isEmpty() && enemyInitiatives.get(i).getText().matches(".*[0-9].*") && enemyHealths.get(i).getText().matches(".*[0-9].*")) {
+                //add new enemy to actor list
+                sortedActorList.add(new Enemy(enemyNames.get(i).getText(), Integer.parseInt(enemyInitiatives.get(i).getText()), Integer.parseInt(enemyHealths.get(i).getText())));
             }
         }
     }
-
-    /**
-     * Receives textfield input and returns the name
-     */
-    private String parseName(String input) {
-        return input.substring(0, input.indexOf(","));
-
-    }
-
-    /**
-     * Receives textfield input and returns the initiative
-     */
-    private int parseInitiative(String input) {
-        return Integer.parseInt(input.substring(input.indexOf(",") + 1));
-        
-    }
-
 
     /**
      * Simply reorders the tab order on the main pane (heavily inefficient!)

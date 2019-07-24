@@ -36,7 +36,7 @@ public abstract class Actor {
     }
 
     public void setName(String name) {
-        if(!(name.isEmpty()) && !name.matches(".*\\d.*")) { //if name is not empty AND does not contain any numbers
+        if(!(name.isEmpty())) { //if name is not empty
             this.name = name;
         }
     }
