@@ -133,66 +133,95 @@ public class setupPageController implements Initializable{
         
     }
 
+    //adds a new row of textfields for a new ally
     @FXML
     private void addAlly(ActionEvent event) {
-        TextField lastTextField = allyNames.get(allyNames.size() - 1);
-        TextField secondLastTextField = allyNames.get(allyNames.size() - 2);
+        TextField lastName = allyNames.get(allyNames.size() - 1);   //get last and second last name for layout
+        TextField secondLastName = allyNames.get(allyNames.size() - 2);
 
-        int yIncrease = (int)(lastTextField.getLayoutY() - secondLastTextField.getLayoutY());
+        TextField lastInitiative = allyInitiatives.get(allyInitiatives.size() - 1); //get last initiative for layout
 
-        int xPosition = (int)lastTextField.getLayoutX();
-        int yPosition = (int)(lastTextField.getLayoutY() + yIncrease);
+        double xNamePosition = lastName.getLayoutX();   //x positions
+        double xInitiativePosition = lastInitiative.getLayoutX();
 
-        int prefWidth = (int)lastTextField.getPrefWidth();
-        int prefHeight = (int)lastTextField.getPrefHeight();
+        double yIncrease = (lastName.getLayoutY() - secondLastName.getLayoutY());   //amount to increase y
+        double yPosition = (lastName.getLayoutY() + yIncrease);     //y position
 
-        allyNames.add(new TextField());
+        double namePrefWidth = lastName.getPrefWidth(); //pref widths and heights
+        double initiativePrefWidth = lastInitiative.getPrefWidth();
+        double prefHeight = lastName.getPrefHeight();
 
-        allyNames.get(allyNames.size() - 1).setLayoutX(xPosition);
-        allyNames.get(allyNames.size() - 1).setLayoutY(yPosition);
-        allyNames.get(allyNames.size() - 1).setPrefSize(prefWidth, prefHeight);
+        TextField newName = new TextField();    //create new textfields to add
+        TextField newInitiative = new TextField();
 
-        mainPane.getChildren().add(allyNames.get(allyNames.size() - 1));
+        newName.setLayoutX(xNamePosition);  //apply layout
+        newName.setLayoutY(yPosition);
+        newName.setPrefSize(namePrefWidth, prefHeight);
 
-        reorderTabOrder();
+        newInitiative.setLayoutX(xInitiativePosition);  //apply layout
+        newInitiative.setLayoutY(yPosition);
+        newInitiative.setPrefSize(initiativePrefWidth, prefHeight);
+
+        allyNames.add(newName);     //add new textfields to proper arraylist
+        allyInitiatives.add(newInitiative);
+
+        mainPane.getChildren().add(newName);        //add new textfields to mainPane
+        mainPane.getChildren().add(newInitiative);
+
+        reorderTabOrder();  //reorder tab order for newly added textfields
     }
 
     @FXML
     private void addEnemy(ActionEvent event) {
-        TextField lastTextField = enemyNames.get(enemyNames.size() - 1);
-        TextField secondLastTextField = enemyNames.get(enemyNames.size() - 2);
+        TextField lastName = enemyNames.get(enemyNames.size() - 1); //get last and second last names for layout
+        TextField secondLastName = enemyNames.get(enemyNames.size() - 2);
 
-        TextField lastHealthTextField = enemyHealths.get(enemyHealths.size() - 1);
+        TextField lastInitiative = enemyInitiatives.get(enemyInitiatives.size() - 1);   //get last initiative for layout
 
-        int yIncrease = (int)(lastTextField.getLayoutY() - secondLastTextField.getLayoutY());
-        int xPosition = (int)lastTextField.getLayoutX();
-        int yPosition = (int)(lastTextField.getLayoutY() + yIncrease);
+        TextField lastHealth = enemyHealths.get(enemyHealths.size() - 1);   //get last health for layout
 
-        int xHealthPosition = (int)lastHealthTextField.getLayoutX();
+        double yIncrease = (lastName.getLayoutY() - secondLastName.getLayoutY());   //find how much y changes and the new y position
+        double yPosition = (lastName.getLayoutY() + yIncrease);
 
-        int prefWidth = (int)lastTextField.getPrefWidth();
-        int prefHeight = (int)lastTextField.getPrefHeight();
+        double xNamePosition = lastName.getLayoutX();   //get x positions of all new textfields
+        double xInitiativePosition = lastInitiative.getLayoutX();
+        double xHealthPosition = lastHealth.getLayoutX();
 
-        int healthPrefWidth = (int)lastHealthTextField.getPrefWidth();
+        double namePrefWidth = lastName.getPrefWidth(); //get pref widths for all new textfields
+        double initiativePrefWidth = lastInitiative.getPrefWidth();
+        double healthPrefWidth = lastHealth.getPrefWidth();
 
-        enemyNames.add(new TextField());
-        enemyHealths.add(new TextField());
+        double prefHeight = lastName.getPrefHeight();   //get pref height for all new textfields
 
-        enemyNames.get(enemyNames.size() - 1).setLayoutX(xPosition);
-        enemyNames.get(enemyNames.size() - 1).setLayoutY(yPosition);
-        enemyNames.get(enemyNames.size() - 1).setPrefSize(prefWidth, prefHeight);
+        TextField newName = new TextField();    //create new textfields to add
+        TextField newInitiative = new TextField();
+        TextField newHealth = new TextField();
 
-        enemyHealths.get(enemyHealths.size() - 1).setLayoutX(xHealthPosition);
-        enemyHealths.get(enemyHealths.size() - 1).setLayoutY(yPosition);
-        enemyHealths.get(enemyHealths.size() - 1).setPrefSize(healthPrefWidth, prefHeight);
+        newName.setLayoutX(xNamePosition);  //set layout for new textfields
+        newName.setLayoutY(yPosition);
+        newName.setPrefSize(namePrefWidth, prefHeight);
 
-        mainPane.getChildren().add(enemyNames.get(enemyNames.size() - 1));
-        mainPane.getChildren().add(enemyHealths.get(enemyHealths.size() - 1));
+        newInitiative.setLayoutX(xInitiativePosition);  //set layout for new textfields
+        newInitiative.setLayoutY(yPosition);
+        newInitiative.setPrefSize(initiativePrefWidth, prefHeight);
 
-        reorderTabOrder();
+        newHealth.setLayoutX(xHealthPosition);  //set layout for new textfields
+        newHealth.setLayoutY(yPosition);
+        newHealth.setPrefSize(healthPrefWidth, prefHeight);
+
+        enemyNames.add(newName);    //add new textfields to proper arraylist
+        enemyInitiatives.add(newInitiative);
+        enemyHealths.add(newHealth);
+
+        mainPane.getChildren().add(newName);    //add new textfields to mainPane in order
+        mainPane.getChildren().add(newInitiative);  
+        mainPane.getChildren().add(newHealth);
+
+        reorderTabOrder();  //reorder the tab order for newly added textfields
 
     }
 
+    //launches the encounter page
     @FXML
     private void runEncounter(ActionEvent event) throws IOException{   
         addGoodTextFieldsToActorList();
@@ -215,6 +244,8 @@ public class setupPageController implements Initializable{
         stage.show();
     }
 
+    //sorts the full actor list into descending order based on initiative
+    //highest initiative first, lowest last
     private void sortActorListDescending() {
         Collections.sort(sortedActorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
     }
@@ -261,10 +292,17 @@ public class setupPageController implements Initializable{
      */
     private void reorderTabOrder() {
         mainPane.getChildren().clear();
-        mainPane.getChildren().addAll(allyNames);
+        
+        //add ally textfields in order
+        for(int i = 0; i < allyNames.size(); i++) {
+            mainPane.getChildren().add(allyNames.get(i));
+            mainPane.getChildren().add(allyInitiatives.get(i));
+        }
 
+        //add enemy textfields in order
         for(int i = 0; i < enemyNames.size(); i++) {
             mainPane.getChildren().add(enemyNames.get(i));
+            mainPane.getChildren().add(enemyInitiatives.get(i));
             mainPane.getChildren().add(enemyHealths.get(i));
         }
     }

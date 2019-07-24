@@ -27,7 +27,7 @@ public class DndCombatTracker extends Application {
             blank for full release of minimum viable product
 
     */
-    private static final String stageTitle = "D&D Combat Tracker (v0.8.0a)";
+    private static final String stageTitle = "D&D Combat Tracker (v0.8.1a)";
     private static final String windowIconURL = "/application/program_icon.png";
 
 
