@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
  * initiative total.
  */
 public abstract class Actor {
-    private String name = "PLACEHOLDER";
+    private String name = "";
     private int initiativeTotal = 0;
     private boolean isDead = false;
 
