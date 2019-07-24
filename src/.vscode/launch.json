@@ -5,6 +5,13 @@
             "name": "CodeLens (Launch) - DndCombatTracker",
             "request": "launch",
             "mainClass": "application.DndCombatTracker",
+            "projectName": "src_cff7a28d"
+        },
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - DndCombatTracker",
+            "request": "launch",
+            "mainClass": "application.DndCombatTracker",
             "projectName": "src_941b4cbd"
         },
         {
