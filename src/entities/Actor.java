@@ -60,6 +60,11 @@ public abstract class Actor {
         return this.initiativeBox;
     }
 
+    public void applyTextFieldInfo() {
+        this.setName(this.getNameBox().getText());
+        this.setInitiativeTotal(Integer.parseInt(this.getInitiativeBox().getText()));
+    }
+
     public void setNameBoxLayout(double x, double y, double prefWidth, double prefHeight) {
         this.nameBox.setLayoutX(x);
         this.nameBox.setLayoutY(y);

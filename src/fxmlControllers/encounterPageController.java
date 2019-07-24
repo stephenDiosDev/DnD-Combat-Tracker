@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
+
+import com.sun.jmx.remote.internal.ArrayQueue;
+
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -69,29 +72,18 @@ public class encounterPageController implements Initializable{
     @FXML
     void nextTurn(ActionEvent event) {
         //update current turn index
-        if(currentTurnIndex + 1 >= nameLabels.size()) {
+        if(currentTurnIndex + 1 >= encounterActorList.size()) {
             currentTurnIndex = 0;
         } else {
             currentTurnIndex++;
         }
 
-        //if current actor is an enemy
         if(encounterActorList.get(currentTurnIndex) instanceof Enemy) {
-            //update current health index
-            if(currentEnemyHealthIndex + 1 >= enemyHealthTextFields.size()) {   
-                currentEnemyHealthIndex = 0;
-            } else {
-                currentEnemyHealthIndex++;
+            Enemy tempEnemy = (Enemy)encounterActorList.get(currentTurnIndex);
+
+            if(Integer.parseInt(tempEnemy.getHealthBox().getText()) <= 0) { //enemy is alive
+                nextTurn(new ActionEvent());
             }
-
-            
-        }
-
-        //if the current actor is dead, skip them
-        if(encounterActorList.get(currentTurnIndex).getIsDead() || Integer.parseInt(enemyHealthTextFields.get(currentEnemyHealthIndex).getText()) <= 0) {
-            nextTurn(event);
-        } else {
-            
         }
 
         iconYPosition = 5 + (currentTurnIndex * yIncrease);
@@ -107,6 +99,14 @@ public class encounterPageController implements Initializable{
 
     @FXML
     void endEncounter(ActionEvent event) throws IOException{    //switches fxml page back to setup page and ends current encounter
+        //send ally names back to be reused
+        setupPageController.reusedNames = new ArrayList<>();
+        for (Actor actor : encounterActorList) {
+            if(actor instanceof Ally) {
+                setupPageController.reusedNames.add(actor.getName());
+            }
+        }
+        
         //switch FXML page to encounter page
         Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/setupPage.fxml"));
         Scene scene = new Scene(root);
@@ -121,10 +121,10 @@ public class encounterPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
         encounterActorList = setupPageController.sortedActorList;
         Enemy tempEnemy;
 
+        //add labels for all actors in actorList
         for (Actor actor : encounterActorList) {
             Label newInitiativeLabel = new Label(Integer.toString(actor.getInitiativeTotal()));
             Label newNameLabel = new Label(actor.getName());

@@ -20,6 +20,8 @@ public class setupPageController implements Initializable{
     private int initialAllyAmount = 5;  //this determines, on start up, how many ally/enemy fields to show
     private int initialEnemyAmount = 5;
 
+    protected static ArrayList<String> reusedNames = new ArrayList<>();
+
     //holds the sorted initiative list of all allies/enemies
     protected static ArrayList<Actor> sortedActorList;
 
@@ -29,6 +31,9 @@ public class setupPageController implements Initializable{
     //holds the unsorted list of enemies
     protected ArrayList<Enemy> enemyList;
 
+    //x and y spacing between adjacent textfield components
+    private final int xIncrease = 10;
+    private final int yIncrease = 33;
 
     @FXML
     private Button runEncounterBtn;
@@ -44,19 +49,31 @@ public class setupPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //these 6 lines "clear" out these arraylists to be brand new
+        //these lines "clear" out these arraylists to be brand new
+        //or fills them if needed
         sortedActorList = new ArrayList<>();
-        allyList = new ArrayList<>();
         enemyList = new ArrayList<>();
+        allyList = new ArrayList<>();
 
-        //fill ally list with "empty" allies
-        for(int i = 0; i < initialAllyAmount; i++) {
-            allyList.add(new Ally());
-        }
 
         //fill enemy list with "empty" enemies
         for(int i = 0; i < initialEnemyAmount; i++) {
             enemyList.add(new Enemy());
+        }
+
+        //if encounter has not been run, set to empty as normal
+        if(reusedNames.isEmpty() || reusedNames == null) {
+            //fill ally list with "empty" allies
+            for(int i = 0; i < initialAllyAmount; i++) {
+                allyList.add(new Ally());
+            }
+        } else {    //otherwise, refill with used ally names
+            for(int i = 0; i < reusedNames.size(); i++) {
+                Ally temp = new Ally();
+                temp.setName(reusedNames.get(i));
+                temp.getNameBox().setText(temp.getName());
+                allyList.add(temp);
+            }
         }
 
         //variables hold the layout of the textfield components
@@ -67,8 +84,6 @@ public class setupPageController implements Initializable{
 
         int xCord = 14; //these 3 specify the layout of the textfields
         int yCord = 14;
-        int xIncrease = 10;
-        int yIncrease = 33;
 
         //Add ally textfields to the main pane in correct layout
         for (Ally ally : allyList) {
@@ -104,12 +119,10 @@ public class setupPageController implements Initializable{
     @FXML
     private void addAlly(ActionEvent event) {
         Ally lastAlly = allyList.get(allyList.size() - 1);
-        Ally secondLastAlly = allyList.get(allyList.size() - 2);
 
         double xNamePosition = lastAlly.getNameBox().getLayoutX();   //x positions
         double xInitiativePosition = lastAlly.getInitiativeBox().getLayoutX();
 
-        double yIncrease = (lastAlly.getNameBox().getLayoutY() - secondLastAlly.getNameBox().getLayoutY());   //amount to increase y
         double yPosition = (lastAlly.getNameBox().getLayoutY() + yIncrease);     //y position
 
         double namePrefWidth = lastAlly.getNameBox().getPrefWidth(); //pref widths and heights
@@ -135,9 +148,7 @@ public class setupPageController implements Initializable{
     @FXML
     private void addEnemy(ActionEvent event) {
         Enemy lastEnemy = enemyList.get(enemyList.size() - 1);
-        Enemy secondLastEnemy = enemyList.get(enemyList.size() - 2);
 
-        double yIncrease = (lastEnemy.getNameBox().getLayoutY() - secondLastEnemy.getNameBox().getLayoutY());   //find how much y changes and the new y position
         double yPosition = (lastEnemy.getNameBox().getLayoutY() + yIncrease);
 
         double xNamePosition = lastEnemy.getNameBox().getLayoutX();   //get x positions of all new textfields
@@ -168,8 +179,9 @@ public class setupPageController implements Initializable{
 
     //launches the encounter page
     @FXML
-    private void runEncounter(ActionEvent event) throws IOException{   
+    private void runEncounter(ActionEvent event) throws IOException{  
         addGoodTextFieldsToActorList();
+        applyTextToActors(); 
         sortActorListDescending();
 
         //print for debug
@@ -218,6 +230,12 @@ public class setupPageController implements Initializable{
         }
     }
 
+    //applies the textfield information in both ally and enemy lists
+    private void applyTextToActors() {
+        for (Actor actor : sortedActorList) {
+            actor.applyTextFieldInfo();
+        }
+    }
     /**
      * Simply reorders the tab order on the main pane (heavily inefficient!)
      */

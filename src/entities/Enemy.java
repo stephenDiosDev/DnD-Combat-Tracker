@@ -1,5 +1,7 @@
 package entities;
 
+import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
+
 import javafx.scene.control.TextField;
 
 public class Enemy extends Actor {
@@ -54,6 +56,12 @@ public class Enemy extends Actor {
         this.healthBox.setLayoutX(x);
         this.healthBox.setLayoutY(y);
         this.healthBox.setPrefSize(prefWidth, prefHeight);
+    }
+
+    @Override
+    public void applyTextFieldInfo() {
+        super.applyTextFieldInfo();
+        this.setupHealth(Integer.parseInt(this.getHealthBox().getText()));
     }
 
     /**
