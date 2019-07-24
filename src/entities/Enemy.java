@@ -1,7 +1,11 @@
 package entities;
 
+import javafx.scene.control.TextField;
+
 public class Enemy extends Actor {
     private int totalHealth, currentHealth;
+
+    private TextField healthBox = new TextField();
 
     public Enemy() {
         super();
@@ -40,6 +44,16 @@ public class Enemy extends Actor {
 
     public int getCurrentHealth() {     //Gets the current health
         return this.currentHealth;
+    }
+
+    public TextField getHealthBox() {
+        return this.healthBox;
+    }
+
+    public void setHealthBoxLayout(double x, double y, double prefWidth, double prefHeight) {
+        this.healthBox.setLayoutX(x);
+        this.healthBox.setLayoutY(y);
+        this.healthBox.setPrefSize(prefWidth, prefHeight);
     }
 
     /**

@@ -65,18 +65,33 @@ public class encounterPageController implements Initializable{
     private ImageView turnIcon = new ImageView("/application/initiative_icon.png");
 
 
+    //move focus to the next actor in line
     @FXML
     void nextTurn(ActionEvent event) {
-        currentTurnIndex++;
-        if(currentTurnIndex >= nameLabels.size()) {
+        //update current turn index
+        if(currentTurnIndex + 1 >= nameLabels.size()) {
             currentTurnIndex = 0;
+        } else {
+            currentTurnIndex++;
         }
 
+        //if current actor is an enemy
         if(encounterActorList.get(currentTurnIndex) instanceof Enemy) {
-            currentEnemyHealthIndex++;
-            if(currentEnemyHealthIndex >= enemyHealthTextFields.size()) {
+            //update current health index
+            if(currentEnemyHealthIndex + 1 >= enemyHealthTextFields.size()) {   
                 currentEnemyHealthIndex = 0;
+            } else {
+                currentEnemyHealthIndex++;
             }
+
+            
+        }
+
+        //if the current actor is dead, skip them
+        if(encounterActorList.get(currentTurnIndex).getIsDead() || Integer.parseInt(enemyHealthTextFields.get(currentEnemyHealthIndex).getText()) <= 0) {
+            nextTurn(event);
+        } else {
+            
         }
 
         iconYPosition = 5 + (currentTurnIndex * yIncrease);
@@ -84,6 +99,8 @@ public class encounterPageController implements Initializable{
 
         mainPane.getChildren().remove(turnIcon);
         mainPane.getChildren().add(turnIcon);
+
+        
     }
 
 

@@ -26,6 +26,12 @@ public class setupPageController implements Initializable{
     //holds the sorted initiative list of all allies/enemies
     protected static ArrayList<Actor> sortedActorList;
 
+    //holds the unsorted list of allies
+    protected ArrayList<Ally> allyList;
+
+    //holds the unsorted list of enemies
+    protected ArrayList<Enemy> enemyList;
+
     //holds the (unsorted) list of all ally name textfields
     protected ArrayList<TextField> allyNames;
 
