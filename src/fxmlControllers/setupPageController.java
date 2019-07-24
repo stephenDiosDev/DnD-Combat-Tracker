@@ -14,6 +14,9 @@ import java.io.IOException;
 import java.net.URL;
 import entities.*;
 import java.util.*;
+
+import com.sun.javafx.scene.control.skin.TextFieldSkin;
+
 import javafx.scene.*;
 import javafx.fxml.*;
 import javafx.scene.image.*;
@@ -26,14 +29,16 @@ public class setupPageController implements Initializable{
     //holds the sorted initiative list of all allies/enemies
     protected static ArrayList<Actor> sortedActorList;
 
-    //holds the (unsorted) list of all ally textfields
+    //holds the (unsorted) list of all ally names
     protected ArrayList<TextField> allyNames;
 
+    //holds the (unsorted) list of all aly initiatives
     protected ArrayList<TextField> allyInitiatives;
 
-    //holds the (unsorted) list of all enemy textfields (name and initiative only)
+    //holds the (unsorted) list of all enemy names
     protected ArrayList<TextField> enemyNames;
 
+    //holds the (unsorted) list of all enemy initiatives
     protected ArrayList<TextField> enemyInitiatives;
 
     //holds the (unsorted) list of all enemy health textfields
@@ -58,65 +63,95 @@ public class setupPageController implements Initializable{
         //these 4 lines "clear" out these arraylists to be brand new
         sortedActorList = new ArrayList<>();
         allyNames = new ArrayList<>(initialAllyAmount);
+        allyInitiatives = new ArrayList<>(initialAllyAmount);
         enemyNames = new ArrayList<>(initialEnemyAmount);
+        enemyInitiatives = new ArrayList<>(initialEnemyAmount);
         enemyHealths = new ArrayList<>(initialEnemyAmount);
 
+        //fill ally lists with blank textfields
         for(int i = 0; i < initialAllyAmount; i++) {
             allyNames.add(new TextField());
+            allyInitiatives.add(new TextField());
         }
 
+        //fill enemy lists with blank textfields
         for(int i = 0; i < initialEnemyAmount; i++) {
             enemyNames.add(new TextField());
+            enemyInitiatives.add(new TextField());
             enemyHealths.add(new TextField());
         }
 
-        int normalTextFieldPrefWidth = 149;
+        //these variables specify the layouts of various options of the textfields
+        int normalTextFieldPrefWidth = 123;     //pref width and heights of a "normal" textfield
         int normalTextFieldPrefHeight = 25;
 
-        int healthTextFieldPrefWidth = 61;
+        int initiativeTextFieldPrefWidth = 61;  //pref width/height of the initiative textfield
+        int initiativeTextFieldPrefHeight = normalTextFieldPrefHeight;
+
+        int healthTextFieldPrefWidth = 61;      //pref width and height of the health textfield (not normal)
         int healthTextFieldPrefHeight = normalTextFieldPrefHeight;
 
         int xCord = 14; //these 3 specify the layout of the textfields
         int yCord = 14;
         int yIncrease = 33;
 
-        //Add ally textfields to the main pane
-        for (TextField allyText : allyNames) {
-            allyText.setLayoutX(xCord);
-            allyText.setLayoutY(yCord);
-            allyText.setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
+        int xCordSpacing = 10;  //amount of space between side-by-side textfields
+
+        //Add ally textfields to the main pane with proper layout
+        for(int i = 0; i < allyNames.size(); i++) {
+            TextField allyName = allyNames.get(i);
+            TextField allyInitiative = allyInitiatives.get(i);
+
+            allyName.setLayoutX(xCord);
+            allyName.setLayoutY(yCord);
+            allyName.setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
+
+            allyInitiative.setLayoutX(xCord + normalTextFieldPrefWidth + xCordSpacing);
+            allyInitiative.setLayoutY(yCord);
+            allyInitiative.setPrefSize(initiativeTextFieldPrefWidth, initiativeTextFieldPrefHeight);
 
             yCord += yIncrease;
 
-            mainPane.getChildren().add(allyText);
-
+            mainPane.getChildren().add(allyName);
+            mainPane.getChildren().add(allyInitiative);
         }
 
-        int xCordMainTextField = 348;   //these 3 are for the specific layout of the enemy name/initiative textfields
+
+        int xCordEnemyNormalTextField = 348;   //these 3 are for the specific layout of the enemy name/initiative textfields
         yCord = 14;
         yIncrease = 33;
 
-        int xCordHealthTextField = 524; //this is for the specific x layout of the health textfield
-
-        //this loop adds all enemy textfields and health textfields with correct position and layout
-        //and adds them to the main pane in the correct tab order (main textfield -> health textField)
+        //add enemy textfields to the main pane with proper layout
         for(int i = 0; i < enemyNames.size(); i++) {
-            enemyNames.get(i).setLayoutX(xCordMainTextField);
-            enemyNames.get(i).setLayoutY(yCord);
-            enemyNames.get(i).setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
+            TextField enemyName = enemyNames.get(i);
+            TextField enemyInitiative = enemyInitiatives.get(i);
+            TextField enemyHealth = enemyHealths.get(i);
 
-            enemyHealths.get(i).setLayoutX(xCordHealthTextField);
-            enemyHealths.get(i).setLayoutY(yCord);
-            enemyHealths.get(i).setPrefSize(healthTextFieldPrefWidth, healthTextFieldPrefHeight);
+            enemyName.setLayoutX(xCordEnemyNormalTextField);
+            enemyName.setLayoutX(yCord);
+            enemyName.setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
 
-            yCord += yIncrease;
+            enemyInitiative.setLayoutX(xCordEnemyNormalTextField + normalTextFieldPrefWidth + xCordSpacing);
+            enemyInitiative.setLayoutY(yCord);
+            enemyInitiative.setPrefSize(initiativeTextFieldPrefWidth, initiativeTextFieldPrefHeight);
 
-            mainPane.getChildren().add(enemyNames.get(i));
-            mainPane.getChildren().add(enemyHealths.get(i));
+            enemyHealth.setLayoutX(enemyInitiative.getLayoutX() + initiativeTextFieldPrefWidth + xCordSpacing);
+            enemyHealth.setLayoutY(yCord);
+            enemyHealth.setPrefSize(healthTextFieldPrefWidth, healthTextFieldPrefHeight);
+
+            yCord +=yIncrease;
+
+            mainPane.getChildren().add(enemyName);
+            mainPane.getChildren().add(enemyInitiative);
+            mainPane.getChildren().add(enemyHealth);
+
         }
         
     }
 
+    /**
+     * This action is triggered by the "Add Ally" button. It simply adds a new row of ally textfields
+     */
     @FXML
     private void addAlly(ActionEvent event) {
         TextField lastTextField = allyNames.get(allyNames.size() - 1);
@@ -141,38 +176,64 @@ public class setupPageController implements Initializable{
         reorderTabOrder();
     }
 
+
+    /**
+     * This action is triggered by the "Add Enemy" button. It simply adds a new row of enemy textfields
+     */
     @FXML
     private void addEnemy(ActionEvent event) {
+        //get the last 2 textfields to determine some of the layout attributes
         TextField lastTextField = enemyNames.get(enemyNames.size() - 1);
         TextField secondLastTextField = enemyNames.get(enemyNames.size() - 2);
 
-        TextField lastHealthTextField = enemyHealths.get(enemyHealths.size() - 1);
+        //layout attributes for every new textfield
+        int yIncrease = (int)(lastTextField.getLayoutX() - secondLastTextField.getLayoutY());
+        int xCordSpacing = 10;
 
-        int yIncrease = (int)(lastTextField.getLayoutY() - secondLastTextField.getLayoutY());
         int xPosition = (int)lastTextField.getLayoutX();
-        int yPosition = (int)(lastTextField.getLayoutY() + yIncrease);
+        int yPosition = (int)lastTextField.getLayoutY();
 
-        int xHealthPosition = (int)lastHealthTextField.getLayoutX();
+        int namePrefWidth = (int)lastTextField.getPrefWidth();
+        int namePrefHeight = (int)lastTextField.getPrefHeight();
 
-        int prefWidth = (int)lastTextField.getPrefWidth();
-        int prefHeight = (int)lastTextField.getPrefHeight();
+        int initiativePrefWidth = (int)enemyInitiatives.get(enemyInitiatives.size() - 1).getPrefWidth();
+        int initiativePrefHeight = (int)enemyInitiatives.get(enemyInitiatives.size() - 1).getPrefHeight();
 
-        int healthPrefWidth = (int)lastHealthTextField.getPrefWidth();
+        int healthPrefWidth = (int)enemyHealths.get(enemyHealths.size() - 1).getPrefWidth();
+        int healthPrefHeight = (int)enemyHealths.get(enemyHealths.size() - 1).getPrefHeight();
 
-        enemyNames.add(new TextField());
-        enemyHealths.add(new TextField());
+        //layout is ready, create new textfields
+        TextField newEnemyName = new TextField();
+        TextField newEnemyInitiative = new TextField();
+        TextField newEnemyHealth = new TextField();
 
-        enemyNames.get(enemyNames.size() - 1).setLayoutX(xPosition);
-        enemyNames.get(enemyNames.size() - 1).setLayoutY(yPosition);
-        enemyNames.get(enemyNames.size() - 1).setPrefSize(prefWidth, prefHeight);
+        //apply layout to each textfield
 
-        enemyHealths.get(enemyHealths.size() - 1).setLayoutX(xHealthPosition);
-        enemyHealths.get(enemyHealths.size() - 1).setLayoutY(yPosition);
-        enemyHealths.get(enemyHealths.size() - 1).setPrefSize(healthPrefWidth, prefHeight);
+        //x position layout
+        newEnemyName.setLayoutX(xPosition);
+        newEnemyInitiative.setLayoutX(xPosition + xCordSpacing);
+        newEnemyHealth.setLayoutX(xPosition + xCordSpacing + xCordSpacing);
 
-        mainPane.getChildren().add(enemyNames.get(enemyNames.size() - 1));
-        mainPane.getChildren().add(enemyHealths.get(enemyHealths.size() - 1));
+        //y position layout
+        newEnemyName.setLayoutY(yPosition + yIncrease);
+        newEnemyInitiative.setLayoutY(yPosition + yIncrease);
+        newEnemyHealth.setLayoutY(yPosition + yIncrease);
 
+        //pref size layout
+        newEnemyName.setPrefSize(namePrefWidth, namePrefHeight);
+        newEnemyInitiative.setPrefSize(initiativePrefWidth, initiativePrefHeight);
+        newEnemyHealth.setPrefSize(healthPrefWidth, healthPrefHeight);
+
+        //add textfields to both the main pane and their arraylist
+        enemyNames.add(newEnemyName);
+        enemyInitiatives.add(newEnemyInitiative);
+        enemyHealths.add(newEnemyHealth);
+
+        mainPane.getChildren().add(newEnemyName);
+        mainPane.getChildren().add(newEnemyInitiative);
+        mainPane.getChildren().add(newEnemyHealth);
+
+        //call function to move all textfields to proper tab order
         reorderTabOrder();
 
     }
@@ -207,48 +268,48 @@ public class setupPageController implements Initializable{
      * This removes any empty or otherwise "bad" textfields from the ally and enemy lists
      */
     private void addGoodTextFieldsToActorList() {
+        //add allies to actor list
         for(int i = 0; i < allyNames.size(); i++) {
-            if(allyNames.get(i).getText().matches(".*[a-zA-Z].*") && allyNames.get(i).getText().matches(".*[0-9].*") && allyNames.get(i).getText().contains(",")) {
-                String allyInfo = allyNames.get(i).getText();
-                sortedActorList.add(new Ally(parseName(allyInfo), parseInitiative(allyInfo)));
+            TextField name = allyNames.get(i);      //place current textfield into temp variable
+            TextField initiative = allyInitiatives.get(i);
+
+            //name should not be empty, initiative should only be numbers
+            if(!name.getText().isEmpty() && initiative.getText().matches(".*[0-9].*")) {
+                sortedActorList.add(new Ally(name.getText(), Integer.parseInt(initiative.getText())));
             }
         }
 
+        //add enemies to actor list
         for(int i = 0; i < enemyNames.size(); i++) {
-            if(enemyNames.get(i).getText().matches(".*[a-zA-Z].*") && enemyNames.get(i).getText().matches(".*[0-9].*") && enemyNames.get(i).getText().contains(",") && enemyHealths.get(i).getText().matches(".*[0-9].*")) {
-                String enemyInfo = enemyNames.get(i).getText();
-                int enemyHealth = Integer.parseInt(enemyHealths.get(i).getText());
-                sortedActorList.add(new Enemy(parseName(enemyInfo), parseInitiative(enemyInfo), enemyHealth));
+            TextField name = enemyNames.get(i);
+            TextField initiative = enemyInitiatives.get(i);
+            TextField health = enemyHealths.get(i);
+
+            //name should not be empty, initiative and health should only be numbers
+            if(!name.getText().isEmpty() && initiative.getText().matches(".*[0-9].*") && health.getText().matches(".*[0-9].*")) {
+                sortedActorList.add(new Enemy(name.getText(), Integer.parseInt(initiative.getText()), Integer.parseInt(health.getText())));
             }
         }
+       
     }
-
-    /**
-     * Receives textfield input and returns the name
-     */
-    private String parseName(String input) {
-        return input.substring(0, input.indexOf(","));
-
-    }
-
-    /**
-     * Receives textfield input and returns the initiative
-     */
-    private int parseInitiative(String input) {
-        return Integer.parseInt(input.substring(input.indexOf(",") + 1));
-        
-    }
-
 
     /**
      * Simply reorders the tab order on the main pane (heavily inefficient!)
      */
     private void reorderTabOrder() {
+        //clear out main pane so we aren't adding duplicates
         mainPane.getChildren().clear();
-        mainPane.getChildren().addAll(allyNames);
 
+        //add allies 
+        for(int i = 0; i < allyNames.size(); i++) {
+            mainPane.getChildren().add(allyNames.get(i));
+            mainPane.getChildren().add(allyInitiatives.get(i));
+        }
+
+        //add enemies
         for(int i = 0; i < enemyNames.size(); i++) {
             mainPane.getChildren().add(enemyNames.get(i));
+            mainPane.getChildren().add(enemyInitiatives.get(i));
             mainPane.getChildren().add(enemyHealths.get(i));
         }
     }

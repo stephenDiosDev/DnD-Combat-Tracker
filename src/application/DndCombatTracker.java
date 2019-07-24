@@ -16,7 +16,18 @@ public class DndCombatTracker extends Application {
     public Scene setupScene;
     public Scene encounterScene;
 
-    private static final String stageTitle = "D&D Combat Tracker (v0.8)";
+    /*  VERSION NUMBERING SYSTEM
+        MAJOR.MINOR.PATCHstage
+        Where MAJOR represents some major version of the program (0 is alpha and beta, > 0  is full release)
+        MINOR represents some version which is not as big as major, but still a large change
+        PATCH represents fixes and small changes between minor changes
+        stage is either a, b or blank
+            a for alpha
+            b for beta
+            blank for full release of minimum viable product
+
+    */
+    private static final String stageTitle = "D&D Combat Tracker (v0.8.0a)";
     private static final String windowIconURL = "/application/program_icon.png";
 
 
