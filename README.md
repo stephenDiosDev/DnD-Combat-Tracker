@@ -1,4 +1,4 @@
-# dndCombatTracker
+# DnD Combat Tracker (5e)
 A minimalist combat tracker for Dungeons and Dragons 5th Edition (desktop java app).
 
 To start the program, ensure you have Java JRE installed (1.8+), and find the combatTracker.jar file (dndCombatTracker/combatTracker.jar).
