@@ -57,7 +57,7 @@ public class setupPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        //these 4 lines "clear" out these arraylists to be brand new
+        //these 6 lines "clear" out these arraylists to be brand new
         sortedActorList = new ArrayList<>();
         allyNames = new ArrayList<>(initialAllyAmount);
         allyInitiatives = new ArrayList<>(initialAllyAmount);
@@ -79,48 +79,55 @@ public class setupPageController implements Initializable{
             enemyHealths.add(new TextField());
         }
 
-        int normalTextFieldPrefWidth = 149;
-        int normalTextFieldPrefHeight = 25;
-
-        int healthTextFieldPrefWidth = 61;
-        int healthTextFieldPrefHeight = normalTextFieldPrefHeight;
+        //variables hold the layout of the textfield components
+        int namePrefWidth = 110;
+        int prefHeight = 25;
+        int initiativePrefWidth = 45;
+        int healthPrefWidth = 61;
 
         int xCord = 14; //these 3 specify the layout of the textfields
         int yCord = 14;
+        int xIncrease = 10;
         int yIncrease = 33;
 
-        //Add ally textfields to the main pane
-        for (TextField allyText : allyNames) {
-            allyText.setLayoutX(xCord);
-            allyText.setLayoutY(yCord);
-            allyText.setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
+        //Add ally textfields to the main pane in correct layout
+        for(int i = 0; i < allyNames.size(); i++) {
+            allyNames.get(i).setLayoutX(xCord);
+            allyNames.get(i).setLayoutY(yCord);
+            allyNames.get(i).setPrefSize(namePrefWidth, prefHeight);
+
+            allyInitiatives.get(i).setLayoutX(xCord + namePrefWidth + xIncrease);
+            allyInitiatives.get(i).setLayoutY(yCord);
+            allyInitiatives.get(i).setPrefSize(initiativePrefWidth, prefHeight);
 
             yCord += yIncrease;
 
-            mainPane.getChildren().add(allyText);
-
+            mainPane.getChildren().add(allyNames.get(i));
+            mainPane.getChildren().add(allyInitiatives.get(i));
         }
 
-        int xCordMainTextField = 348;   //these 3 are for the specific layout of the enemy name/initiative textfields
+        xCord = 348;   //these 2 are for the specific layout of the enemy name/initiative textfields
         yCord = 14;
-        yIncrease = 33;
-
-        int xCordHealthTextField = 524; //this is for the specific x layout of the health textfield
 
         //this loop adds all enemy textfields and health textfields with correct position and layout
         //and adds them to the main pane in the correct tab order (main textfield -> health textField)
         for(int i = 0; i < enemyNames.size(); i++) {
-            enemyNames.get(i).setLayoutX(xCordMainTextField);
+            enemyNames.get(i).setLayoutX(xCord);
             enemyNames.get(i).setLayoutY(yCord);
-            enemyNames.get(i).setPrefSize(normalTextFieldPrefWidth, normalTextFieldPrefHeight);
+            enemyNames.get(i).setPrefSize(namePrefWidth, prefHeight);
 
-            enemyHealths.get(i).setLayoutX(xCordHealthTextField);
+            enemyInitiatives.get(i).setLayoutX(xCord + namePrefWidth + xIncrease);
+            enemyInitiatives.get(i).setLayoutY(yCord);
+            enemyInitiatives.get(i).setPrefSize(initiativePrefWidth, prefHeight);
+
+            enemyHealths.get(i).setLayoutX(xCord + namePrefWidth + xIncrease + initiativePrefWidth + xIncrease);
             enemyHealths.get(i).setLayoutY(yCord);
-            enemyHealths.get(i).setPrefSize(healthTextFieldPrefWidth, healthTextFieldPrefHeight);
+            enemyHealths.get(i).setPrefSize(healthPrefWidth, prefHeight);
 
             yCord += yIncrease;
 
             mainPane.getChildren().add(enemyNames.get(i));
+            mainPane.getChildren().add(enemyInitiatives.get(i));
             mainPane.getChildren().add(enemyHealths.get(i));
         }
         
