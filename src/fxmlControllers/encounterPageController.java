@@ -19,8 +19,15 @@ import javafx.stage.*;
 import javafx.scene.image.*;
 import application.*;
 import entities.*;
+import javafx.scene.control.Tooltip;
 
 public class encounterPageController implements Initializable{
+    Tooltip endEncounterTooltip = new Tooltip("Ends the encounter and auto-fills all the current allies back in the setup page. " + 
+                                              "Pressing the ESC key also does the same thing!");
+    Tooltip nextTurnTooltip = new Tooltip("Shifts the turn tracker to the next ally or enemy.");
+    Tooltip healthTooltip = new Tooltip("The current health of the character. Must be an integer!");
+
+
     //this list contains the actual actor objects
     private ArrayList<Actor> encounterActorList = new ArrayList<>();
 
@@ -113,6 +120,9 @@ public class encounterPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        endEncounterBtn.setTooltip(endEncounterTooltip);
+        nextTurnBtn.setTooltip(nextTurnTooltip);
+
         encounterActorList = setupPageController.sortedActorList;
         Enemy tempEnemy;
 
@@ -161,6 +171,7 @@ public class encounterPageController implements Initializable{
                 newHealthField.setLayoutY(yHealthPosition);
                 newHealthField.setPrefSize(healthPrefWidth, healthPrefHeight);
                 newHealthField.setFont(new Font(16.0));
+                newHealthField.setTooltip(healthTooltip);
                 enemyHealthTextFields.add(newHealthField);
             }
 

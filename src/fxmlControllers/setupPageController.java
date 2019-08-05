@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -14,6 +15,8 @@ import java.util.*;
 import javafx.scene.*;
 import javafx.fxml.*;
 import javafx.scene.image.*;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 
 public class setupPageController implements Initializable{
 
@@ -35,6 +38,18 @@ public class setupPageController implements Initializable{
     private final int xIncrease = 10;
     private final int yIncrease = 33;
 
+    Tooltip nameTooltip = new Tooltip("The name of the character.");
+    Tooltip initiativeTooltip = new Tooltip("The initiative total of the character. Must be an integer!");
+    Tooltip healthTooltip = new Tooltip("The total health of the character. Must be an integer!");
+
+    Tooltip addAllyTooltip = new Tooltip("Adds a new ally to the encounter. All ally fields must be filled properly.");
+    Tooltip addEnemyTooltip = new Tooltip("Adds a new enemy to the encounter. All enemy fields must be filled properly.");
+    Tooltip runEncounterTooltip = new Tooltip("This runs the encounter with the above allies and enemies sorted in order.");
+
+    Tooltip allyTooltip = new Tooltip("An ally is your players and any NPC that you don't want to track the health of.");
+    Tooltip enemyTooltip = new Tooltip("An enemy is your monsters and any NPC that you do want to track the health of.");
+
+
     @FXML
     private Button runEncounterBtn;
 
@@ -47,8 +62,22 @@ public class setupPageController implements Initializable{
     @FXML
     private Button addAllyBtn;
 
+    @FXML
+    private Label allyLabel;
+
+    @FXML
+    private Label enemyLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        allyTooltip.setFont(new Font(18));
+        enemyTooltip.setFont(new Font(18));
+
+        runEncounterBtn.setTooltip(runEncounterTooltip);
+        addEnemyBtn.setTooltip(addEnemyTooltip);
+        addAllyBtn.setTooltip(addAllyTooltip);
+        allyLabel.setTooltip(allyTooltip);
+        enemyLabel.setTooltip(enemyTooltip);
         //these lines "clear" out these arraylists to be brand new
         //or fills them if needed
         sortedActorList = new ArrayList<>();
@@ -90,6 +119,9 @@ public class setupPageController implements Initializable{
             ally.setNameBoxLayout(xCord, yCord, namePrefWidth, prefHeight);
             ally.setInitiativeBoxLayout(xCord + namePrefWidth + xIncrease, yCord, initiativePrefWidth, prefHeight);
 
+            ally.getNameBox().setTooltip(nameTooltip);
+            ally.getInitiativeBox().setTooltip(initiativeTooltip);
+
             yCord += yIncrease;
 
             mainPane.getChildren().add(ally.getNameBox());
@@ -105,6 +137,10 @@ public class setupPageController implements Initializable{
             enemy.setNameBoxLayout(xCord, yCord, namePrefWidth, prefHeight);
             enemy.setInitiativeBoxLayout(xCord + namePrefWidth + xIncrease, yCord, initiativePrefWidth, prefHeight);
             enemy.setHealthBoxLayout(xCord + namePrefWidth + xIncrease + initiativePrefWidth + xIncrease, yCord, healthPrefWidth, prefHeight);
+
+            enemy.getNameBox().setTooltip(nameTooltip);
+            enemy.getInitiativeBox().setTooltip(initiativeTooltip);
+            enemy.getHealthBox().setTooltip(healthTooltip);
 
             yCord += yIncrease;
 

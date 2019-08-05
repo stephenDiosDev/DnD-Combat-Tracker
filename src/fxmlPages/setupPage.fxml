@@ -15,7 +15,7 @@
                   <AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="598.0" />
                </content>
             </ScrollPane>
-            <Label layoutX="29.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="123.0" text="Allies" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="0.0">
+            <Label fx:id="allyLabel" layoutX="29.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="123.0" text="Allies" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="0.0">
                <padding>
                   <Insets left="15.0" />
                </padding>
@@ -23,7 +23,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="419.0" layoutY="-5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="156.0" text="Enemies" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="-5.0">
+            <Label fx:id="enemyLabel" layoutX="419.0" layoutY="-5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="156.0" text="Enemies" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="-5.0">
                <font>
                   <Font size="36.0" />
                </font>
