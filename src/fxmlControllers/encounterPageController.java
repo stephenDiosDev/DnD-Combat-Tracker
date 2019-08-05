@@ -121,16 +121,18 @@ public class encounterPageController implements Initializable{
         Scene scene = new Scene(root);
         Stage stage = new Stage();
 
+        addNewCharacterPageController.stage = stage;
+
         stage.setTitle(DndCombatTracker.getStageTitle());
         stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
 
         stage.setScene(scene);
         stage.show();
-
-        System.out.println("Got Here");
     }
 
     public static void addNewCharacterToEncounter(Actor actor) {
+        System.out.println(actor.toString());
+
 
     }
 
