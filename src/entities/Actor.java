@@ -1,6 +1,7 @@
 package entities;
 
 import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
 
 /**
  * Acts as a base class for all other entities. Contains a name and an
@@ -14,6 +15,9 @@ public abstract class Actor {
     private TextField nameBox = new TextField();
     private TextField initiativeBox = new TextField();
 
+    private Label nameLabel = new Label();
+    private Label initiativeLabel = new Label();
+
     public Actor () {
 
     }
@@ -21,6 +25,9 @@ public abstract class Actor {
     public Actor (String name, int initiativeTotal) {
         setName(name);
         setInitiativeTotal(initiativeTotal);
+
+        setNameLabel();
+        setInitiativeLabel();
     }
 
 
@@ -34,6 +41,14 @@ public abstract class Actor {
 
     public boolean getIsDead() {
         return this.isDead;
+    }
+
+    public Label getNameLabel() {
+        return this.nameLabel;
+    }
+
+    public Label getInitiativeLabel() {
+        return this.initiativeLabel;
     }
 
     public void setIsDead(boolean isDead) {
@@ -50,6 +65,14 @@ public abstract class Actor {
         if(initiativeTotal >= 0) {
             this.initiativeTotal = initiativeTotal;
         }
+    }
+
+    public void setNameLabel() {
+        this.nameLabel.setText(getName());
+    }
+
+    public void setInitiativeLabel() {
+        this.initiativeLabel.setText(Integer.toString(getInitiativeTotal()));
     }
 
     public TextField getNameBox() {

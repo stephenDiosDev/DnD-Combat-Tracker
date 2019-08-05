@@ -1,7 +1,5 @@
 package entities;
 
-import com.sun.xml.internal.bind.annotation.OverrideAnnotationOf;
-
 import javafx.scene.control.TextField;
 
 public class Enemy extends Actor {

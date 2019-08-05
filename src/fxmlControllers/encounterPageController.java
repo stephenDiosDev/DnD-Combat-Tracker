@@ -7,8 +7,6 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -30,11 +28,6 @@ public class encounterPageController implements Initializable{
 
     //this list contains the actual actor objects
     private ArrayList<Actor> encounterActorList = new ArrayList<>();
-
-    private ArrayList<Label> initiativeLabels = new ArrayList<>();
-    private ArrayList<Label> nameLabels = new ArrayList<>();
-
-    private ArrayList<TextField> enemyHealthTextFields = new ArrayList<>();
 
     private int currentTurnIndex = 0;
 
@@ -126,53 +119,50 @@ public class encounterPageController implements Initializable{
         encounterActorList = setupPageController.sortedActorList;
         Enemy tempEnemy;
 
-        //add labels for all actors in actorList
+        //set labels for all actors in actorList
         for (Actor actor : encounterActorList) {
-            Label newInitiativeLabel = new Label(Integer.toString(actor.getInitiativeTotal()));
-            Label newNameLabel = new Label(actor.getName());
+            actor.setNameLabel();
+            actor.setInitiativeLabel();
             
-            newInitiativeLabel.setLayoutX(initiativeXPosition);
-            newInitiativeLabel.setLayoutY(yPosition);
-            newInitiativeLabel.setPrefSize(initiativePrefWidth, prefHeight);
-            newInitiativeLabel.setFont(new Font(24.0));
-            initiativeLabels.add(newInitiativeLabel);
+            actor.getInitiativeLabel().setLayoutX(initiativeXPosition);
+            actor.getInitiativeLabel().setLayoutY(yPosition);
+            actor.getInitiativeLabel().setPrefSize(initiativePrefWidth, prefHeight);
+            actor.getInitiativeLabel().setFont(new Font(24.0));
 
 
-            newNameLabel.setLayoutX(nameXPosition);
-            newNameLabel.setLayoutY(yPosition);
-            newNameLabel.setPrefSize(namePrefWidth, prefHeight);
-            newNameLabel.setFont(new Font(24.0));
-            nameLabels.add(newNameLabel);
+            actor.getNameLabel().setLayoutX(nameXPosition);
+            actor.getNameLabel().setLayoutY(yPosition);
+            actor.getNameLabel().setPrefSize(namePrefWidth, prefHeight);
+            actor.getNameLabel().setFont(new Font(24.0));
 
             if(actor instanceof Enemy) {
                 tempEnemy = (Enemy)actor;
 
-                TextField newHealthField = new TextField(Integer.toString(tempEnemy.getCurrentHealth()));
+                tempEnemy.getHealthBox().setText(Integer.toString(tempEnemy.getCurrentHealth()));
 
                 //add listener to health textfield
-                newHealthField.textProperty().addListener((obs, oldText, newText) -> {
+                tempEnemy.getHealthBox().textProperty().addListener((obs, oldText, newText) -> {
                     if(Integer.parseInt(newText) <= 0) {    //if new health entered is 0 or lower
                         actor.setIsDead(true);  //actor is dead
 
-                        int currentIndex = encounterActorList.indexOf(actor);   //set labels to be RED
-                        initiativeLabels.get(currentIndex).setTextFill(Color.RED);
-                        nameLabels.get(currentIndex).setTextFill(Color.RED);
+                        //set labels to be RED
+                        actor.getInitiativeLabel().setTextFill(Color.RED);
+                        actor.getNameLabel().setTextFill(Color.RED);
                     } else {
                         actor.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
 
-                        int currentIndex = encounterActorList.indexOf(actor);   //set labels to be BLACK
-                        initiativeLabels.get(currentIndex).setTextFill(Color.BLACK);
-                        nameLabels.get(currentIndex).setTextFill(Color.BLACK);
+                        //set labels to be BLACK
+                        actor.getInitiativeLabel().setTextFill(Color.BLACK);
+                        actor.getNameLabel().setTextFill(Color.BLACK);
                     }
                 });
 
                 //set health textfield layout properties
-                newHealthField.setLayoutX(healthXPosition);
-                newHealthField.setLayoutY(yHealthPosition);
-                newHealthField.setPrefSize(healthPrefWidth, healthPrefHeight);
-                newHealthField.setFont(new Font(16.0));
-                newHealthField.setTooltip(healthTooltip);
-                enemyHealthTextFields.add(newHealthField);
+                tempEnemy.getHealthBox().setLayoutX(healthXPosition);
+                tempEnemy.getHealthBox().setLayoutY(yHealthPosition);
+                tempEnemy.getHealthBox().setPrefSize(healthPrefWidth, healthPrefHeight);
+                tempEnemy.getHealthBox().setFont(new Font(16.0));
+                tempEnemy.getHealthBox().setTooltip(healthTooltip);
             }
 
             yPosition += yIncrease;
@@ -185,13 +175,22 @@ public class encounterPageController implements Initializable{
         turnIcon.setLayoutY(iconYPosition);
 
 
-        if(nameLabels.isEmpty()){
+        if(encounterActorList.isEmpty()){
             turnIcon.setOpacity(0.0);   //makes picture invisible
         }
 
-        mainPane.getChildren().addAll(initiativeLabels);
-        mainPane.getChildren().addAll(nameLabels);
-        mainPane.getChildren().addAll(enemyHealthTextFields);
+        //TO DO change this to a loop for all actor labels and boxes
+        for (Actor actor : encounterActorList) {
+            mainPane.getChildren().add(actor.getNameLabel());
+            mainPane.getChildren().add(actor.getInitiativeLabel());
+
+            if(actor instanceof Enemy) {
+                tempEnemy = (Enemy)actor;
+                mainPane.getChildren().add(tempEnemy.getHealthBox());
+            }
+
+        }
+
         mainPane.getChildren().add(turnIcon);
 
     }
