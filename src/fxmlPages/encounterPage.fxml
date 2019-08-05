@@ -38,6 +38,11 @@
                   <Font name="Comic Sans MS" size="18.0" />
                </font>
             </Button>
+            <Button fx:id="addNewCharacterBtn" layoutX="424.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addNewCharacter" prefHeight="88.0" prefWidth="150.0" text="Add New Character" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="21.0">
+               <font>
+                  <Font name="Comic Sans MS" size="18.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </children>

@@ -59,6 +59,9 @@ public class encounterPageController implements Initializable{
     private Button nextTurnBtn;
 
     @FXML
+    private Button addNewCharacterBtn;
+
+    @FXML
     private AnchorPane mainPane;
 
     private ImageView turnIcon = new ImageView("/application/initiative_icon.png");
@@ -109,6 +112,26 @@ public class encounterPageController implements Initializable{
 
         stage.setScene(scene);
         stage.show();
+    }
+
+    //opens new window to add new character
+    @FXML
+    void addNewCharacter(ActionEvent event) throws IOException{
+        Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/addNewCharacterPage.fxml"));
+        Scene scene = new Scene(root);
+        Stage stage = new Stage();
+
+        stage.setTitle(DndCombatTracker.getStageTitle());
+        stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
+
+        stage.setScene(scene);
+        stage.show();
+
+        System.out.println("Got Here");
+    }
+
+    public static void addNewCharacterToEncounter(Actor actor) {
+
     }
 
     @Override
