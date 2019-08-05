@@ -4,22 +4,19 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
-import com.sun.jmx.remote.internal.ArrayQueue;
-
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.event.*;
 import javafx.scene.*;
 import javafx.fxml.*;
 import javafx.stage.*;
 import javafx.scene.image.*;
-import javafx.scene.input.KeyCode;
 import application.*;
 import entities.*;
 
@@ -33,7 +30,6 @@ public class encounterPageController implements Initializable{
     private ArrayList<TextField> enemyHealthTextFields = new ArrayList<>();
 
     private int currentTurnIndex = 0;
-    private int currentEnemyHealthIndex = 0;
 
     private int iconYPosition = 5;
     private int iconXPosition = 300;
@@ -78,20 +74,16 @@ public class encounterPageController implements Initializable{
             currentTurnIndex++;
         }
 
-        if(encounterActorList.get(currentTurnIndex) instanceof Enemy) {
-            Enemy tempEnemy = (Enemy)encounterActorList.get(currentTurnIndex);
+        //if current actor is dead, we want to skip them
+        if(encounterActorList.get(currentTurnIndex).getIsDead()) {   //if dead
+            nextTurn(event);
+        } else {    //if alive, update the icon position
+            iconYPosition = 5 + (currentTurnIndex * yIncrease);
+            turnIcon.setLayoutY(iconYPosition);
 
-            if(Integer.parseInt(tempEnemy.getHealthBox().getText()) <= 0) { //enemy is alive
-                nextTurn(new ActionEvent());
-            }
+            mainPane.getChildren().remove(turnIcon);
+            mainPane.getChildren().add(turnIcon);
         }
-
-        iconYPosition = 5 + (currentTurnIndex * yIncrease);
-        turnIcon.setLayoutY(iconYPosition);
-
-        mainPane.getChildren().remove(turnIcon);
-        mainPane.getChildren().add(turnIcon);
-
         
     }
 
@@ -147,6 +139,24 @@ public class encounterPageController implements Initializable{
 
                 TextField newHealthField = new TextField(Integer.toString(tempEnemy.getCurrentHealth()));
 
+                //add listener to health textfield
+                newHealthField.textProperty().addListener((obs, oldText, newText) -> {
+                    if(Integer.parseInt(newText) <= 0) {    //if new health entered is 0 or lower
+                        actor.setIsDead(true);  //actor is dead
+
+                        int currentIndex = encounterActorList.indexOf(actor);   //set labels to be RED
+                        initiativeLabels.get(currentIndex).setTextFill(Color.RED);
+                        nameLabels.get(currentIndex).setTextFill(Color.RED);
+                    } else {
+                        actor.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
+
+                        int currentIndex = encounterActorList.indexOf(actor);   //set labels to be BLACK
+                        initiativeLabels.get(currentIndex).setTextFill(Color.BLACK);
+                        nameLabels.get(currentIndex).setTextFill(Color.BLACK);
+                    }
+                });
+
+                //set health textfield layout properties
                 newHealthField.setLayoutX(healthXPosition);
                 newHealthField.setLayoutY(yHealthPosition);
                 newHealthField.setPrefSize(healthPrefWidth, healthPrefHeight);
@@ -156,20 +166,9 @@ public class encounterPageController implements Initializable{
 
             yPosition += yIncrease;
             yHealthPosition += yIncrease;
-        }
 
-/*  Commented out because buggy
-        for (TextField field : enemyHealthTextFields) {    
-        //listener to check for any changes
-            field.textProperty().addListener((obs, oldText, newText) -> {
-                field.setOnKeyPressed(event -> {        //if enter is pressed, health is changed
-                    if(event.getCode() == KeyCode.ENTER && event.getSource() == field) {
-                        field.setText(handleHealthChange(newText));
-                    }
-                });
-            });
-        }    
-*/
+
+        }
         
         turnIcon.setLayoutX(iconXPosition);
         turnIcon.setLayoutY(iconYPosition);
