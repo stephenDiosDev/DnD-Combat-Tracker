@@ -28,7 +28,7 @@ public class DndCombatTracker extends Application {
 
     */
     private static final String stageTitle = "D&D Combat Tracker (v0.8.8a)";
-    private static final String windowIconURL = "/application/program_icon.png";
+    private static final String windowIconURL = "icons\\program_icon.png";
 
 
     @Override
