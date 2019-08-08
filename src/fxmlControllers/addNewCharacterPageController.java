@@ -8,13 +8,14 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
+import managers.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 import entities.*;
 import javafx.event.ActionEvent;
 
-public class addNewCharacterPageController implements Initializable {
+public class AddNewCharacterPageController implements Initializable {
 
     private final String allyMenuText = "Ally";
     private final String enemyMenuText = "Enemy";
@@ -74,12 +75,13 @@ public class addNewCharacterPageController implements Initializable {
     private void addToEncounter(ActionEvent event) {
         Actor newActor;
 
-        encounterPageController newPage = new encounterPageController();
+        //EncounterPageController newPage = new EncounterPageController();
 
         if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //ally
 
             newActor = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));   
             newPage.addNewCharacterToEncounter(newActor);
+            
 
         } else if (typeMenu.getText().equalsIgnoreCase(enemyMenuText)) {    //enemy
 

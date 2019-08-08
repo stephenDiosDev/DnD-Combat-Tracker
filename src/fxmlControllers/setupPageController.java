@@ -18,7 +18,7 @@ import javafx.scene.image.*;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
-public class setupPageController implements Initializable{
+public class SetupPageController implements Initializable{
 
     private int initialAllyAmount = 5;  //this determines, on start up, how many ally/enemy fields to show
     private int initialEnemyAmount = 5;

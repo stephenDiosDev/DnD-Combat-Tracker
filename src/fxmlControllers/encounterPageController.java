@@ -19,7 +19,7 @@ import application.*;
 import entities.*;
 import javafx.scene.control.Tooltip;
 
-public class encounterPageController implements Initializable{
+public class EncounterPageController implements Initializable{
     Tooltip endEncounterTooltip = new Tooltip("Ends the encounter and auto-fills all the current allies back in the setup page. " + 
                                               "Pressing the ESC key also does the same thing!");
     Tooltip nextTurnTooltip = new Tooltip("Shifts the turn tracker to the next ally or enemy.");
@@ -95,10 +95,10 @@ public class encounterPageController implements Initializable{
     @FXML
     void endEncounter(ActionEvent event) throws IOException{    //switches fxml page back to setup page and ends current encounter
         //send ally names back to be reused
-        setupPageController.reusedNames = new ArrayList<>();
+        SetupPageController.reusedNames = new ArrayList<>();
         for (Actor actor : encounterActorList) {
             if(actor instanceof Ally) {
-                setupPageController.reusedNames.add(actor.getName());
+                SetupPageController.reusedNames.add(actor.getName());
             }
         }
         
@@ -121,7 +121,7 @@ public class encounterPageController implements Initializable{
         Scene scene = new Scene(root);
         Stage stage = new Stage();
 
-        addNewCharacterPageController.stage = stage;
+        AddNewCharacterPageController.stage = stage;
 
         stage.setTitle(DndCombatTracker.getStageTitle());
         stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
@@ -141,7 +141,7 @@ public class encounterPageController implements Initializable{
         endEncounterBtn.setTooltip(endEncounterTooltip);
         nextTurnBtn.setTooltip(nextTurnTooltip);
 
-        encounterActorList = setupPageController.sortedActorList;
+        encounterActorList = SetupPageController.sortedActorList;
         Enemy tempEnemy;
 
         //set labels for all actors in actorList
