@@ -5,6 +5,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.*;
 import javafx.scene.image.*;
+import java.util.*;
+import entities.Actor;
 
 /**
  * This class acts as the main launcher for the program
@@ -29,6 +31,8 @@ public class DndCombatTracker extends Application {
     */
     private static final String stageTitle = "D&D Combat Tracker (v0.8.8a)";
     private static final String windowIconURL = "icons\\program_icon.png";
+
+    private static ArrayList<Actor> sortedActorList;
 
 
     @Override
@@ -55,5 +59,9 @@ public class DndCombatTracker extends Application {
 
     public static String getWindowIconURL() {
         return windowIconURL;
+    }
+
+    public static ArrayList<Actor> getSortedActorList() {
+        return sortedActorList;
     }
 }

@@ -8,7 +8,6 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.stage.Stage;
-import managers.*;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -75,7 +74,7 @@ public class AddNewCharacterPageController implements Initializable {
     private void addToEncounter(ActionEvent event) {
         Actor newActor;
 
-        //EncounterPageController newPage = new EncounterPageController();
+        EncounterPageController newPage = new EncounterPageController();
 
         if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //ally
 
