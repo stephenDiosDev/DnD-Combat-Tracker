@@ -18,15 +18,13 @@ import javafx.scene.image.*;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 
+
 public class SetupPageController implements Initializable{
 
     private int initialAllyAmount = 5;  //this determines, on start up, how many ally/enemy fields to show
     private int initialEnemyAmount = 5;
 
     protected static ArrayList<String> reusedNames = new ArrayList<>();
-
-    //holds the sorted initiative list of all allies/enemies
-    protected static ArrayList<Actor> sortedActorList;
 
     //holds the unsorted list of allies
     protected ArrayList<Ally> allyList;
@@ -80,7 +78,7 @@ public class SetupPageController implements Initializable{
         enemyLabel.setTooltip(enemyTooltip);
         //these lines "clear" out these arraylists to be brand new
         //or fills them if needed
-        sortedActorList = new ArrayList<>();
+        DndCombatTracker.setSortedActorList(new ArrayList<Actor>());
         enemyList = new ArrayList<>();
         allyList = new ArrayList<>();
 
@@ -221,7 +219,7 @@ public class SetupPageController implements Initializable{
         sortActorListDescending();
 
         //print for debug
-        for (Actor actor : sortedActorList) {
+        for (Actor actor : DndCombatTracker.getSortedActorList()) {
             System.out.println(actor.toString());
         } 
 
@@ -240,7 +238,9 @@ public class SetupPageController implements Initializable{
     //sorts the full actor list into descending order based on initiative
     //highest initiative first, lowest last
     private void sortActorListDescending() {
-        Collections.sort(sortedActorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
+        ArrayList<Actor> actorList = DndCombatTracker.getSortedActorList();
+        Collections.sort(actorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
+        DndCombatTracker.setSortedActorList(actorList);
     }
 
     /**
@@ -252,7 +252,7 @@ public class SetupPageController implements Initializable{
             //if ally name is non-empty AND ally initiative is just an int
             if(!ally.getNameBox().getText().isEmpty() && ally.getInitiativeBox().getText().matches(".*[0-9].*")) {
                 //add ally to actor list
-                sortedActorList.add(ally);
+                DndCombatTracker.getSortedActorList().add(ally);
             }
         }
 
@@ -261,16 +261,19 @@ public class SetupPageController implements Initializable{
             //if enemy name is non-empty AND enemy initiative is just an int AND enemy health is just an int
             if(!enemy.getNameBox().getText().isEmpty() && enemy.getInitiativeBox().getText().matches(".*[0-9].*") && enemy.getHealthBox().getText().matches(".*[0-9].*")) {
                 //add enemy to actor list
-                sortedActorList.add(enemy);
+                DndCombatTracker.getSortedActorList().add(enemy);
             }   
         }
     }
 
     //applies the textfield information in both ally and enemy lists
     private void applyTextToActors() {
-        for (Actor actor : sortedActorList) {
+        ArrayList<Actor> actorList = DndCombatTracker.getSortedActorList();
+        for (Actor actor : actorList) {
             actor.applyTextFieldInfo();
         }
+
+        DndCombatTracker.setSortedActorList(actorList);
     }
     /**
      * Simply reorders the tab order on the main pane (heavily inefficient!)

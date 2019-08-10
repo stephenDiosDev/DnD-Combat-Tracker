@@ -141,7 +141,7 @@ public class EncounterPageController implements Initializable{
         endEncounterBtn.setTooltip(endEncounterTooltip);
         nextTurnBtn.setTooltip(nextTurnTooltip);
 
-        encounterActorList = SetupPageController.sortedActorList;
+        encounterActorList = DndCombatTracker.getSortedActorList();
         Enemy tempEnemy;
 
         //set labels for all actors in actorList

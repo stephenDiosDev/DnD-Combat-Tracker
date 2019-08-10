@@ -30,7 +30,7 @@ public class DndCombatTracker extends Application {
 
     */
     private static final String stageTitle = "D&D Combat Tracker (v0.8.8a)";
-    private static final String windowIconURL = "icons\\program_icon.png";
+    private static final String windowIconURL = "/icons/program_icon.png";
 
     private static ArrayList<Actor> sortedActorList;
 
@@ -63,5 +63,9 @@ public class DndCombatTracker extends Application {
 
     public static ArrayList<Actor> getSortedActorList() {
         return sortedActorList;
+    }
+
+    public static void setSortedActorList(ArrayList<Actor> newList) {
+        sortedActorList = newList;
     }
 }
