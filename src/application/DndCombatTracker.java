@@ -1,22 +1,23 @@
 package application;
 
+import java.util.ArrayList;
+
+import entities.Actor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import javafx.scene.*;
-import javafx.scene.image.*;
-import java.util.*;
-import entities.Actor;
+import managers.ControllerManager;
+import managers.Scenes;
 
 /**
  * This class acts as the main launcher for the program
  */
 public class DndCombatTracker extends Application {
 
-    public static Stage mainStage;
-
-    public Scene setupScene;
-    public Scene encounterScene;
+    private static ControllerManager controllerManager;
 
     /*  VERSION NUMBERING SYSTEM
         MAJOR.MINOR.PATCHstage
@@ -32,20 +33,20 @@ public class DndCombatTracker extends Application {
     private static final String stageTitle = "D&D Combat Tracker (v0.8.8a)";
     private static final String windowIconURL = "/icons/program_icon.png";
 
-    private static ArrayList<Actor> sortedActorList;
 
 
     @Override
     public void start(Stage stage) throws Exception {
-        mainStage = stage;
 
-        Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/setupPage.fxml"));
-        setupScene = new Scene(root);
-        mainStage.setTitle(stageTitle);
-        mainStage.getIcons().add(new Image(windowIconURL));
+        controllerManager = new ControllerManager();
+        Parent root = FXMLLoader.load(getClass().getResource(Scenes.SETUP));
+        controllerManager.setRoot(root);
+        controllerManager.setMainStage(stage);
+        controllerManager.getMainStage().setTitle(stageTitle);
+        controllerManager.getMainStage().getIcons().add(new Image(windowIconURL));
 
-        mainStage.setScene(setupScene);
-        mainStage.show();
+        controllerManager.setSceneToSetupScene();
+        controllerManager.getMainStage().show();
     }
 
     public static void main(String[] args) {
@@ -61,11 +62,7 @@ public class DndCombatTracker extends Application {
         return windowIconURL;
     }
 
-    public static ArrayList<Actor> getSortedActorList() {
-        return sortedActorList;
-    }
-
-    public static void setSortedActorList(ArrayList<Actor> newList) {
-        sortedActorList = newList;
+    public static ControllerManager getControllerManager() {
+        return controllerManager;
     }
 }

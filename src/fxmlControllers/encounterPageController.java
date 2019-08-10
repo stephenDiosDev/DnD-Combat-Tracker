@@ -105,7 +105,7 @@ public class EncounterPageController implements Initializable{
         //switch FXML page to encounter page
         Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/setupPage.fxml"));
         Scene scene = new Scene(root);
-        Stage stage = DndCombatTracker.mainStage;
+        Stage stage = DndCombatTracker.getControllerManager().getMainStage();
 
         stage.setTitle(DndCombatTracker.getStageTitle());
         stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
@@ -141,7 +141,7 @@ public class EncounterPageController implements Initializable{
         endEncounterBtn.setTooltip(endEncounterTooltip);
         nextTurnBtn.setTooltip(nextTurnTooltip);
 
-        encounterActorList = DndCombatTracker.getSortedActorList();
+        encounterActorList = DndCombatTracker.getControllerManager().getActorList();
         Enemy tempEnemy;
 
         //set labels for all actors in actorList
