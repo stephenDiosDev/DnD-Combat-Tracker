@@ -17,14 +17,13 @@ import javafx.fxml.*;
 import javafx.scene.image.*;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
+import managers.Scenes;
 
 
 public class SetupPageController implements Initializable{
 
     private int initialAllyAmount = 5;  //this determines, on start up, how many ally/enemy fields to show
     private int initialEnemyAmount = 5;
-
-    protected static ArrayList<String> reusedNames = new ArrayList<>();
 
     //holds the unsorted list of allies
     protected ArrayList<Ally> allyList;
@@ -89,16 +88,14 @@ public class SetupPageController implements Initializable{
         }
 
         //if encounter has not been run, set to empty as normal
-        if(reusedNames.isEmpty() || reusedNames == null) {
+        if(DndCombatTracker.getControllerManager().getAllyList().isEmpty() || DndCombatTracker.getControllerManager().getAllyList() == null) {
             //fill ally list with "empty" allies
             for(int i = 0; i < initialAllyAmount; i++) {
                 allyList.add(new Ally());
             }
         } else {    //otherwise, refill with used ally names
-            for(int i = 0; i < reusedNames.size(); i++) {
-                Ally temp = new Ally();
-                temp.setName(reusedNames.get(i));
-                temp.getNameBox().setText(temp.getName());
+            for(int i = 0; i < DndCombatTracker.getControllerManager().getAllyList().size(); i++) {
+                Ally temp = DndCombatTracker.getControllerManager().getAllyList().get(i);
                 allyList.add(temp);
             }
         }
@@ -214,8 +211,8 @@ public class SetupPageController implements Initializable{
     //launches the encounter page
     @FXML
     private void runEncounter(ActionEvent event) throws IOException{  
-        addGoodTextFieldsToActorList();
-        applyTextToActors(); 
+        addGoodTextFieldsToActorList(); //remove bad entries and add the good ones to the actor list
+        applyTextToActors();
         sortActorListDescending();
 
         //print for debug
@@ -224,14 +221,14 @@ public class SetupPageController implements Initializable{
         } 
 
         //switch FXML page to encounter page
-        Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/encounterPage.fxml"));
-        Scene scene = new Scene(root);
+        Parent root = FXMLLoader.load(getClass().getResource(Scenes.ENCOUNTER));
+        DndCombatTracker.getControllerManager().setRootEncounterScene(root);
         Stage stage = DndCombatTracker.getControllerManager().getMainStage();
 
         stage.setTitle(DndCombatTracker.getStageTitle());
         stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
 
-        stage.setScene(scene);
+        DndCombatTracker.getControllerManager().setSceneToEncounterScene();
         stage.show();
     }
 
@@ -244,7 +241,8 @@ public class SetupPageController implements Initializable{
     }
 
     /**
-     * This removes any empty or otherwise "bad" textfields from the ally and enemy lists
+     * This removes any empty or otherwise "bad" textfields from the ally and enemy lists,
+     * and adds the good entries to the actor list in controller manager
      */
     private void addGoodTextFieldsToActorList() {
         //adds all "well formatted" allies

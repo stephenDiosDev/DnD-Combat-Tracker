@@ -95,12 +95,16 @@ public class EncounterPageController implements Initializable{
     @FXML
     void endEncounter(ActionEvent event) throws IOException{    //switches fxml page back to setup page and ends current encounter
         //send ally names back to be reused
-        SetupPageController.reusedNames = new ArrayList<>();
+        ArrayList<Ally> reusedNames = new ArrayList<>();
         for (Actor actor : encounterActorList) {
             if(actor instanceof Ally) {
-                SetupPageController.reusedNames.add(actor.getName());
+                Ally tempAlly = (Ally)actor;
+                tempAlly.getInitiativeBox().clear();    //clear past initiatives so box is empty
+                reusedNames.add(tempAlly);
             }
         }
+
+        DndCombatTracker.getControllerManager().setAllyList(reusedNames);
         
         //switch FXML page to encounter page
         Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/setupPage.fxml"));

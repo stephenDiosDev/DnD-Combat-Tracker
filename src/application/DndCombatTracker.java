@@ -1,12 +1,8 @@
 package application;
 
-import java.util.ArrayList;
-
-import entities.Actor;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import managers.ControllerManager;
@@ -40,7 +36,7 @@ public class DndCombatTracker extends Application {
 
         controllerManager = new ControllerManager();
         Parent root = FXMLLoader.load(getClass().getResource(Scenes.SETUP));
-        controllerManager.setRoot(root);
+        controllerManager.setRootSetupScene(root);
         controllerManager.setMainStage(stage);
         controllerManager.getMainStage().setTitle(stageTitle);
         controllerManager.getMainStage().getIcons().add(new Image(windowIconURL));
@@ -62,6 +58,10 @@ public class DndCombatTracker extends Application {
         return windowIconURL;
     }
 
+    /**
+     * Returns the instance of the controller manager
+     * @return The instance of the controller manager
+     */
     public static ControllerManager getControllerManager() {
         return controllerManager;
     }

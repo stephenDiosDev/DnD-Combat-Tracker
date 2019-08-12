@@ -10,7 +10,7 @@ import javafx.stage.Stage;
 
 /**
  * This class manages the fxml controllers, and by extension aspects of the UI
- * as well (any shared objects betweent he managers). This class also functions as
+ * as well (any shared objects between the managers). This class also functions as
  * the "UI" manager.
  */
 public class ControllerManager {
@@ -21,6 +21,10 @@ public class ControllerManager {
     private Scene encounterPage;
     private Scene addNewCharacterPage;
 
+    /**
+     * actorList contains every actor (allies and enemies) in the encounter.
+     * allyList contains just the allies so they can be reused after an encounter.
+     */
     private ArrayList<Actor> actorList;
     private ArrayList<Ally> allyList;
 
@@ -35,25 +39,66 @@ public class ControllerManager {
         allyList = new ArrayList<>();
     }
 
-    public void setRoot(Parent root) {
+    /**
+     * Only used on initial start up. This sets the setup page as a new
+     * scene with a parent given by root
+     * @param root The parent root for the setup page scene
+     */
+    public void setRootSetupScene(Parent root) {
         setupPage = new Scene(root);
     }
+
+    public void setRootEncounterScene(Parent root) {
+        encounterPage = new Scene(root);
+    }
+
+    /**
+     * Returns the main stage (program window)
+     * @return Returns the main stage (program window)
+     */
     public Stage getMainStage() {
         return this.mainStage;
     }
 
+    /**
+     * Sets the main stage (program window) to the given stage
+     * @param stage The new main stage
+     */
     public void setMainStage(Stage stage) {
         this.mainStage = stage;
     }
 
+    /**
+     * This sets the main stage to the setup encounter scene
+     */
     public void setSceneToSetupScene() {
         mainStage.setScene(setupPage);
     }
 
+    public void setSceneToEncounterScene() {
+        mainStage.setScene(encounterPage);
+    }
+
+    public ArrayList<Ally> getAllyList() {
+        return this.allyList;
+    }
+
+    public void setAllyList(ArrayList<Ally> newAllyList) {
+        this.allyList = newAllyList;
+    }
+
+    /**
+     * Returns the list of all actors in the encounter (unsorted)
+     * @return The list of all actors in the encounter (unsorted)
+     */
     public ArrayList<Actor> getActorList() {
         return this.actorList;
     }
 
+    /**
+     * Sets the actor list to the given list
+     * @param newActorList The new actor list
+     */
     public void setActorList(ArrayList<Actor> newActorList) {
         this.actorList = newActorList;
     }
