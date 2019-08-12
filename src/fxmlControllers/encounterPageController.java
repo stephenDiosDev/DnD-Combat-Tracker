@@ -18,6 +18,7 @@ import javafx.scene.image.*;
 import application.*;
 import entities.*;
 import javafx.scene.control.Tooltip;
+import managers.Scenes;
 
 public class EncounterPageController implements Initializable{
     Tooltip endEncounterTooltip = new Tooltip("Ends the encounter and auto-fills all the current allies back in the setup page. " + 
@@ -29,7 +30,7 @@ public class EncounterPageController implements Initializable{
     //this list contains the actual actor objects
     private ArrayList<Actor> encounterActorList = new ArrayList<>();
 
-    private int currentTurnIndex = 0;
+    public static int currentTurnIndex = 0;
 
     private int iconYPosition = 5;
     private int iconXPosition = 300;
@@ -106,42 +107,39 @@ public class EncounterPageController implements Initializable{
 
         DndCombatTracker.getControllerManager().setAllyList(reusedNames);
         
-        //switch FXML page to encounter page
-        Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/setupPage.fxml"));
-        Scene scene = new Scene(root);
+        //switch FXML page to setup page
+        Parent root = FXMLLoader.load(getClass().getResource(Scenes.SETUP));
+        DndCombatTracker.getControllerManager().setRootSetupScene(root);
         Stage stage = DndCombatTracker.getControllerManager().getMainStage();
 
         stage.setTitle(DndCombatTracker.getStageTitle());
         stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
 
-        stage.setScene(scene);
+        DndCombatTracker.getControllerManager().setSceneToSetupScene();
         stage.show();
     }
 
     //opens new window to add new character
     @FXML
     void addNewCharacter(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/addNewCharacterPage.fxml"));
-        Scene scene = new Scene(root);
+        Parent root = FXMLLoader.load(getClass().getResource(Scenes.ADD_NEW_CHARACTER));
+        DndCombatTracker.getControllerManager().setRootAddNewCharacterScene(root);
+        //since this is a separate window, we use a new stage, NOT the main stage in
+        //controller manager!
         Stage stage = new Stage();
-
-        AddNewCharacterPageController.stage = stage;
 
         stage.setTitle(DndCombatTracker.getStageTitle());
         stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
 
-        stage.setScene(scene);
+        stage.setScene(DndCombatTracker.getControllerManager().getAddNewCharacterPage());
         stage.show();
-    }
-
-    public static void addNewCharacterToEncounter(Actor actor) {
-        System.out.println(actor.toString());
-
-
+        AddNewCharacterPageController.stage = stage;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        currentTurnIndex = 0;
+
         endEncounterBtn.setTooltip(endEncounterTooltip);
         nextTurnBtn.setTooltip(nextTurnTooltip);
 
@@ -169,20 +167,25 @@ public class EncounterPageController implements Initializable{
 
                 tempEnemy.getHealthBox().setText(Integer.toString(tempEnemy.getCurrentHealth()));
 
+
+                //TODO SET IT SO NEW TEXT BECOMES NEW CURRENT HEALTH.
+                //TODO CONTINUE WITH IMPLEMENTING ADD NEW CHARACTER
                 //add listener to health textfield
                 tempEnemy.getHealthBox().textProperty().addListener((obs, oldText, newText) -> {
                     if(Integer.parseInt(newText) <= 0) {    //if new health entered is 0 or lower
-                        actor.setIsDead(true);  //actor is dead
+                        tempEnemy.setIsDead(true);  //actor is dead
 
                         //set labels to be RED
-                        actor.getInitiativeLabel().setTextFill(Color.RED);
-                        actor.getNameLabel().setTextFill(Color.RED);
+                        tempEnemy.getInitiativeLabel().setTextFill(Color.RED);
+                        tempEnemy.getNameLabel().setTextFill(Color.RED);
                     } else {
-                        actor.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
+                        tempEnemy.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
+
+                        tempEnemy.changeCurrentHealth(Integer.parseInt(newText));
 
                         //set labels to be BLACK
-                        actor.getInitiativeLabel().setTextFill(Color.BLACK);
-                        actor.getNameLabel().setTextFill(Color.BLACK);
+                        tempEnemy.getInitiativeLabel().setTextFill(Color.BLACK);
+                        tempEnemy.getNameLabel().setTextFill(Color.BLACK);
                     }
                 });
 
@@ -221,6 +224,34 @@ public class EncounterPageController implements Initializable{
         }
 
         mainPane.getChildren().add(turnIcon);
+
+    }
+
+    /**
+     * This sorts the actor list
+     */
+    public static void refreshPageForNewCharacterAddition(Actor newActor) {
+        DndCombatTracker.getControllerManager().sortActorListDescending();  //re-sorts the actor list
+
+        /** New actor cases
+         * 1. Actor is at top of initiative
+         *      - SOLUTION: Bump everything down by 1, increase current turn by 1
+         * 2. Actor is at bottom of initiative
+         *      - SOLUTION: Simply add a new row
+         * 3. Actor matches in initiative with another actor(s)
+         *      - SOLUTION: Put new character below them and do either case 2 or 4
+         * 4. Actor is somewhere in between (not at bottom AND not at top)
+         *      - Subcases
+         *      1. Actor is above current turn
+         *              - SOLUTION: Bump everything below actor down by 1, increase current turn by 1
+         *      2. Actor is at current turn
+         *              - SOLUTION: Follow subcase 1
+         *      3. Actor is below current turn
+         *              - SOLUTION: Bump everything below actor down by 1
+         *
+         */
+
+
 
     }
 

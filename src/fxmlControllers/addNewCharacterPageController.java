@@ -1,24 +1,31 @@
 package fxmlControllers;
 
+import application.DndCombatTracker;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import entities.*;
 import javafx.event.ActionEvent;
+import managers.Scenes;
 
 public class AddNewCharacterPageController implements Initializable {
 
     private final String allyMenuText = "Ally";
     private final String enemyMenuText = "Enemy";
 
+    //the separate stage for this window
     public static Stage stage;
 
     @FXML
@@ -71,24 +78,37 @@ public class AddNewCharacterPageController implements Initializable {
 
     //adds new character to existing encounter
     @FXML
-    private void addToEncounter(ActionEvent event) {
+    private void addToEncounter(ActionEvent event) throws IOException{
         Actor newActor;
-
-        EncounterPageController newPage = new EncounterPageController();
 
         if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //ally
 
-            newActor = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));   
-            newPage.addNewCharacterToEncounter(newActor);
-            
+            newActor = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));
+            DndCombatTracker.getControllerManager().getActorList().add(newActor);
+            EncounterPageController.refreshPageForNewCharacterAddition(newActor);
 
         } else if (typeMenu.getText().equalsIgnoreCase(enemyMenuText)) {    //enemy
 
             newActor = new Enemy(nameBox.getText(), Integer.parseInt(initiativeBox.getText()), Integer.parseInt(healthBox.getText()));
-            newPage.addNewCharacterToEncounter(newActor);
-
+            DndCombatTracker.getControllerManager().getActorList().add(newActor);
+            EncounterPageController.refreshPageForNewCharacterAddition(newActor);
         }
 
+        int currentTurn = EncounterPageController.currentTurnIndex;
+
+        Parent root = FXMLLoader.load(getClass().getResource(Scenes.ENCOUNTER));
+        DndCombatTracker.getControllerManager().setRootEncounterScene(root);
+        Stage newStage = DndCombatTracker.getControllerManager().getMainStage();
+
+        newStage.setTitle(DndCombatTracker.getStageTitle());
+        newStage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
+
+        DndCombatTracker.getControllerManager().setSceneToEncounterScene();
+
         stage.close();
+
+        newStage.show();
+
+        EncounterPageController.currentTurnIndex = currentTurn;
     }
 }

@@ -1,6 +1,8 @@
 package managers;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import entities.Actor;
 import entities.Ally;
@@ -52,6 +54,14 @@ public class ControllerManager {
         encounterPage = new Scene(root);
     }
 
+    public void setRootAddNewCharacterScene(Parent root) {
+        addNewCharacterPage = new Scene(root);
+    }
+
+    public Scene getAddNewCharacterPage() {
+        return this.addNewCharacterPage;
+    }
+
     /**
      * Returns the main stage (program window)
      * @return Returns the main stage (program window)
@@ -101,5 +111,11 @@ public class ControllerManager {
      */
     public void setActorList(ArrayList<Actor> newActorList) {
         this.actorList = newActorList;
+    }
+
+    //sorts the full actor list into descending order based on initiative
+    //highest initiative first, lowest last
+    public void sortActorListDescending() {
+        Collections.sort(this.actorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
     }
 }

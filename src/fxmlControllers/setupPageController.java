@@ -213,7 +213,7 @@ public class SetupPageController implements Initializable{
     private void runEncounter(ActionEvent event) throws IOException{  
         addGoodTextFieldsToActorList(); //remove bad entries and add the good ones to the actor list
         applyTextToActors();
-        sortActorListDescending();
+        DndCombatTracker.getControllerManager().sortActorListDescending();
 
         //print for debug
         for (Actor actor : DndCombatTracker.getControllerManager().getActorList()) {
@@ -230,14 +230,6 @@ public class SetupPageController implements Initializable{
 
         DndCombatTracker.getControllerManager().setSceneToEncounterScene();
         stage.show();
-    }
-
-    //sorts the full actor list into descending order based on initiative
-    //highest initiative first, lowest last
-    private void sortActorListDescending() {
-        ArrayList<Actor> actorList = DndCombatTracker.getControllerManager().getActorList();
-        Collections.sort(actorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
-        DndCombatTracker.getControllerManager().setActorList(actorList);
     }
 
     /**
