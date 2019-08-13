@@ -1,6 +1,7 @@
 package entities;
 
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 
 public class Enemy extends Actor {
     private int totalHealth, currentHealth;
@@ -10,11 +11,36 @@ public class Enemy extends Actor {
     public Enemy() {
         super();
         setupHealth(1);
+        addHealthBoxListener();
     }
 
     public Enemy(String name, int initiativeTotal, int totalHealth) {
         super(name, initiativeTotal);
         setupHealth(totalHealth);
+        addHealthBoxListener();
+    }
+
+    private void addHealthBoxListener() {
+        //listener for the health box
+        this.healthBox.textProperty().addListener((obs, oldText, newText) -> {
+            if(Integer.parseInt(newText) <= 0) {    //if new health entered is 0 or lower
+                this.setCurrentHealth(0);  //actor is dead, method sets alive status automatically
+
+                //set labels to be RED
+                this.getInitiativeLabel().setTextFill(Color.RED);
+                this.getNameLabel().setTextFill(Color.RED);
+            } else {
+                this.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
+
+                this.setCurrentHealth(Integer.parseInt(newText));
+
+                //set labels to be BLACK
+                this.getInitiativeLabel().setTextFill(Color.BLACK);
+                this.getNameLabel().setTextFill(Color.BLACK);
+            }
+
+            System.out.println("\n[Current Health: " + this.currentHealth + "]\n");
+        });
     }
     /**
      * This method is only used to initialize the health of the enemy, and sets

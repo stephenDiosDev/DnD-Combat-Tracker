@@ -167,28 +167,6 @@ public class EncounterPageController implements Initializable{
 
                 tempEnemy.getHealthBox().setText(Integer.toString(tempEnemy.getCurrentHealth()));
 
-
-                //TODO SET IT SO NEW TEXT BECOMES NEW CURRENT HEALTH.
-                //TODO CONTINUE WITH IMPLEMENTING ADD NEW CHARACTER
-                //add listener to health textfield
-                tempEnemy.getHealthBox().textProperty().addListener((obs, oldText, newText) -> {
-                    if(Integer.parseInt(newText) <= 0) {    //if new health entered is 0 or lower
-                        tempEnemy.setIsDead(true);  //actor is dead
-
-                        //set labels to be RED
-                        tempEnemy.getInitiativeLabel().setTextFill(Color.RED);
-                        tempEnemy.getNameLabel().setTextFill(Color.RED);
-                    } else {
-                        tempEnemy.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
-
-                        tempEnemy.changeCurrentHealth(Integer.parseInt(newText));
-
-                        //set labels to be BLACK
-                        tempEnemy.getInitiativeLabel().setTextFill(Color.BLACK);
-                        tempEnemy.getNameLabel().setTextFill(Color.BLACK);
-                    }
-                });
-
                 //set health textfield layout properties
                 tempEnemy.getHealthBox().setLayoutX(healthXPosition);
                 tempEnemy.getHealthBox().setLayoutY(yHealthPosition);
