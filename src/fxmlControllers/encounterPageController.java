@@ -28,13 +28,11 @@ public class EncounterPageController implements Initializable{
 
 
     //this list contains the actual actor objects
-    private ArrayList<Actor> encounterActorList = new ArrayList<>();
 
     public static int currentTurnIndex = 0;
 
     private int iconYPosition = 5;
     private int iconXPosition = 300;
-
 
 
     //the following int's are all for the layout of the various labels and textboxes
@@ -72,14 +70,14 @@ public class EncounterPageController implements Initializable{
     @FXML
     void nextTurn(ActionEvent event) {
         //update current turn index
-        if(currentTurnIndex + 1 >= encounterActorList.size()) {
+        if(currentTurnIndex + 1 >= DndCombatTracker.getControllerManager().getActorList().size()) {
             currentTurnIndex = 0;
         } else {
             currentTurnIndex++;
         }
 
         //if current actor is dead, we want to skip them
-        if(encounterActorList.get(currentTurnIndex).getIsDead()) {   //if dead
+        if(DndCombatTracker.getControllerManager().getActorList().get(currentTurnIndex).getIsDead()) {   //if dead
             nextTurn(event);
         } else {    //if alive, update the icon position
             iconYPosition = 5 + (currentTurnIndex * yIncrease);
@@ -97,7 +95,7 @@ public class EncounterPageController implements Initializable{
     void endEncounter(ActionEvent event) throws IOException{    //switches fxml page back to setup page and ends current encounter
         //send ally names back to be reused
         ArrayList<Ally> reusedNames = new ArrayList<>();
-        for (Actor actor : encounterActorList) {
+        for (Actor actor : DndCombatTracker.getControllerManager().getActorList()) {
             if(actor instanceof Ally) {
                 Ally tempAlly = (Ally)actor;
                 tempAlly.getInitiativeBox().clear();    //clear past initiatives so box is empty
@@ -138,16 +136,13 @@ public class EncounterPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        currentTurnIndex = 0;
-
         endEncounterBtn.setTooltip(endEncounterTooltip);
         nextTurnBtn.setTooltip(nextTurnTooltip);
 
-        encounterActorList = DndCombatTracker.getControllerManager().getActorList();
         Enemy tempEnemy;
 
         //set labels for all actors in actorList
-        for (Actor actor : encounterActorList) {
+        for (Actor actor : DndCombatTracker.getControllerManager().getActorList()) {
             actor.setNameLabel();
             actor.setInitiativeLabel();
             
@@ -182,15 +177,15 @@ public class EncounterPageController implements Initializable{
         }
         
         turnIcon.setLayoutX(iconXPosition);
-        turnIcon.setLayoutY(iconYPosition);
+        turnIcon.setLayoutY(iconYPosition + (currentTurnIndex * yIncrease));
 
 
-        if(encounterActorList.isEmpty()){
+        if(DndCombatTracker.getControllerManager().getActorList().isEmpty()){
             turnIcon.setOpacity(0.0);   //makes picture invisible
         }
 
         //TO DO change this to a loop for all actor labels and boxes
-        for (Actor actor : encounterActorList) {
+        for (Actor actor : DndCombatTracker.getControllerManager().getActorList()) {
             mainPane.getChildren().add(actor.getNameLabel());
             mainPane.getChildren().add(actor.getInitiativeLabel());
 
@@ -205,11 +200,20 @@ public class EncounterPageController implements Initializable{
 
     }
 
+    /*TODO
+    Place instances of each controller inside controller manager so we can interact with them
+    Ideally, we want to call the below function and apply nextTurn to update turn icon
+
+     */
     /**
      * This sorts the actor list
      */
-    public static void refreshPageForNewCharacterAddition(Actor newActor) {
+    public static void refreshPageForNewCharacterAddition(Boolean applyNextTurn) {
         DndCombatTracker.getControllerManager().sortActorListDescending();  //re-sorts the actor list
+
+   /*     if(applyNextTurn) {
+            nextTurn(new ActionEvent());
+        } */
 
         /** New actor cases
          * 1. Actor is at top of initiative
@@ -241,8 +245,8 @@ public class EncounterPageController implements Initializable{
     private String handleHealthChange(String input) {
         Enemy target;
 
-        if(encounterActorList.get(currentTurnIndex) instanceof Enemy) {
-            target = (Enemy)encounterActorList.get(currentTurnIndex);
+        if(DndCombatTracker.getControllerManager().getActorList().get(currentTurnIndex) instanceof Enemy) {
+            target = (Enemy)DndCombatTracker.getControllerManager().getActorList().get(currentTurnIndex);
             //check if input is ONLY digits (new current health) or EXACTLY ONE plus followed by ONLY digits (heal)
             //or EXACTLY ONE minus followed by ONLY digits (damage)
             if(input.matches("[0-9]+") || input.matches("^\\+?\\d+$") || input.matches("^\\-?\\d+$")) { 

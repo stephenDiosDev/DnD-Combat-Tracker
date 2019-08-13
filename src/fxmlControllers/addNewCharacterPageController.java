@@ -81,20 +81,32 @@ public class AddNewCharacterPageController implements Initializable {
     private void addToEncounter(ActionEvent event) throws IOException{
         Actor newActor;
 
+        int currentTurn = EncounterPageController.currentTurnIndex;
+
         if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //ally
 
             newActor = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));
             DndCombatTracker.getControllerManager().getActorList().add(newActor);
-            EncounterPageController.refreshPageForNewCharacterAddition(newActor);
+
+            //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon
+            //displays the correct turn
+            if(newActor.getInitiativeTotal() > Integer.parseInt(DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeLabel().getText())) {
+                currentTurn += 1;
+            }
 
         } else if (typeMenu.getText().equalsIgnoreCase(enemyMenuText)) {    //enemy
 
             newActor = new Enemy(nameBox.getText(), Integer.parseInt(initiativeBox.getText()), Integer.parseInt(healthBox.getText()));
             DndCombatTracker.getControllerManager().getActorList().add(newActor);
-            EncounterPageController.refreshPageForNewCharacterAddition(newActor);
+
+            //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon
+            //displays the correct turn
+            if (newActor.getInitiativeTotal() > Integer.parseInt(DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeLabel().getText())) {
+                currentTurn += 1;
+            }
         }
 
-        int currentTurn = EncounterPageController.currentTurnIndex;
+        DndCombatTracker.getControllerManager().sortActorListDescending();
 
         Parent root = FXMLLoader.load(getClass().getResource(Scenes.ENCOUNTER));
         DndCombatTracker.getControllerManager().setRootEncounterScene(root);
@@ -108,6 +120,7 @@ public class AddNewCharacterPageController implements Initializable {
         stage.close();
 
         newStage.show();
+
 
         EncounterPageController.currentTurnIndex = currentTurn;
     }
