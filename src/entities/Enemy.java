@@ -38,8 +38,6 @@ public class Enemy extends Actor {
                 this.getInitiativeLabel().setTextFill(Color.BLACK);
                 this.getNameLabel().setTextFill(Color.BLACK);
             }
-
-            System.out.println("\n[Current Health: " + this.currentHealth + "]\n");
         });
     }
     /**

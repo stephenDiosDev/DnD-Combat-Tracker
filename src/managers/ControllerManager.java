@@ -6,6 +6,9 @@ import java.util.Comparator;
 
 import entities.Actor;
 import entities.Ally;
+import fxmlControllers.AddNewCharacterPageController;
+import fxmlControllers.EncounterPageController;
+import fxmlControllers.SetupPageController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -23,6 +26,10 @@ public class ControllerManager {
     private Scene encounterPage;
     private Scene addNewCharacterPage;
 
+    private SetupPageController setupPageController;
+    private EncounterPageController encounterPageController;
+    private AddNewCharacterPageController addNewCharacterPageController;
+
     /**
      * actorList contains every actor (allies and enemies) in the encounter.
      * allyList contains just the allies so they can be reused after an encounter.
@@ -39,6 +46,34 @@ public class ControllerManager {
 
         actorList = new ArrayList<>();
         allyList = new ArrayList<>();
+
+        setupPageController = new SetupPageController();
+        encounterPageController = new EncounterPageController();
+        addNewCharacterPageController = new AddNewCharacterPageController();
+    }
+
+    public SetupPageController getSetupPageController() {
+        return setupPageController;
+    }
+
+    public EncounterPageController getEncounterPageController() {
+        return encounterPageController;
+    }
+
+    public AddNewCharacterPageController getAddNewCharacterPageController() {
+        return addNewCharacterPageController;
+    }
+
+    public void setSetupPageController(SetupPageController setupPageController) {
+        this.setupPageController = setupPageController;
+    }
+
+    public void setEncounterPageController(EncounterPageController encounterPageController) {
+        this.encounterPageController = encounterPageController;
+    }
+
+    public void setAddNewCharacterPageController(AddNewCharacterPageController addNewCharacterPageController) {
+        this.addNewCharacterPageController = addNewCharacterPageController;
     }
 
     /**
@@ -93,9 +128,6 @@ public class ControllerManager {
         return this.allyList;
     }
 
-    public void setAllyList(ArrayList<Ally> newAllyList) {
-        this.allyList = newAllyList;
-    }
 
     /**
      * Returns the list of all actors in the encounter (unsorted)

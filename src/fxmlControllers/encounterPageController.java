@@ -29,27 +29,27 @@ public class EncounterPageController implements Initializable{
 
     //this list contains the actual actor objects
 
-    public static int currentTurnIndex = 0;
+    private int currentTurnIndex = 0;
 
-    private int iconYPosition = 5;
-    private int iconXPosition = 300;
+    private int iconYPosition;
+    private int iconXPosition;
 
 
     //the following int's are all for the layout of the various labels and textboxes
-    private int yPosition = 5;
-    private int yHealthPosition = yPosition - 5;
-    private int yIncrease = 55;
+    private int yPosition;
+    private int yHealthPosition;
+    private int yIncrease;
 
-    private int prefHeight = 17;
-    private int healthPrefHeight = 17;
+    private int prefHeight;
+    private int healthPrefHeight;
 
-    private int initiativePrefWidth = 67;
-    private int namePrefWidth = 118;
-    private int healthPrefWidth = 62;
+    private int initiativePrefWidth;
+    private int namePrefWidth;
+    private int healthPrefWidth;
 
-    private int initiativeXPosition = 25;
-    private int nameXPosition = 100;
-    private int healthXPosition = nameXPosition + namePrefWidth;
+    private int initiativeXPosition;
+    private int nameXPosition;
+    private int healthXPosition;
 
     @FXML
     private Button endEncounterBtn;
@@ -103,10 +103,12 @@ public class EncounterPageController implements Initializable{
             }
         }
 
-        DndCombatTracker.getControllerManager().setAllyList(reusedNames);
+        //DndCombatTracker.getControllerManager().setAllyList(reusedNames);
         
         //switch FXML page to setup page
-        Parent root = FXMLLoader.load(getClass().getResource(Scenes.SETUP));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.SETUP));
+        loader.setController(DndCombatTracker.getControllerManager().getSetupPageController());
+        Parent root = loader.load();
         DndCombatTracker.getControllerManager().setRootSetupScene(root);
         Stage stage = DndCombatTracker.getControllerManager().getMainStage();
 
@@ -120,7 +122,9 @@ public class EncounterPageController implements Initializable{
     //opens new window to add new character
     @FXML
     void addNewCharacter(ActionEvent event) throws IOException{
-        Parent root = FXMLLoader.load(getClass().getResource(Scenes.ADD_NEW_CHARACTER));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.ADD_NEW_CHARACTER));
+        loader.setController(DndCombatTracker.getControllerManager().getAddNewCharacterPageController());
+        Parent root = loader.load();
         DndCombatTracker.getControllerManager().setRootAddNewCharacterScene(root);
         //since this is a separate window, we use a new stage, NOT the main stage in
         //controller manager!
@@ -136,6 +140,24 @@ public class EncounterPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        iconYPosition = 5;
+        iconXPosition = 300;
+
+        yPosition = 5;
+        yHealthPosition = yPosition - 5;
+        yIncrease = 55;
+
+        prefHeight = 17;
+        healthPrefHeight = 17;
+
+        initiativePrefWidth = 67;
+        namePrefWidth = 118;
+        healthPrefWidth = 62;
+
+        initiativeXPosition = 25;
+        nameXPosition = 100;
+        healthXPosition = nameXPosition + namePrefWidth;
+
         endEncounterBtn.setTooltip(endEncounterTooltip);
         nextTurnBtn.setTooltip(nextTurnTooltip);
 
@@ -184,7 +206,6 @@ public class EncounterPageController implements Initializable{
             turnIcon.setOpacity(0.0);   //makes picture invisible
         }
 
-        //TO DO change this to a loop for all actor labels and boxes
         for (Actor actor : DndCombatTracker.getControllerManager().getActorList()) {
             mainPane.getChildren().add(actor.getNameLabel());
             mainPane.getChildren().add(actor.getInitiativeLabel());
@@ -208,35 +229,19 @@ public class EncounterPageController implements Initializable{
     /**
      * This sorts the actor list
      */
-    public static void refreshPageForNewCharacterAddition(Boolean applyNextTurn) {
-        DndCombatTracker.getControllerManager().sortActorListDescending();  //re-sorts the actor list
-
-   /*     if(applyNextTurn) {
+    public void refreshPageForNewCharacterAddition(Boolean applyNextTurn) {
+        if(applyNextTurn) {
             nextTurn(new ActionEvent());
-        } */
-
-        /** New actor cases
-         * 1. Actor is at top of initiative
-         *      - SOLUTION: Bump everything down by 1, increase current turn by 1
-         * 2. Actor is at bottom of initiative
-         *      - SOLUTION: Simply add a new row
-         * 3. Actor matches in initiative with another actor(s)
-         *      - SOLUTION: Put new character below them and do either case 2 or 4
-         * 4. Actor is somewhere in between (not at bottom AND not at top)
-         *      - Subcases
-         *      1. Actor is above current turn
-         *              - SOLUTION: Bump everything below actor down by 1, increase current turn by 1
-         *      2. Actor is at current turn
-         *              - SOLUTION: Follow subcase 1
-         *      3. Actor is below current turn
-         *              - SOLUTION: Bump everything below actor down by 1
-         *
-         */
-
-
-
+        }
     }
 
+    public int getCurrentTurnIndex() {
+        return this.currentTurnIndex;
+    }
+
+    public void setCurrentTurnIndex(int currentTurnIndex) {
+        this.currentTurnIndex = currentTurnIndex;
+    }
 
     /**
      * Parses input for + or -, then changes current health accordingly

@@ -80,8 +80,9 @@ public class AddNewCharacterPageController implements Initializable {
     @FXML
     private void addToEncounter(ActionEvent event) throws IOException{
         Actor newActor;
+        boolean applyNextTurn = false;
 
-        int currentTurn = EncounterPageController.currentTurnIndex;
+        int currentTurn = DndCombatTracker.getControllerManager().getEncounterPageController().getCurrentTurnIndex();
 
         if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //ally
 
@@ -90,8 +91,8 @@ public class AddNewCharacterPageController implements Initializable {
 
             //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon
             //displays the correct turn
-            if(newActor.getInitiativeTotal() > Integer.parseInt(DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeLabel().getText())) {
-                currentTurn += 1;
+            if(newActor.getInitiativeTotal() > DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeTotal()) {
+                applyNextTurn = true;
             }
 
         } else if (typeMenu.getText().equalsIgnoreCase(enemyMenuText)) {    //enemy
@@ -102,13 +103,18 @@ public class AddNewCharacterPageController implements Initializable {
             //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon
             //displays the correct turn
             if (newActor.getInitiativeTotal() > Integer.parseInt(DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeLabel().getText())) {
-                currentTurn += 1;
+                applyNextTurn = true;
             }
         }
 
         DndCombatTracker.getControllerManager().sortActorListDescending();
+        DndCombatTracker.getControllerManager().getEncounterPageController().refreshPageForNewCharacterAddition(applyNextTurn);
 
-        Parent root = FXMLLoader.load(getClass().getResource(Scenes.ENCOUNTER));
+
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.ENCOUNTER));
+        loader.setController(DndCombatTracker.getControllerManager().getEncounterPageController());
+        Parent root = loader.load();
+
         DndCombatTracker.getControllerManager().setRootEncounterScene(root);
         Stage newStage = DndCombatTracker.getControllerManager().getMainStage();
 
@@ -120,8 +126,5 @@ public class AddNewCharacterPageController implements Initializable {
         stage.close();
 
         newStage.show();
-
-
-        EncounterPageController.currentTurnIndex = currentTurn;
     }
 }

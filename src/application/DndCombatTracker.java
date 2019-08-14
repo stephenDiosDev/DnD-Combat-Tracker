@@ -1,5 +1,6 @@
 package application;
 
+import fxmlControllers.EncounterPageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -35,7 +36,9 @@ public class DndCombatTracker extends Application {
     public void start(Stage stage) throws Exception {
 
         controllerManager = new ControllerManager();
-        Parent root = FXMLLoader.load(getClass().getResource(Scenes.SETUP));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.SETUP));
+        loader.setController(controllerManager.getSetupPageController());
+        Parent root = loader.load();
         controllerManager.setRootSetupScene(root);
         controllerManager.setMainStage(stage);
         controllerManager.getMainStage().setTitle(stageTitle);

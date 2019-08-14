@@ -221,7 +221,9 @@ public class SetupPageController implements Initializable{
         } 
 
         //switch FXML page to encounter page
-        Parent root = FXMLLoader.load(getClass().getResource(Scenes.ENCOUNTER));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.ENCOUNTER));
+        loader.setController(DndCombatTracker.getControllerManager().getEncounterPageController());
+        Parent root = loader.load();
         DndCombatTracker.getControllerManager().setRootEncounterScene(root);
         Stage stage = DndCombatTracker.getControllerManager().getMainStage();
 
