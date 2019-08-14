@@ -18,7 +18,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import entities.*;
 import javafx.event.ActionEvent;
-import managers.Scenes;
+import application.Scenes;
 
 /**
  * The controller for the "add new character" window that pops up during and encounter.

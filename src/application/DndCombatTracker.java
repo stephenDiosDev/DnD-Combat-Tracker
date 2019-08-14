@@ -1,13 +1,10 @@
 package application;
 
-import fxmlControllers.EncounterPageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import managers.ControllerManager;
-import managers.Scenes;
 
 /**
  * This class acts as the main launcher for the program
@@ -27,7 +24,7 @@ public class DndCombatTracker extends Application {
             blank for full release of minimum viable product
 
     */
-    private static final String stageTitle = "D&D Combat Tracker (v0.8.8a)";
+    private static final String stageTitle = "D&D Combat Tracker (v0.9.0a)";
     private static final String windowIconURL = "/icons/program_icon.png";
 
 

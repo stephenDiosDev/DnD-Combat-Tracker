@@ -17,7 +17,7 @@ import javafx.fxml.*;
 import javafx.scene.image.*;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
-import managers.Scenes;
+import application.Scenes;
 
 
 public class SetupPageController implements Initializable{

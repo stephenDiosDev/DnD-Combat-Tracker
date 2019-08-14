@@ -8,7 +8,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.event.*;
 import javafx.scene.*;
@@ -18,7 +17,7 @@ import javafx.scene.image.*;
 import application.*;
 import entities.*;
 import javafx.scene.control.Tooltip;
-import managers.Scenes;
+import application.Scenes;
 
 public class EncounterPageController implements Initializable{
     Tooltip endEncounterTooltip = new Tooltip("Ends the encounter and auto-fills all the current allies back in the setup page. " + 
@@ -221,11 +220,6 @@ public class EncounterPageController implements Initializable{
 
     }
 
-    /*TODO
-    Place instances of each controller inside controller manager so we can interact with them
-    Ideally, we want to call the below function and apply nextTurn to update turn icon
-
-     */
     /**
      * This sorts the actor list
      */
@@ -247,7 +241,7 @@ public class EncounterPageController implements Initializable{
      * Parses input for + or -, then changes current health accordingly
      * @param input
      */
-    private String handleHealthChange(String input) {
+ /*   private String handleHealthChange(String input) {
         Enemy target;
 
         if(DndCombatTracker.getControllerManager().getActorList().get(currentTurnIndex) instanceof Enemy) {
@@ -269,5 +263,5 @@ public class EncounterPageController implements Initializable{
 
         return input;
        
-    }
+    } */
 }
