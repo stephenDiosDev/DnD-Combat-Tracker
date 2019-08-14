@@ -1,4 +1,4 @@
-package managers;
+package application;
 
 /**
  * This class contains the URL's for all the FXML Scenes.

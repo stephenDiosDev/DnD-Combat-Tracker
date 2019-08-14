@@ -1,13 +1,10 @@
 package application;
 
-import fxmlControllers.EncounterPageController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import managers.ControllerManager;
-import managers.Scenes;
 
 /**
  * This class acts as the main launcher for the program
