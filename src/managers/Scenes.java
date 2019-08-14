@@ -1,7 +1,7 @@
 package managers;
 
 /**
- * An enum that contains the scene names and urls.
+ * This class contains the URL's for all the FXML Scenes.
  */
 public final class Scenes {
     public static final String SETUP = "/fxmlPages/setupPage.fxml";

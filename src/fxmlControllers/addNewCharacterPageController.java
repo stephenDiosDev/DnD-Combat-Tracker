@@ -20,8 +20,12 @@ import entities.*;
 import javafx.event.ActionEvent;
 import managers.Scenes;
 
+/**
+ * The controller for the "add new character" window that pops up during and encounter.
+ */
 public class AddNewCharacterPageController implements Initializable {
 
+    //needed for the menu selector for ally or enemy
     private final String allyMenuText = "Ally";
     private final String enemyMenuText = "Enemy";
 
@@ -49,6 +53,7 @@ public class AddNewCharacterPageController implements Initializable {
     @FXML
     private MenuItem enemyMenuItem;
 
+    //tooltips for the above fxml items
     Tooltip healthBoxTooltip = new Tooltip("The total health of the character. Must be an integer!");
     Tooltip nameBoxTooltip = new Tooltip("The name of the character.");
     Tooltip initiativeBoxTooltip = new Tooltip("The initiative total of the character. Must be an integer!");
@@ -64,27 +69,42 @@ public class AddNewCharacterPageController implements Initializable {
         addToEncounterBtn.setTooltip(addToEncounterTooltip);
     }
 
+    /**
+     * The method that occurs when you select Ally in the drop down menu. Disables the health box (only for enemies)
+     * @param event
+     */
     @FXML
     private void chooseAlly(ActionEvent event) {
         typeMenu.setText(allyMenuText);
         healthBox.setDisable(true);
     }
 
+    /**
+     * The method that occurs when you select Enemy in the drop down menu. Enables the health box (only for enemies)
+     * @param event
+     */
     @FXML
     private void chooseEnemy(ActionEvent event) {
         typeMenu.setText(enemyMenuText);
         healthBox.setDisable(false);
     }
 
-    //adds new character to existing encounter
+    /**
+     * Adds a new character to the in-progress encounter. When this method is fired, all the information in the
+     * FXML page (the textfields) should be filled.
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void addToEncounter(ActionEvent event) throws IOException{
         boolean applyNextTurn = false;
 
         int currentTurn = DndCombatTracker.getControllerManager().getEncounterPageController().getCurrentTurnIndex();
 
-        if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //ally
+        if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //if Ally is chosen in the drop down menu
 
+            //create new ally using the info from the name and initiative field and add it to the actor list in
+            //controller manager
             Ally newAlly = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));
             DndCombatTracker.getControllerManager().getActorList().add(newAlly);
 
@@ -94,8 +114,10 @@ public class AddNewCharacterPageController implements Initializable {
                 applyNextTurn = true;
             }
 
-        } else if (typeMenu.getText().equalsIgnoreCase(enemyMenuText)) {    //enemy
+        } else if (typeMenu.getText().equalsIgnoreCase(enemyMenuText)) {    //if Enemy is chosen in the drop down menu
 
+            //create new enemy using the info from the name, initiative field and health field and add it to the
+            //actor list in controller manager
             Enemy newEnemy = new Enemy(nameBox.getText(), Integer.parseInt(initiativeBox.getText()), Integer.parseInt(healthBox.getText()));
             DndCombatTracker.getControllerManager().getActorList().add(newEnemy);
 
@@ -106,10 +128,11 @@ public class AddNewCharacterPageController implements Initializable {
             }
         }
 
+        //sort the actor list and refresh the in-progress encounter page to accommodate the newly added actor
         DndCombatTracker.getControllerManager().sortActorListDescending();
         DndCombatTracker.getControllerManager().getEncounterPageController().refreshPageForNewCharacterAddition(applyNextTurn);
 
-
+        //reload the encounter scene to show the new changes
         FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.ENCOUNTER));
         loader.setController(DndCombatTracker.getControllerManager().getEncounterPageController());
         Parent root = loader.load();

@@ -3,23 +3,43 @@ package entities;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 
+/**
+ * This class represents the enemies and any actors that you want to track the HP of. Contains everything
+ * from actor, plus a health textfield.
+ */
 public class Enemy extends Actor {
     private int totalHealth, currentHealth;
 
     private TextField healthBox = new TextField();
 
+    /**
+     * Basic constructor. Sets the enemy to have 1 HP. Avoid using when possible.
+     */
     public Enemy() {
         super();
         setupHealth(1);
         addHealthBoxListener();
     }
 
+    /**
+     * Proper constructor for Enemy. Assigns the name and initiative similarly to actor, and assigns the
+     * health and adds a listener to the health textfield.
+     * @param name The name of the Enemy.
+     * @param initiativeTotal The initiative total of the Enemy.
+     * @param totalHealth The total "maximum" health of the enemy.
+     */
     public Enemy(String name, int initiativeTotal, int totalHealth) {
         super(name, initiativeTotal);
         setupHealth(totalHealth);
         addHealthBoxListener();
     }
 
+    /**
+     * Adds a listener to the textfield. This watches for changes to the current health textfield (in encounter page)
+     * and updates the enemy for certain changes. When the current health in the textfield hits 0 (or lower), the
+     * labels for the enemy on the encounter page turn red, and the enemy is assigned to be DEAD. When the
+     * current health is changed to be above 0, the labels for the enemy turn black and the enemy is assigned to ALIVE.
+     */
     private void addHealthBoxListener() {
         //listener for the health box
         this.healthBox.textProperty().addListener((obs, oldText, newText) -> {
@@ -74,12 +94,23 @@ public class Enemy extends Actor {
         return this.healthBox;
     }
 
+    /**
+     * Applies the layout provided by the parameters to the health textfield.
+     * @param x The X position of the textfield.
+     * @param y The Y position of the textfield.
+     * @param prefWidth The prefWidth of the textfield. This is what the box width will be under ideal conditions.
+     * @param prefHeight The prefHeight of the textfield. This is what the box height will be under ideal conditions.
+     */
     public void setHealthBoxLayout(double x, double y, double prefWidth, double prefHeight) {
         this.healthBox.setLayoutX(x);
         this.healthBox.setLayoutY(y);
         this.healthBox.setPrefSize(prefWidth, prefHeight);
     }
 
+    /**
+     * Calls the actor method to apply the info for the name and initiative. Also applies it
+     * similarly for the health box.
+     */
     @Override
     public void applyTextFieldInfo() {
         super.applyTextFieldInfo();
