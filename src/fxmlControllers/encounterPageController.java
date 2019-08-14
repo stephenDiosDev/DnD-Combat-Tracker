@@ -61,7 +61,7 @@ public class EncounterPageController implements Initializable{
     @FXML
     private AnchorPane mainPane;
 
-    private ImageView turnIcon = new ImageView("icons\\turn_icon_SWORD.png");
+    private ImageView turnIcon = new ImageView("/icons/turn_icon_SWORD.png");
 
 
     //move focus to the next actor in line
