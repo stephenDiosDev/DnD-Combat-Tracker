@@ -6,16 +6,16 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxmlControllers.setupPageController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="500.0" prefWidth="600.0" VBox.vgrow="ALWAYS">
          <children>
-            <ScrollPane layoutY="68.0" prefHeight="403.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="68.0">
+            <ScrollPane layoutY="92.0" prefHeight="379.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="92.0">
                <content>
                   <AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefWidth="598.0" />
                </content>
             </ScrollPane>
-            <Label layoutX="29.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="123.0" text="Allies" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="0.0">
+            <Label fx:id="allyLabel" layoutX="29.0" layoutY="21.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="58.0" prefWidth="123.0" text="Allies" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="21.0">
                <padding>
                   <Insets left="15.0" />
                </padding>
@@ -23,36 +23,55 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="419.0" layoutY="-5.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="156.0" text="Enemies" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="-5.0">
+            <Label fx:id="enemyLabel" layoutX="419.0" layoutY="16.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="68.0" prefWidth="156.0" text="Enemies" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="16.0">
                <font>
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="29.0" layoutY="48.0" text="Name" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="48.0">
+            <Label layoutX="29.0" layoutY="69.0" text="Name" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="362.0" layoutY="48.0" text="Name" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="48.0">
+            <Label layoutX="362.0" layoutY="69.0" text="Name" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="534.0" layoutY="48.0" text="Health" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="48.0">
+            <Label layoutX="534.0" layoutY="69.0" text="Health" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="135.0" layoutY="48.0" text="Initiative" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="48.0">
+            <Label layoutX="135.0" layoutY="69.0" text="Initiative" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label layoutX="461.0" layoutY="48.0" text="Initiative" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="48.0">
+            <Label layoutX="461.0" layoutY="69.0" text="Initiative" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
+            <MenuBar prefHeight="27.0" prefWidth="600.0">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Close" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Delete" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Settings">
+                  <items>
+                    <MenuItem mnemonicParsing="false" text="Turn Icon" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
          </children>
       </AnchorPane>
       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="129.0" prefWidth="600.0" VBox.vgrow="NEVER">

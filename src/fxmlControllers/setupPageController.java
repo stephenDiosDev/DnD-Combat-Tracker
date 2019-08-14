@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import java.io.IOException;
@@ -14,16 +15,15 @@ import java.util.*;
 import javafx.scene.*;
 import javafx.fxml.*;
 import javafx.scene.image.*;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
+import managers.Scenes;
 
-public class setupPageController implements Initializable{
+
+public class SetupPageController implements Initializable{
 
     private int initialAllyAmount = 5;  //this determines, on start up, how many ally/enemy fields to show
     private int initialEnemyAmount = 5;
-
-    protected static ArrayList<String> reusedNames = new ArrayList<>();
-
-    //holds the sorted initiative list of all allies/enemies
-    protected static ArrayList<Actor> sortedActorList;
 
     //holds the unsorted list of allies
     protected ArrayList<Ally> allyList;
@@ -34,6 +34,18 @@ public class setupPageController implements Initializable{
     //x and y spacing between adjacent textfield components
     private final int xIncrease = 10;
     private final int yIncrease = 33;
+
+    Tooltip nameTooltip = new Tooltip("The name of the character.");
+    Tooltip initiativeTooltip = new Tooltip("The initiative total of the character. Must be an integer!");
+    Tooltip healthTooltip = new Tooltip("The total health of the character. Must be an integer!");
+
+    Tooltip addAllyTooltip = new Tooltip("Adds a new ally to the encounter. All ally fields must be filled properly.");
+    Tooltip addEnemyTooltip = new Tooltip("Adds a new enemy to the encounter. All enemy fields must be filled properly.");
+    Tooltip runEncounterTooltip = new Tooltip("This runs the encounter with the above allies and enemies sorted in order.");
+
+    Tooltip allyTooltip = new Tooltip("An ally is your players and any NPC that you don't want to track the health of.");
+    Tooltip enemyTooltip = new Tooltip("An enemy is your monsters and any NPC that you do want to track the health of.");
+
 
     @FXML
     private Button runEncounterBtn;
@@ -47,13 +59,28 @@ public class setupPageController implements Initializable{
     @FXML
     private Button addAllyBtn;
 
+    @FXML
+    private Label allyLabel;
+
+    @FXML
+    private Label enemyLabel;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        allyTooltip.setFont(new Font(18));
+        enemyTooltip.setFont(new Font(18));
+
+        runEncounterBtn.setTooltip(runEncounterTooltip);
+        addEnemyBtn.setTooltip(addEnemyTooltip);
+        addAllyBtn.setTooltip(addAllyTooltip);
+        allyLabel.setTooltip(allyTooltip);
+        enemyLabel.setTooltip(enemyTooltip);
         //these lines "clear" out these arraylists to be brand new
         //or fills them if needed
-        sortedActorList = new ArrayList<>();
+        DndCombatTracker.getControllerManager().setActorList(new ArrayList<>());
         enemyList = new ArrayList<>();
         allyList = new ArrayList<>();
+
 
 
         //fill enemy list with "empty" enemies
@@ -62,16 +89,14 @@ public class setupPageController implements Initializable{
         }
 
         //if encounter has not been run, set to empty as normal
-        if(reusedNames.isEmpty() || reusedNames == null) {
+        if(DndCombatTracker.getControllerManager().getAllyList().isEmpty() || DndCombatTracker.getControllerManager().getAllyList() == null) {
             //fill ally list with "empty" allies
             for(int i = 0; i < initialAllyAmount; i++) {
                 allyList.add(new Ally());
             }
         } else {    //otherwise, refill with used ally names
-            for(int i = 0; i < reusedNames.size(); i++) {
-                Ally temp = new Ally();
-                temp.setName(reusedNames.get(i));
-                temp.getNameBox().setText(temp.getName());
+            for(int i = 0; i < DndCombatTracker.getControllerManager().getAllyList().size(); i++) {
+                Ally temp = DndCombatTracker.getControllerManager().getAllyList().get(i);
                 allyList.add(temp);
             }
         }
@@ -90,7 +115,12 @@ public class setupPageController implements Initializable{
             ally.setNameBoxLayout(xCord, yCord, namePrefWidth, prefHeight);
             ally.setInitiativeBoxLayout(xCord + namePrefWidth + xIncrease, yCord, initiativePrefWidth, prefHeight);
 
+            ally.getNameBox().setTooltip(nameTooltip);
+            ally.getInitiativeBox().setTooltip(initiativeTooltip);
+
             yCord += yIncrease;
+
+            ally.getNameBox().setText(ally.getName());  //sets the name to the name box
 
             mainPane.getChildren().add(ally.getNameBox());
             mainPane.getChildren().add(ally.getInitiativeBox());
@@ -105,6 +135,10 @@ public class setupPageController implements Initializable{
             enemy.setNameBoxLayout(xCord, yCord, namePrefWidth, prefHeight);
             enemy.setInitiativeBoxLayout(xCord + namePrefWidth + xIncrease, yCord, initiativePrefWidth, prefHeight);
             enemy.setHealthBoxLayout(xCord + namePrefWidth + xIncrease + initiativePrefWidth + xIncrease, yCord, healthPrefWidth, prefHeight);
+
+            enemy.getNameBox().setTooltip(nameTooltip);
+            enemy.getInitiativeBox().setTooltip(initiativeTooltip);
+            enemy.getHealthBox().setTooltip(healthTooltip);
 
             yCord += yIncrease;
 
@@ -180,35 +214,32 @@ public class setupPageController implements Initializable{
     //launches the encounter page
     @FXML
     private void runEncounter(ActionEvent event) throws IOException{  
-        addGoodTextFieldsToActorList();
-        applyTextToActors(); 
-        sortActorListDescending();
+        addGoodTextFieldsToActorList(); //remove bad entries and add the good ones to the actor list
+        applyTextToActors();
+        DndCombatTracker.getControllerManager().sortActorListDescending();
 
         //print for debug
-        for (Actor actor : sortedActorList) {
+        for (Actor actor : DndCombatTracker.getControllerManager().getActorList()) {
             System.out.println(actor.toString());
         } 
 
         //switch FXML page to encounter page
-        Parent root = FXMLLoader.load(getClass().getResource("/fxmlPages/encounterPage.fxml"));
-        Scene scene = new Scene(root);
-        Stage stage = DndCombatTracker.mainStage;
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.ENCOUNTER));
+        loader.setController(DndCombatTracker.getControllerManager().getEncounterPageController());
+        Parent root = loader.load();
+        DndCombatTracker.getControllerManager().setRootEncounterScene(root);
+        Stage stage = DndCombatTracker.getControllerManager().getMainStage();
 
         stage.setTitle(DndCombatTracker.getStageTitle());
         stage.getIcons().add(new Image(DndCombatTracker.getWindowIconURL()));
 
-        stage.setScene(scene);
+        DndCombatTracker.getControllerManager().setSceneToEncounterScene();
         stage.show();
     }
 
-    //sorts the full actor list into descending order based on initiative
-    //highest initiative first, lowest last
-    private void sortActorListDescending() {
-        Collections.sort(sortedActorList, Comparator.comparingInt(Actor::getInitiativeTotal).reversed());
-    }
-
     /**
-     * This removes any empty or otherwise "bad" textfields from the ally and enemy lists
+     * This removes any empty or otherwise "bad" textfields from the ally and enemy lists,
+     * and adds the good entries to the actor list in controller manager
      */
     private void addGoodTextFieldsToActorList() {
         //adds all "well formatted" allies
@@ -216,7 +247,7 @@ public class setupPageController implements Initializable{
             //if ally name is non-empty AND ally initiative is just an int
             if(!ally.getNameBox().getText().isEmpty() && ally.getInitiativeBox().getText().matches(".*[0-9].*")) {
                 //add ally to actor list
-                sortedActorList.add(ally);
+                DndCombatTracker.getControllerManager().getActorList().add(ally);
             }
         }
 
@@ -225,16 +256,19 @@ public class setupPageController implements Initializable{
             //if enemy name is non-empty AND enemy initiative is just an int AND enemy health is just an int
             if(!enemy.getNameBox().getText().isEmpty() && enemy.getInitiativeBox().getText().matches(".*[0-9].*") && enemy.getHealthBox().getText().matches(".*[0-9].*")) {
                 //add enemy to actor list
-                sortedActorList.add(enemy);
+                DndCombatTracker.getControllerManager().getActorList().add(enemy);
             }   
         }
     }
 
     //applies the textfield information in both ally and enemy lists
     private void applyTextToActors() {
-        for (Actor actor : sortedActorList) {
+        ArrayList<Actor> actorList = DndCombatTracker.getControllerManager().getActorList();
+        for (Actor actor : actorList) {
             actor.applyTextFieldInfo();
         }
+
+        DndCombatTracker.getControllerManager().setActorList(actorList);
     }
     /**
      * Simply reorders the tab order on the main pane (heavily inefficient!)
