@@ -79,30 +79,29 @@ public class AddNewCharacterPageController implements Initializable {
     //adds new character to existing encounter
     @FXML
     private void addToEncounter(ActionEvent event) throws IOException{
-        Actor newActor;
         boolean applyNextTurn = false;
 
         int currentTurn = DndCombatTracker.getControllerManager().getEncounterPageController().getCurrentTurnIndex();
 
         if(typeMenu.getText().equalsIgnoreCase(allyMenuText)) { //ally
 
-            newActor = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));
-            DndCombatTracker.getControllerManager().getActorList().add(newActor);
+            Ally newAlly = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));
+            DndCombatTracker.getControllerManager().getActorList().add(newAlly);
 
             //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon
             //displays the correct turn
-            if(newActor.getInitiativeTotal() > DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeTotal()) {
+            if(newAlly.getInitiativeTotal() > DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeTotal()) {
                 applyNextTurn = true;
             }
 
         } else if (typeMenu.getText().equalsIgnoreCase(enemyMenuText)) {    //enemy
 
-            newActor = new Enemy(nameBox.getText(), Integer.parseInt(initiativeBox.getText()), Integer.parseInt(healthBox.getText()));
-            DndCombatTracker.getControllerManager().getActorList().add(newActor);
+            Enemy newEnemy = new Enemy(nameBox.getText(), Integer.parseInt(initiativeBox.getText()), Integer.parseInt(healthBox.getText()));
+            DndCombatTracker.getControllerManager().getActorList().add(newEnemy);
 
             //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon
             //displays the correct turn
-            if (newActor.getInitiativeTotal() > Integer.parseInt(DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeLabel().getText())) {
+            if (newEnemy.getInitiativeTotal() > Integer.parseInt(DndCombatTracker.getControllerManager().getActorList().get(currentTurn).getInitiativeLabel().getText())) {
                 applyNextTurn = true;
             }
         }

@@ -103,7 +103,7 @@ public class EncounterPageController implements Initializable{
             }
         }
 
-        //DndCombatTracker.getControllerManager().setAllyList(reusedNames);
+        DndCombatTracker.getControllerManager().setAllyList(reusedNames);
         
         //switch FXML page to setup page
         FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.SETUP));

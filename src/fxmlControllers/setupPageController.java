@@ -82,6 +82,7 @@ public class SetupPageController implements Initializable{
         allyList = new ArrayList<>();
 
 
+
         //fill enemy list with "empty" enemies
         for(int i = 0; i < initialEnemyAmount; i++) {
             enemyList.add(new Enemy());
@@ -118,6 +119,8 @@ public class SetupPageController implements Initializable{
             ally.getInitiativeBox().setTooltip(initiativeTooltip);
 
             yCord += yIncrease;
+
+            ally.getNameBox().setText(ally.getName());  //sets the name to the name box
 
             mainPane.getChildren().add(ally.getNameBox());
             mainPane.getChildren().add(ally.getInitiativeBox());

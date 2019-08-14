@@ -128,6 +128,9 @@ public class ControllerManager {
         return this.allyList;
     }
 
+    public void setAllyList(ArrayList<Ally> newAllyList) {
+        this.allyList = newAllyList;
+    }
 
     /**
      * Returns the list of all actors in the encounter (unsorted)
