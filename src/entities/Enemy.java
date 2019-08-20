@@ -1,6 +1,7 @@
 package entities;
 
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 
 /**
@@ -43,21 +44,48 @@ public class Enemy extends Actor {
     private void addHealthBoxListener() {
         //listener for the health box
         this.healthBox.textProperty().addListener((obs, oldText, newText) -> {
-            if(Integer.parseInt(newText) <= 0) {    //if new health entered is 0 or lower
-                this.setCurrentHealth(0);  //actor is dead, method sets alive status automatically
 
-                //set labels to be RED
-                this.getInitiativeLabel().setTextFill(Color.RED);
-                this.getNameLabel().setTextFill(Color.RED);
-            } else {
-                this.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
+            this.healthBox.setOnKeyReleased(event -> {  //fires event when enter key is pushed and released
+                System.out.println("NEWTEXT = " + newText);
+                if(event.getCode() == KeyCode.ENTER) {  //if enter is pushed after text change
+                    //check if a - or + is present
+                    if(newText.contains("-") || newText.contains("+")) {    //health change based on operator
+                        applyHealthChangeWithOperator(newText);
 
-                this.setCurrentHealth(Integer.parseInt(newText));
+                        if(getIsDead()) {   //if dead
+                            this.setLabelsDead();
+                        } else {    //if still alive
+                            this.setLabelsAlive();
+                        }
+                    } else {    //change current health, no fancy adding or subtracting
+                        if(Integer.parseInt(newText) <= 0) {    //if new health entered is 0 or lower
+                            this.setCurrentHealth(0);  //actor is dead, method sets alive status automatically
+            
+                            //set labels to be RED
+                            this.setLabelsDead();
+                        } else {
+                            this.setIsDead(false); //otherwise "revive" enemy if their health goes above 0
+            
+                            this.setCurrentHealth(Integer.parseInt(newText));
+            
+                            //set labels to be BLACK
+                            this.setLabelsAlive();
+                        }
+                    }
 
-                //set labels to be BLACK
-                this.getInitiativeLabel().setTextFill(Color.BLACK);
-                this.getNameLabel().setTextFill(Color.BLACK);
-            }
+                    System.out.println("NEW CURRENT HEALTH = " + this.getCurrentHealth());
+                    /*
+                    Sets the healthbox to hold current health, so we can see the updated health
+                    otherwise we will see the user input of "-X" or "+X" or if the user entered a
+                    health amount above the total health, it will set it to total health
+                    */
+                    this.healthBox.setText(Integer.toString(this.getCurrentHealth()));
+
+                    this.getInitiativeLabel().requestFocus();   //moves focus from textfield to label
+                    
+                }
+            });
+
         });
     }
     /**
@@ -72,10 +100,45 @@ public class Enemy extends Actor {
         }
     }
 
+    @Override
+    public void setIsDead(boolean isDead) {
+        super.setIsDead(isDead);
+
+        if(isDead) {    //if dead
+            this.setLabelsDead();
+        } else {
+            this.setLabelsAlive();  //if alive
+        }
+    }
+
+    /**
+     * When the enemy dies, the labels will be turned red
+     */
+    private void setLabelsDead() {
+        this.getInitiativeLabel().setTextFill(Color.RED);
+        this.getNameLabel().setTextFill(Color.RED);
+    }
+
+    /**
+     * When the enemy is alive, the labels will be black
+     */
+    private void setLabelsAlive() {
+        this.getInitiativeLabel().setTextFill(Color.BLACK);
+        this.getNameLabel().setTextFill(Color.BLACK);
+    }
+
+    /**
+     * This method takes a damage amount and does currentHealth - damage. This is performed through the
+     * setCurrentHealth method which takes care of number formats and updates isDead if required.
+     */
     public void takeDamage(int damage) {
         setCurrentHealth(getCurrentHealth() - damage);  //deals damage to the enemy
     }
 
+    /**
+     * This method takes a heal amount and does currentHealth + heal amount. This is performed through the
+     * setCurrentHealth method which takes care of number formats and updates isDead if required.
+     */
     public void heal(int amount) {
         if(amount > 0) {
             setCurrentHealth(getCurrentHealth() + amount);  //heals an amount of health for the enemy
@@ -92,6 +155,27 @@ public class Enemy extends Actor {
 
     public TextField getHealthBox() {
         return this.healthBox;
+    }
+
+    /**
+     * This method takes a string, input of the form -X or +X where X is an int, 
+     * and will parse either a - sign or + sign. Based on the operator it then either
+     * does current health - X or current health + X. 
+     */
+    private void applyHealthChangeWithOperator(String input) {
+        if(input.substring(0, 1).equals("-") || input.substring(0, 1).equals("+")) {    //good format
+            String operator = input.substring(0, 1);    //grabs the operator
+            String healthChangeAmount = input.substring(1); //grabs the actual number
+
+            if(operator.equals("-")) {
+                this.takeDamage(Integer.parseInt(healthChangeAmount));
+            } else if(operator.equals("+")) {
+                this.heal(Integer.parseInt(healthChangeAmount));
+            }
+
+        } else {    //format not good, clear textfield, set its text to unchanged current health
+            this.healthBox.setText(Integer.toString(this.getCurrentHealth()));
+        }
     }
 
     /**
@@ -129,6 +213,7 @@ public class Enemy extends Actor {
             } else {
                 this.currentHealth = getTotalHealth();  //if new current health is above 0 but meets or exceeds total health, set to total health
             }
+            setIsDead(false);
         } else {
             this.currentHealth = 0;     //otherwise, health is at 0, and this enemy is labelled as dead
             setIsDead(true);
