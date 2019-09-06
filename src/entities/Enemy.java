@@ -35,6 +35,10 @@ public class Enemy extends Actor {
         addHealthBoxListener();
     }
 
+    public TextField getHealthTextField() {
+        return this.healthBox;
+    }
+
     /**
      * Adds a listener to the textfield. This watches for changes to the current health textfield (in encounter page)
      * and updates the enemy for certain changes. When the current health in the textfield hits 0 (or lower), the

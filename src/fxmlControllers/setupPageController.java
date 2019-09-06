@@ -4,9 +4,15 @@ import application.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tooltip;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URL;
@@ -16,6 +22,7 @@ import javafx.scene.*;
 import javafx.fxml.*;
 import javafx.scene.image.*;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 
 
@@ -56,6 +63,18 @@ public class SetupPageController implements Initializable{
     private AnchorPane mainPane;
 
     @FXML
+    private VBox mainVbox;
+
+    @FXML
+    private AnchorPane buttonBar;
+
+    @FXML
+    private ScrollPane scrollpane;
+
+    @FXML
+    private AnchorPane backgroundPane;
+
+    @FXML
     private Button addAllyBtn;
 
     @FXML
@@ -66,6 +85,12 @@ public class SetupPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        mainPane.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainVbox.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
+        buttonBar.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
+        scrollpane.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
+        backgroundPane.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
+
         allyTooltip.setFont(new Font(18));
         enemyTooltip.setFont(new Font(18));
 

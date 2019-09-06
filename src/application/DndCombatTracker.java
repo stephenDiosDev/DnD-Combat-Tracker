@@ -2,8 +2,13 @@ package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -41,6 +46,11 @@ public class DndCombatTracker extends Application {
         controllerManager.getMainStage().setTitle(stageTitle);
         controllerManager.getMainStage().getIcons().add(new Image(windowIconURL));
 
+        //hard width format to ensure the program looks ok
+        stage.setMinWidth(618);
+        stage.setMaxWidth(618);
+        stage.setMinHeight(600);
+        
         controllerManager.setSceneToSetupScene();
         controllerManager.getMainStage().show();
     }
