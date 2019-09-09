@@ -30,27 +30,27 @@
             </Label>
             <Label layoutX="29.0" layoutY="69.0" text="Name" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="69.0">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="362.0" layoutY="69.0" text="Name" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="69.0">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="534.0" layoutY="69.0" text="Health" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="69.0">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="135.0" layoutY="69.0" text="Initiative" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="69.0">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <Label layoutX="461.0" layoutY="69.0" text="Initiative" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="69.0">
                <font>
-                  <Font size="14.0" />
+                  <Font name="System Bold" size="14.0" />
                </font>
             </Label>
             <MenuBar prefHeight="27.0" prefWidth="600.0">
@@ -78,17 +78,17 @@
          <children>
             <Button fx:id="runEncounterBtn" layoutX="225.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#runEncounter" prefHeight="88.0" prefWidth="150.0" text="Run Encounter" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="225.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="21.0">
                <font>
-                  <Font name="Comic Sans MS" size="18.0" />
+                  <Font size="18.0" />
                </font>
             </Button>
             <Button fx:id="addAllyBtn" layoutX="14.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addAlly" prefHeight="88.0" prefWidth="150.0" text="Add Ally" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="21.0">
                <font>
-                  <Font name="Comic Sans MS" size="18.0" />
+                  <Font size="18.0" />
                </font>
             </Button>
             <Button fx:id="addEnemyBtn" layoutX="436.0" layoutY="21.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#addEnemy" prefHeight="88.0" prefWidth="150.0" text="Add Enemy" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="21.0">
                <font>
-                  <Font name="Comic Sans MS" size="18.0" />
+                  <Font size="18.0" />
                </font>
             </Button>
          </children>

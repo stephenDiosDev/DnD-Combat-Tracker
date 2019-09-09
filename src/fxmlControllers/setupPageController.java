@@ -85,11 +85,12 @@ public class SetupPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        mainPane.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
-        mainVbox.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
-        buttonBar.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
-        scrollpane.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
-        backgroundPane.setBackground(new Background(new BackgroundFill(Color.web("#FF0000"), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainPane.setMinHeight(377);
+        mainPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainVbox.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        buttonBar.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        scrollpane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        backgroundPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
 
         allyTooltip.setFont(new Font(18));
         enemyTooltip.setFont(new Font(18));

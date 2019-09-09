@@ -2,13 +2,8 @@ package application;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.image.Image;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 /**
@@ -31,6 +26,9 @@ public class DndCombatTracker extends Application {
     */
     private static final String stageTitle = "D&D Combat Tracker (v0.9.1b)";
     private static final String windowIconURL = "/icons/program_icon.png";
+
+    //the colour of the program window as dictated by the settings
+    private static String chosenColour = "#FFFFFF";
 
 
 
@@ -57,6 +55,14 @@ public class DndCombatTracker extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public static void setColour(String newColour) {
+        chosenColour = newColour;
+    }
+
+    public static String getColour() {
+        return chosenColour;
     }
     
 
