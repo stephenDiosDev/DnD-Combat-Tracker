@@ -6,6 +6,8 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.util.prefs.Preferences;
+
 /**
  * This class acts as the main launcher for the program
  */
@@ -51,11 +53,21 @@ public class DndCombatTracker extends Application {
     private static String chosenColour = DEFAULT;
     private static boolean needWhiteText = false;
 
+    public static Preferences pref = Preferences.userNodeForPackage(DndCombatTracker.class);
+    private static String PREF_COLOUR = "pref_colour";
+    private static String PREF_TURN_ICON = "TURN_ICON_PREFERENCE";
+
 
     @Override
     public void start(Stage stage) throws Exception {
+        //get the saved background colour from prefs. If it
+        //does not exist, grab the default background colour.
+        chosenColour = pref.get(PREF_COLOUR, DEFAULT);
+        System.out.println("SAVED COLOUR: " + pref.get(PREF_COLOUR, "error"));
         if(chosenColour.equals("#282828")) {
-            needWhiteText = true;
+            setHighContrast(true);
+        } else {
+            setHighContrast(false);
         }
         controllerManager = new ControllerManager();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.SETUP));
@@ -79,8 +91,12 @@ public class DndCombatTracker extends Application {
         launch(args);
     }
 
+    //saves the chosen background colour in prefs
     public static void setColour(String newColour) {
         chosenColour = newColour;
+        pref.put(PREF_COLOUR, chosenColour);
+
+        System.out.println("SAVING COLOUR: " + pref.get(PREF_COLOUR, "error"));
     }
 
     public static void setHighContrast(boolean value) {

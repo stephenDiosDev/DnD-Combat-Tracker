@@ -23,3 +23,12 @@
 hs_err_pid*
 *.xml
 .project
+.idea/dndCombatTracker.iml
+.idea/production/dndCombatTracker/.vscode/launch.json
+.idea/production/dndCombatTracker/fxmlPages/addNewCharacterPage.fxml
+.idea/production/dndCombatTracker/fxmlPages/encounterPage.fxml
+.idea/production/dndCombatTracker/fxmlPages/setupPage.fxml
+.idea/production/dndCombatTracker/icons/program_icon.png
+.idea/production/dndCombatTracker/icons/turn_icon_ARROW.png
+.idea/production/dndCombatTracker/icons/turn_icon_SWORD.png
+.idea/dndCombatTracker.iml
