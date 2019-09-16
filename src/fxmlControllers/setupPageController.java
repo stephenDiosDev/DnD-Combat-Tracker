@@ -5,8 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
@@ -21,8 +20,6 @@ import java.util.*;
 import javafx.scene.*;
 import javafx.fxml.*;
 import javafx.scene.image.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.text.Font;
 
 
@@ -83,14 +80,51 @@ public class SetupPageController implements Initializable{
     @FXML
     private Label enemyLabel;
 
+    @FXML
+    private Label allyNameLabel;
+
+    @FXML
+    private Label allyInitiativeLabel;
+
+    @FXML
+    private Label enemyNameLabel;
+
+    @FXML
+    private Label enemyInitiativeLabel;
+
+    @FXML
+    private Label enemyHealthLabel;
+
+    @FXML
+    private MenuItem backgroundBlack;
+
+    @FXML
+    private MenuItem backgroundGrey;
+
+    @FXML
+    private MenuItem backgroundBlue;
+
+    @FXML
+    private MenuItem backgroundRed;
+
+    @FXML
+    private MenuItem backgroundGreen;
+
+    @FXML
+    private MenuItem backgroundPurple;
+
+    @FXML
+    private MenuItem backgroundLightBlue;
+
+    @FXML
+    private MenuItem backgroundDefault;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mainPane.setMinHeight(377);
-        mainPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
-        mainVbox.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
-        buttonBar.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
-        scrollpane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
-        backgroundPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        setBackgroundColourAndLabelText();
+
 
         allyTooltip.setFont(new Font(18));
         enemyTooltip.setFont(new Font(18));
@@ -172,6 +206,34 @@ public class SetupPageController implements Initializable{
             mainPane.getChildren().add(enemy.getHealthBox());
         }
         
+    }
+
+    //sets the background of the setup page to be the colour chosen in DndCombatTracker. Also sets the label text to
+    //be white if background is black, and black otherwise
+    private void setBackgroundColourAndLabelText() {
+        mainPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainVbox.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        buttonBar.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        scrollpane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        backgroundPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        if(DndCombatTracker.needHighContrast()) {
+            allyNameLabel.setTextFill(Color.web("#FFFFFF"));   //white text
+            allyInitiativeLabel.setTextFill(Color.web("#FFFFFF"));
+            enemyNameLabel.setTextFill(Color.web("#FFFFFF"));
+            enemyInitiativeLabel.setTextFill(Color.web("#FFFFFF"));
+            enemyHealthLabel.setTextFill(Color.web("#FFFFFF"));
+            allyLabel.setTextFill(Color.web("#FFFFFF"));
+            enemyLabel.setTextFill(Color.web("#FFFFFF"));
+        } else {
+            allyNameLabel.setTextFill(Color.web("#000000"));   //black text
+            allyInitiativeLabel.setTextFill(Color.web("#000000"));
+            enemyNameLabel.setTextFill(Color.web("#000000"));
+            enemyInitiativeLabel.setTextFill(Color.web("#000000"));
+            enemyHealthLabel.setTextFill(Color.web("#000000"));
+            allyLabel.setTextFill(Color.web("#000000"));
+            enemyLabel.setTextFill(Color.web("#000000"));
+        }
     }
 
     //adds a new ally
@@ -260,6 +322,48 @@ public class SetupPageController implements Initializable{
 
         DndCombatTracker.getControllerManager().setSceneToEncounterScene();
         stage.show();
+    }
+
+    @FXML
+    private void changeBackgroundColour(ActionEvent event) {
+        String menuItemName = event.getSource().toString().substring(event.getSource().toString().indexOf("=") + 1, event.getSource().toString().indexOf(","));
+
+        switch (menuItemName) {
+            case "backgroundBlack":
+                DndCombatTracker.setColour(DndCombatTracker.BLACK);
+                DndCombatTracker.setHighContrast(true);
+                break;
+            case "backgroundBlue":
+                DndCombatTracker.setColour(DndCombatTracker.BLUE);
+                DndCombatTracker.setHighContrast(false);
+                break;
+            case "backgroundGrey":
+                DndCombatTracker.setColour(DndCombatTracker.GREY);
+                DndCombatTracker.setHighContrast(false);
+                break;
+            case "backgroundLightBlue":
+                DndCombatTracker.setColour(DndCombatTracker.LIGHT_BLUE);
+                DndCombatTracker.setHighContrast(false);
+                break;
+            case "backgroundRed":
+                DndCombatTracker.setColour(DndCombatTracker.RED);
+                DndCombatTracker.setHighContrast(false);
+                break;
+            case "backgroundGreen":
+                DndCombatTracker.setColour(DndCombatTracker.GREEN);
+                DndCombatTracker.setHighContrast(false);
+                break;
+            case "backgroundPurple":
+                DndCombatTracker.setColour(DndCombatTracker.PURPLE);
+                DndCombatTracker.setHighContrast(false);
+                break;
+            default:
+                DndCombatTracker.setColour(DndCombatTracker.DEFAULT);
+                DndCombatTracker.setHighContrast(false);
+                break;
+        }
+
+        setBackgroundColourAndLabelText();
     }
 
     /**

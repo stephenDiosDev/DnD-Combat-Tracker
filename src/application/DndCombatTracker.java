@@ -27,14 +27,36 @@ public class DndCombatTracker extends Application {
     private static final String stageTitle = "D&D Combat Tracker (v0.9.1b)";
     private static final String windowIconURL = "/icons/program_icon.png";
 
-    //the colour of the program window as dictated by the settings
-    private static String chosenColour = "#FFFFFF";
+    /* MENU COLOUR PRESETS: For darker colours, change all font colours to white
+    Red: #FF3333
+    Blue: #3366ff
+    Green: #00b300
+    Purple: #BA55D3
+    Light Blue: #00CED1
+    Grey: #D3D3D3
+    Default: #F3F3F3
+    Black: #282828                      //needs white text
+     */
+    public static final String BLACK = "282828";
+    public static final String BLUE = "#3366FF";
+    public static final String GREEN = "#00B300";
+    public static final String RED = "#FF3333";
+    public static final String PURPLE = "#BA55D3";
+    public static final String LIGHT_BLUE = "#00CED1";
+    public static final String GREY = "#D3D3D3";
+    public static final String DEFAULT = "#F3F3F3";
 
+
+    //the colour of the program window as dictated by the settings
+    private static String chosenColour = DEFAULT;
+    private static boolean needWhiteText = false;
 
 
     @Override
     public void start(Stage stage) throws Exception {
-
+        if(chosenColour.equals("#282828")) {
+            needWhiteText = true;
+        }
         controllerManager = new ControllerManager();
         FXMLLoader loader = new FXMLLoader(getClass().getResource(Scenes.SETUP));
         loader.setController(controllerManager.getSetupPageController());
@@ -45,8 +67,8 @@ public class DndCombatTracker extends Application {
         controllerManager.getMainStage().getIcons().add(new Image(windowIconURL));
 
         //hard width format to ensure the program looks ok
-        stage.setMinWidth(618);
-        stage.setMaxWidth(618);
+        stage.setMinWidth(616);
+        stage.setMaxWidth(616);
         stage.setMinHeight(600);
         
         controllerManager.setSceneToSetupScene();
@@ -59,6 +81,14 @@ public class DndCombatTracker extends Application {
 
     public static void setColour(String newColour) {
         chosenColour = newColour;
+    }
+
+    public static void setHighContrast(boolean value) {
+        needWhiteText = value;
+    }
+
+    public static boolean needHighContrast() {
+        return needWhiteText;
     }
 
     public static String getColour() {

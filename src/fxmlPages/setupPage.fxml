@@ -28,27 +28,27 @@
                   <Font size="36.0" />
                </font>
             </Label>
-            <Label layoutX="29.0" layoutY="69.0" text="Name" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="69.0">
+            <Label fx:id="allyNameLabel" layoutX="29.0" layoutY="69.0" text="Name" AnchorPane.leftAnchor="29.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="362.0" layoutY="69.0" text="Name" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="69.0">
+            <Label fx:id="enemyNameLabel" layoutX="362.0" layoutY="69.0" text="Name" AnchorPane.rightAnchor="201.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="534.0" layoutY="69.0" text="Health" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="69.0">
+            <Label fx:id="enemyHealthLabel" layoutX="534.0" layoutY="69.0" text="Health" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="135.0" layoutY="69.0" text="Initiative" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="69.0">
+            <Label fx:id="allyInitiativeLabel" layoutX="135.0" layoutY="69.0" text="Initiative" AnchorPane.leftAnchor="135.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="461.0" layoutY="69.0" text="Initiative" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="69.0">
+            <Label fx:id="enemyInitiativeLabel" layoutX="461.0" layoutY="69.0" text="Initiative" AnchorPane.rightAnchor="86.0" AnchorPane.topAnchor="69.0">
                <font>
                   <Font name="System Bold" size="14.0" />
                </font>
@@ -67,7 +67,19 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Settings">
                   <items>
-                    <MenuItem mnemonicParsing="false" text="Turn Icon" />
+                        <Menu mnemonicParsing="false" text="Choose Turn Icon" />
+                        <Menu mnemonicParsing="false" text="Choose Background Colour">
+                          <items>
+                            <MenuItem fx:id="backgroundBlack" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Black" />
+                              <MenuItem fx:id="backgroundGrey" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Grey" />
+                              <MenuItem fx:id="backgroundRed" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Red" />
+                              <MenuItem fx:id="backgroundBlue" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Blue" />
+                              <MenuItem fx:id="backgroundGreen" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Green" />
+                              <MenuItem fx:id="backgroundLightBlue" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Light Blue" />
+                              <MenuItem fx:id="backgroundPurple" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Purple" />
+                              <MenuItem fx:id="backgroundDefault" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Default (light grey)" />
+                          </items>
+                        </Menu>
                   </items>
                 </Menu>
               </menus>
