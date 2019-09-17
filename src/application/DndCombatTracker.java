@@ -39,7 +39,7 @@ public class DndCombatTracker extends Application {
     Default: #F3F3F3
     Black: #282828                      //needs white text
      */
-    public static final String BLACK = "282828";
+    public static final String BLACK = "#282828";
     public static final String BLUE = "#3366FF";
     public static final String GREEN = "#00B300";
     public static final String RED = "#FF3333";
@@ -64,7 +64,7 @@ public class DndCombatTracker extends Application {
         //does not exist, grab the default background colour.
         chosenColour = pref.get(PREF_COLOUR, DEFAULT);
         System.out.println("SAVED COLOUR: " + pref.get(PREF_COLOUR, "error"));
-        if(chosenColour.equals("#282828")) {
+        if(chosenColour.contains("282828")) {
             setHighContrast(true);
         } else {
             setHighContrast(false);
