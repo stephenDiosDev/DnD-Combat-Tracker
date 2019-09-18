@@ -5,9 +5,9 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="vboxPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="398.0" prefWidth="300.0">
+      <AnchorPane fx:id="topPane" prefHeight="398.0" prefWidth="300.0">
          <children>
             <MenuButton fx:id="typeMenu" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="Choose Type" textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="15.0">
               <items>
@@ -35,7 +35,7 @@
             </TextField>
          </children>
       </AnchorPane>
-      <AnchorPane prefHeight="202.0" prefWidth="300.0" VBox.vgrow="NEVER">
+      <AnchorPane fx:id="bottomPane" prefHeight="202.0" prefWidth="300.0" VBox.vgrow="NEVER">
          <children>
             <Button fx:id="addToEncounterBtn" layoutX="50.0" layoutY="10.0" mnemonicParsing="false" onAction="#addToEncounter" prefHeight="81.0" prefWidth="200.0" text="Add To Encounter" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="11.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="10.0">
                <font>

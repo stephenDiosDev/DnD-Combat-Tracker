@@ -4,6 +4,7 @@ import application.DndCombatTracker;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -11,6 +12,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -31,6 +34,15 @@ public class AddNewCharacterPageController implements Initializable {
 
     //the separate stage for this window
     public static Stage stage;
+
+    @FXML
+    private VBox vboxPane;
+
+    @FXML
+    private AnchorPane topPane;
+
+    @FXML
+    private AnchorPane bottomPane;
 
     @FXML
     private TextField healthBox;
@@ -62,11 +74,20 @@ public class AddNewCharacterPageController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setBackgroundColour();
+
         healthBox.setTooltip(healthBoxTooltip);
         nameBox.setTooltip(nameBoxTooltip);
         initiativeBox.setTooltip(initiativeBoxTooltip);
         typeMenu.setTooltip(typeMenuTooltip);
         addToEncounterBtn.setTooltip(addToEncounterTooltip);
+    }
+
+    //sets the background colour to the saved colour
+    private void setBackgroundColour() {
+        vboxPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        bottomPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        topPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
     }
 
     /**
@@ -106,6 +127,13 @@ public class AddNewCharacterPageController implements Initializable {
             //create new ally using the info from the name and initiative field and add it to the actor list in
             //controller manager
             Ally newAlly = new Ally(nameBox.getText(), Integer.parseInt(initiativeBox.getText()));
+            if(DndCombatTracker.needHighContrast()) {
+                newAlly.getNameLabel().setTextFill(Color.web("#FFFFFF"));
+                newAlly.getInitiativeLabel().setTextFill(Color.web(("#FFFFFF")));
+            } else {
+                newAlly.getNameLabel().setTextFill(Color.web("#000000"));
+                newAlly.getInitiativeLabel().setTextFill(Color.web(("#000000")));
+            }
             DndCombatTracker.getControllerManager().getActorList().add(newAlly);
 
             //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon
@@ -119,6 +147,14 @@ public class AddNewCharacterPageController implements Initializable {
             //create new enemy using the info from the name, initiative field and health field and add it to the
             //actor list in controller manager
             Enemy newEnemy = new Enemy(nameBox.getText(), Integer.parseInt(initiativeBox.getText()), Integer.parseInt(healthBox.getText()));
+            if(DndCombatTracker.needHighContrast()) {
+                newEnemy.getNameLabel().setTextFill(Color.web("#FFFFFF"));
+                newEnemy.getInitiativeLabel().setTextFill(Color.web(("#FFFFFF")));
+            } else {
+                newEnemy.getNameLabel().setTextFill(Color.web("#000000"));
+                newEnemy.getInitiativeLabel().setTextFill(Color.web(("#000000")));
+            }
+
             DndCombatTracker.getControllerManager().getActorList().add(newEnemy);
 
             //if new actor initiative is greater than the actor at the current turn, update current turn so turn icon

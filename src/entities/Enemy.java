@@ -1,5 +1,6 @@
 package entities;
 
+import application.DndCombatTracker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -116,11 +117,18 @@ public class Enemy extends Actor {
     }
 
     /**
-     * When the enemy dies, the labels will be turned red
+     * When the enemy dies, the labels will be turned red if using a non-red
+     * background, yellow text otherwise
      */
     private void setLabelsDead() {
-        this.getInitiativeLabel().setTextFill(Color.RED);
-        this.getNameLabel().setTextFill(Color.RED);
+        if(DndCombatTracker.needRedContrast()) {
+            this.getInitiativeLabel().setTextFill(Color.web("FFFF00"));
+            this.getNameLabel().setTextFill(Color.web("FFFF00"));
+        } else {
+            this.getInitiativeLabel().setTextFill(Color.RED);
+            this.getNameLabel().setTextFill(Color.RED);
+        }
+
     }
 
     /**

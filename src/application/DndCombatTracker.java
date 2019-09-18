@@ -64,7 +64,7 @@ public class DndCombatTracker extends Application {
         //does not exist, grab the default background colour.
         chosenColour = pref.get(PREF_COLOUR, DEFAULT);
         System.out.println("SAVED COLOUR: " + pref.get(PREF_COLOUR, "error"));
-        if(chosenColour.contains("282828")) {
+        if(chosenColour.contains("282828")) {   //if background = black, use white text
             setHighContrast(true);
         } else {
             setHighContrast(false);
@@ -97,6 +97,14 @@ public class DndCombatTracker extends Application {
         pref.put(PREF_COLOUR, chosenColour);
 
         System.out.println("SAVING COLOUR: " + pref.get(PREF_COLOUR, "error"));
+    }
+
+    public static boolean needRedContrast() {
+        if(getColour().equals(RED)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static void setHighContrast(boolean value) {

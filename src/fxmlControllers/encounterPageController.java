@@ -6,8 +6,12 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.event.*;
 import javafx.scene.*;
@@ -61,8 +65,37 @@ public class EncounterPageController implements Initializable{
     @FXML
     private AnchorPane mainPane;
 
+    @FXML
+    private VBox vboxPane;
+
+    @FXML
+    private AnchorPane topPane;
+
+    @FXML
+    private AnchorPane bottomPane;
+
+    @FXML
+    private ScrollPane scrollpane;
+
+    @FXML
+    private Label initiativeLabel;
+
     private ImageView turnIcon = new ImageView("/icons/turn_icon_SWORD.png");
 
+
+    private void setBackgroundColour() {
+        scrollpane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        vboxPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        topPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        bottomPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+        mainPane.setBackground(new Background(new BackgroundFill(Color.web(DndCombatTracker.getColour()), CornerRadii.EMPTY, Insets.EMPTY)));
+
+        if(DndCombatTracker.needHighContrast()) {
+            initiativeLabel.setTextFill(Color.web("#FFFFFF"));
+        } else {
+            initiativeLabel.setTextFill(Color.web("#000000"));
+        }
+    }
 
     //move focus to the next actor in line
     @FXML
@@ -138,6 +171,8 @@ public class EncounterPageController implements Initializable{
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        setBackgroundColour();
+
         iconYPosition = 5;
         iconXPosition = 300;
 
@@ -207,6 +242,14 @@ public class EncounterPageController implements Initializable{
         }
 
         for (Actor actor : DndCombatTracker.getControllerManager().getActorList()) {
+            //set labels to high contrast if needed
+            if(DndCombatTracker.needHighContrast()) {
+                actor.getNameLabel().setTextFill(Color.web("#FFFFFF"));
+                actor.getInitiativeLabel().setTextFill(Color.web("#FFFFFF"));
+            } else {
+                actor.getNameLabel().setTextFill(Color.web("#000000"));
+                actor.getInitiativeLabel().setTextFill(Color.web("#000000"));
+            }
             mainPane.getChildren().add(actor.getNameLabel());
             mainPane.getChildren().add(actor.getInitiativeLabel());
 
@@ -238,31 +281,5 @@ public class EncounterPageController implements Initializable{
         this.currentTurnIndex = currentTurnIndex;
     }
 
-    /**
-     * Parses input for + or -, then changes current health accordingly
-     * @param input
-     */
-   /* private String handleHealthChange(String input) {
-        Enemy target;
 
-        if(DndCombatTracker.getControllerManager().getActorList().get(currentTurnIndex) instanceof Enemy) {
-            target = (Enemy)DndCombatTracker.getControllerManager().getActorList().get(currentTurnIndex);
-            //check if input is ONLY digits (new current health) or EXACTLY ONE plus followed by ONLY digits (heal)
-            //or EXACTLY ONE minus followed by ONLY digits (damage)
-            if(input.matches("[0-9]+") || input.matches("^\\+?\\d+$") || input.matches("^\\-?\\d+$")) { 
-                if(!input.contains("+") && !input.contains("-")) {  //ONLY DIGITS = update current health
-                    target.changeCurrentHealth(Integer.parseInt(input));
-                } else if(input.contains("+")) {    //heal
-                    target.heal(Integer.parseInt(input.substring(1)));
-                } else if(input.contains("-")) {    //take damage
-                    target.takeDamage(Integer.parseInt(input.substring(1)));
-                }
-
-                return Integer.toString(target.getCurrentHealth());
-            }
-        }
-
-        return input;
-       
-    } */
 }
