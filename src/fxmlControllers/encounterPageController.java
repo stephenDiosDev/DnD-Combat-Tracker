@@ -173,6 +173,9 @@ public class EncounterPageController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         setBackgroundColour();
 
+        //reset index to ensure it isn't using a garbage value
+        setCurrentTurnIndex(0);
+
         iconYPosition = 5;
         iconXPosition = 300;
 
