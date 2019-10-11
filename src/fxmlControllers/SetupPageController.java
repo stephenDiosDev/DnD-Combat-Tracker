@@ -236,6 +236,19 @@ public class SetupPageController implements Initializable{
         }
     }
 
+    /**
+     * Grabs ally names from fields and saves it as a user pref
+     * @param event
+     */
+    @FXML
+    private void saveCurrentAllies(ActionEvent event) {
+
+    }
+
+    private void loadSavedAllies(ActionEvent event) {
+
+    }
+
     //adds a new ally
     @FXML
     private void addAlly(ActionEvent event) {

@@ -48,14 +48,19 @@ public class DndCombatTracker extends Application {
     public static final String GREY = "#D3D3D3";
     public static final String DEFAULT = "#F3F3F3";
 
+    public static final String SWORD = "/icons/turn_icon_SWORD.png";
+    public static final String ARROW = "/icons/turn_icon_ARROW.png";
+    public static final String DEFAULT_ICON = SWORD;
+
 
     //the colour of the program window as dictated by the settings
     private static String chosenColour = DEFAULT;
+    private static String chosenIcon = DEFAULT_ICON;
     private static boolean needWhiteText = false;
 
     public static Preferences pref = Preferences.userNodeForPackage(DndCombatTracker.class);
     private static String PREF_COLOUR = "pref_colour";
-    private static String PREF_TURN_ICON = "TURN_ICON_PREFERENCE";
+    private static String PREF_TURN_ICON = "pref_icon";
 
 
     @Override
@@ -63,6 +68,10 @@ public class DndCombatTracker extends Application {
         //get the saved background colour from prefs. If it
         //does not exist, grab the default background colour.
         chosenColour = pref.get(PREF_COLOUR, DEFAULT);
+        chosenIcon = pref.get(PREF_TURN_ICON, DEFAULT);
+
+        System.out.println("SAVED ICON: " + pref.get(PREF_TURN_ICON, "error"));
+
         System.out.println("SAVED COLOUR: " + pref.get(PREF_COLOUR, "error"));
         if(chosenColour.contains("282828")) {   //if background = black, use white text
             setHighContrast(true);
@@ -99,6 +108,13 @@ public class DndCombatTracker extends Application {
         System.out.println("SAVING COLOUR: " + pref.get(PREF_COLOUR, "error"));
     }
 
+    public static void setIcon(String newIcon) {
+        chosenIcon = newIcon;
+        pref.put(PREF_TURN_ICON, chosenIcon);
+
+        System.out.println("SAVING ICON: " + pref.get(PREF_TURN_ICON, "error"));
+    }
+
     public static boolean needRedContrast() {
         if(getColour().equals(RED)) {
             return true;
@@ -118,6 +134,8 @@ public class DndCombatTracker extends Application {
     public static String getColour() {
         return chosenColour;
     }
+
+    public static String getIcon() { return chosenIcon; }
     
 
     public static String getStageTitle() {
