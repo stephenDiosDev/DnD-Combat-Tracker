@@ -29,6 +29,9 @@ public class DndCombatTracker extends Application {
     private static final String stageTitle = "D&D Combat Tracker (v0.9.1b)";
     private static final String windowIconURL = "/icons/program_icon.png";
 
+
+    public static final String partyFileURL = "src/partyList/party.txt";
+
     /* MENU COLOUR PRESETS: For darker colours, change all font colours to white
     Red: #FF3333
     Blue: #3366ff

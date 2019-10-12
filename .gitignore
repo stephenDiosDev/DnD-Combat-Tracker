@@ -32,3 +32,4 @@ hs_err_pid*
 .idea/production/dndCombatTracker/icons/turn_icon_ARROW.png
 .idea/production/dndCombatTracker/icons/turn_icon_SWORD.png
 .idea/dndCombatTracker.iml
+src/partyList/party.txt

@@ -62,7 +62,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Allies">
                   <items>
-                    <MenuItem fx:id="saveCurrentAllies" mnemonicParsing="false" text="Save Current Ally Composition" />
+                    <MenuItem fx:id="saveAllies" mnemonicParsing="false" onAction="#saveCurrentAllies" text="Save Current Ally Composition" />
                         <MenuItem fx:id="loadSavedAllies" mnemonicParsing="false" text="Load Ally Composition" />
                   </items>
                 </Menu>

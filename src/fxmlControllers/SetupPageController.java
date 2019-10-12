@@ -13,7 +13,8 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import java.io.IOException;
+
+import java.io.*;
 import java.net.URL;
 import entities.*;
 import java.util.*;
@@ -118,6 +119,9 @@ public class SetupPageController implements Initializable{
 
     @FXML
     private MenuItem backgroundDefault;
+
+    @FXML
+    private MenuItem saveAllies;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -237,14 +241,39 @@ public class SetupPageController implements Initializable{
     }
 
     /**
-     * Grabs ally names from fields and saves it as a user pref
+     * Grabs ally names from fields and saves it to /partyList/party.txt
      * @param event
      */
     @FXML
     private void saveCurrentAllies(ActionEvent event) {
+        //open party.txt and grab every ally name from the list
+        //and write them to the file
+
+        //overwrite file
+        try(BufferedWriter write = new BufferedWriter(new FileWriter(DndCombatTracker.partyFileURL, false))) {
+            for (Ally a: allyList) {
+                //ensure the name box is non-empty, otherwise file would be
+                //full of empty lines!
+                if(!a.getNameBox().getText().isEmpty()) {
+                    write.write(a.getNameBox().getText() + "\n");
+                }
+            }
+
+            write.close();
+
+        } catch (IOException e) {
+            //handle general IO exception
+            System.err.println("Error: IOException occurred when writing ally name to file!");
+            e.printStackTrace();
+        }
 
     }
 
+
+    /**
+     *
+     * @param event
+     */
     private void loadSavedAllies(ActionEvent event) {
 
     }
