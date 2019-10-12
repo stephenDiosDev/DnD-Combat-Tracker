@@ -128,8 +128,13 @@ public class SetupPageController implements Initializable{
     @FXML
     private MenuItem loadAllies;
 
+    @FXML
+    private CheckMenuItem loadPartyOnStartup;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        loadPartyOnStartup.setSelected(DndCombatTracker.getLoadPartyOnStartup());
+
         mainPane.setMinHeight(377);
 
         setBackgroundColourAndLabelText();
@@ -196,6 +201,8 @@ public class SetupPageController implements Initializable{
             mainPane.getChildren().add(ally.getNameBox());
             mainPane.getChildren().add(ally.getInitiativeBox());
         }
+
+        loadSavedAlliesOnStartup();
 
         xCord = 348;   //these 2 are for the specific layout of the enemy name/initiative textfields
         yCord = 14;
@@ -277,6 +284,19 @@ public class SetupPageController implements Initializable{
 
     }
 
+    @FXML
+    private void savedAlliesSetting(ActionEvent event) {
+        DndCombatTracker.setLoadPartyOnStartup(loadPartyOnStartup.isSelected());
+    }
+
+    /**
+     * If the setting is enabled, we want to load. If not, does nothing
+     */
+    private void loadSavedAlliesOnStartup() {
+        if(DndCombatTracker.getLoadPartyOnStartup()) {
+            loadSavedAllies(new ActionEvent());
+        }
+    }
 
     /**
      *

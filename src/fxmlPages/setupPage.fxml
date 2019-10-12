@@ -64,6 +64,7 @@
                   <items>
                     <MenuItem fx:id="saveAllies" mnemonicParsing="false" onAction="#saveCurrentAllies" text="Save Current Ally Composition" />
                         <MenuItem fx:id="loadAllies" mnemonicParsing="false" onAction="#loadSavedAllies" text="Load Ally Composition" />
+                        <CheckMenuItem fx:id="loadPartyOnStartup" mnemonicParsing="false" onAction="#savedAlliesSetting" text="Load Party on Startup?" />
                   </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Settings">

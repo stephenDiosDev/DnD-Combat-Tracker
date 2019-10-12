@@ -60,10 +60,13 @@ public class DndCombatTracker extends Application {
     private static String chosenColour = DEFAULT;
     private static String chosenIcon = DEFAULT_ICON;
     private static boolean needWhiteText = false;
+    private static boolean loadPartyOnStartup;
+
 
     public static Preferences pref = Preferences.userNodeForPackage(DndCombatTracker.class);
     private static String PREF_COLOUR = "pref_colour";
     private static String PREF_TURN_ICON = "pref_icon";
+    private static String PREF_LOAD_PARTY_ON_STARTUP = "pref_load_party_on_startup";
 
 
     @Override
@@ -72,6 +75,12 @@ public class DndCombatTracker extends Application {
         //does not exist, grab the default background colour.
         chosenColour = pref.get(PREF_COLOUR, DEFAULT);
         chosenIcon = pref.get(PREF_TURN_ICON, DEFAULT);
+
+        if(pref.get(PREF_LOAD_PARTY_ON_STARTUP, "false").equals("true")) {
+            loadPartyOnStartup = true;
+        } else {
+            loadPartyOnStartup = false;
+        }
 
         System.out.println("SAVED ICON: " + pref.get(PREF_TURN_ICON, "error"));
 
@@ -111,6 +120,12 @@ public class DndCombatTracker extends Application {
         System.out.println("SAVING COLOUR: " + pref.get(PREF_COLOUR, "error"));
     }
 
+    public static void setLoadPartyOnStartup(boolean status) {
+        loadPartyOnStartup = status;
+
+        pref.put(PREF_LOAD_PARTY_ON_STARTUP, String.valueOf(loadPartyOnStartup));
+    }
+
     public static void setIcon(String newIcon) {
         chosenIcon = newIcon;
         pref.put(PREF_TURN_ICON, chosenIcon);
@@ -132,6 +147,10 @@ public class DndCombatTracker extends Application {
 
     public static boolean needHighContrast() {
         return needWhiteText;
+    }
+
+    public static boolean getLoadPartyOnStartup() {
+        return loadPartyOnStartup;
     }
 
     public static String getColour() {
