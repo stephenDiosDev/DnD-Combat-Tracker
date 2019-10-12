@@ -17,6 +17,8 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.net.URL;
 import entities.*;
+
+import java.nio.Buffer;
 import java.util.*;
 import javafx.scene.*;
 import javafx.fxml.*;
@@ -123,6 +125,9 @@ public class SetupPageController implements Initializable{
     @FXML
     private MenuItem saveAllies;
 
+    @FXML
+    private MenuItem loadAllies;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mainPane.setMinHeight(377);
@@ -163,6 +168,9 @@ public class SetupPageController implements Initializable{
                 allyList.add(temp);
             }
         }
+
+        enemyList.trimToSize();
+        allyList.trimToSize();
 
         //variables hold the layout of the textfield components
         int namePrefWidth = 110;
@@ -274,8 +282,50 @@ public class SetupPageController implements Initializable{
      *
      * @param event
      */
+    @FXML
     private void loadSavedAllies(ActionEvent event) {
+        //open file, if doesn't exist make it
+        //if file is empty, do popup that says empty
+        //otherwise load the names one by one into the ally message boxes
 
+        try(BufferedReader reader = new BufferedReader(new FileReader(DndCombatTracker.partyFileURL))) {
+            String line = reader.readLine();
+            int numOfSavedAllies = 0;
+
+            ArrayList<String> tempList = new ArrayList<>();
+
+            //while line is non empty, add the name to an ally namebox
+            while(line != null) {
+                tempList.add(line);
+                numOfSavedAllies++;
+                line = reader.readLine();
+            }
+
+            reader.close();
+
+
+            //allyList.size says how many textfield rows there are on the page
+            if(numOfSavedAllies > allyList.size()) {    //we need more boxes!
+                int numberOfBoxesNeeded = numOfSavedAllies - allyList.size();
+
+                for(int i = 0; i < numberOfBoxesNeeded; i++) {
+                    this.addAlly(new ActionEvent());    //add a new box
+                }
+            }
+
+            //we now have enough boxes, fill them up!
+            for(int i = 0; i < tempList.size(); i++) {
+                allyList.get(i).getNameBox().setText(tempList.get(i));
+            }
+
+        } catch (FileNotFoundException e) {
+            //file wasn't found. Create it, declare empty popup, fill nothing
+            File partyFile = new File(DndCombatTracker.partyFileURL);
+
+            System.err.println("Party file did not exist! File is created");
+        } catch (IOException e) {
+
+        }
     }
 
     //adds a new ally
