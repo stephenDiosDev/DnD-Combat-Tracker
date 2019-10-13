@@ -135,6 +135,11 @@ public class SetupPageController implements Initializable{
     public void initialize(URL url, ResourceBundle rb) {
         loadPartyOnStartup.setSelected(DndCombatTracker.getLoadPartyOnStartup());
 
+        //if we want to load party on startup, set initial ally amount to
+        //the correct value. Otherwise, we go with the default 5
+        if(loadPartyOnStartup.isSelected())
+            initialAllyAmount = DndCombatTracker.numberOfSavedAllies;
+
         mainPane.setMinHeight(377);
 
         setBackgroundColourAndLabelText();
@@ -266,6 +271,17 @@ public class SetupPageController implements Initializable{
 
         //overwrite file
         try(BufferedWriter write = new BufferedWriter(new FileWriter(DndCombatTracker.partyFileURL, false))) {
+            allyList.trimToSize();
+
+            int numberOfAllies = 0;
+
+            for(Ally a: allyList) {
+                if(!a.getNameBox().getText().isEmpty())
+                    numberOfAllies++;
+            }
+
+            write.write(numberOfAllies + "\n");   //write # of allies to top of file
+
             for (Ally a: allyList) {
                 //ensure the name box is non-empty, otherwise file would be
                 //full of empty lines!
@@ -293,7 +309,7 @@ public class SetupPageController implements Initializable{
      * If the setting is enabled, we want to load. If not, does nothing
      */
     private void loadSavedAlliesOnStartup() {
-        if(DndCombatTracker.getLoadPartyOnStartup()) {
+        if(DndCombatTracker.getLoadPartyOnStartup()) {  //if load setting is enabled
             loadSavedAllies(new ActionEvent());
         }
     }
@@ -309,15 +325,18 @@ public class SetupPageController implements Initializable{
         //otherwise load the names one by one into the ally message boxes
 
         try(BufferedReader reader = new BufferedReader(new FileReader(DndCombatTracker.partyFileURL))) {
+            //first line is number of allies
             String line = reader.readLine();
-            int numOfSavedAllies = 0;
+            int numOfSavedAllies = Integer.parseInt(line);
 
             ArrayList<String> tempList = new ArrayList<>();
+
+            //read in next line which will be the first actual ally name
+            line = reader.readLine();
 
             //while line is non empty, add the name to an ally namebox
             while(line != null) {
                 tempList.add(line);
-                numOfSavedAllies++;
                 line = reader.readLine();
             }
 

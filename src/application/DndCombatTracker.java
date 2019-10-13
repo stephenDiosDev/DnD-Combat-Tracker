@@ -6,6 +6,9 @@ import javafx.scene.Parent;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.prefs.Preferences;
 
 /**
@@ -26,7 +29,7 @@ public class DndCombatTracker extends Application {
             blank for full release of minimum viable product
 
     */
-    private static final String stageTitle = "D&D Combat Tracker (v0.9.1b)";
+    private static final String stageTitle = "D&D Combat Tracker (v0.9.3b)";
     private static final String windowIconURL = "/icons/program_icon.png";
 
 
@@ -69,8 +72,21 @@ public class DndCombatTracker extends Application {
     private static String PREF_LOAD_PARTY_ON_STARTUP = "pref_load_party_on_startup";
 
 
+    public static int numberOfSavedAllies;
+
+
     @Override
     public void start(Stage stage) throws Exception {
+        try(BufferedReader reader = new BufferedReader(new FileReader(DndCombatTracker.partyFileURL))) {
+            //first line is number of allies
+            String line = reader.readLine();
+            numberOfSavedAllies = Integer.parseInt(line);
+            reader.close();
+        } catch(IOException e) {
+            System.err.println("Error: IOException when reading number of allies!");
+            e.printStackTrace();
+        }
+
         //get the saved background colour from prefs. If it
         //does not exist, grab the default background colour.
         chosenColour = pref.get(PREF_COLOUR, DEFAULT);
