@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -69,7 +70,33 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="Settings">
                   <items>
-                        <Menu mnemonicParsing="false" text="Choose Turn Icon" />
+                        <Menu mnemonicParsing="false" text="Choose Turn Icon">
+                           <items>
+                              <CustomMenuItem mnemonicParsing="false" text="Sword">
+                                 <content>
+                                    <ImageView fitHeight="33.0" fitWidth="129.0" pickOnBounds="true" smooth="false">
+                                       <image>
+                                          <Image url="@../icons/turn_icon_SWORD.png" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </content>
+                              </CustomMenuItem>
+                              <CustomMenuItem mnemonicParsing="false" text="Arrow">
+                                 <content>
+                                    <ImageView fitHeight="33.0" fitWidth="129.0" pickOnBounds="true" smooth="false">
+                                       <image>
+                                          <Image url="@../icons/turn_icon_ARROW.png" />
+                                       </image>
+                                       <viewport>
+                                          <Rectangle2D />
+                                       </viewport>
+                                    </ImageView>
+                                 </content>
+                              </CustomMenuItem>
+                           </items></Menu>
                         <Menu mnemonicParsing="false" text="Choose Background Colour">
                           <items>
                             <MenuItem fx:id="backgroundBlack" mnemonicParsing="false" onAction="#changeBackgroundColour" text="Black" />

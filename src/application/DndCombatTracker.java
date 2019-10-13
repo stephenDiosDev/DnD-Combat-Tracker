@@ -33,6 +33,15 @@ public class DndCombatTracker extends Application {
     private static final String windowIconURL = "/icons/program_icon.png";
 
 
+
+
+    /*TODO Turn icon Setting
+        - On startup read the saved URL for the icon from prefs
+        - When the turn icon is chosen, have the URL set here and saved in prefs
+        - When encounterPage initializes, read in the saved URL from here
+     */
+
+
     public static final String partyFileURL = "src/partyList/party.txt";
 
     /* MENU COLOUR PRESETS: For darker colours, change all font colours to white
